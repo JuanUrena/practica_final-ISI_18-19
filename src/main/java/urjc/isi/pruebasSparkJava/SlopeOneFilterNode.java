@@ -27,16 +27,16 @@ public class SlopeOneFilterNode {
 			prediction = p;
 		}
 		
-		public Object getKey() { 
+		public int getKey() { 
 			return titleID; 
 		}
 
-		public Object getValue() { 
+		public double getValue() { 
 			return prediction; 
 		}
 
 		public String toString() {
-			return "titleID: " + getKey() + ", Prediction: " + getValue();
+			return "titleID: " + getKey() + ", Pred: " + getValue();
 		}		
 	}
 	
@@ -75,6 +75,19 @@ public class SlopeOneFilterNode {
 		// Crear predictionsN para ese usuario determinado.
 	}
 	
+	public int getIndex(int user, double value) {
+		int pos = 0;
+		ListIterator<Node> itrator = predictionsN.get(user).listIterator();
+		while (itrator.hasNext()) {
+			if (itrator.next().getValue() <= value) {
+				break;
+			} else {
+				pos++;
+			}
+		}
+		return pos;
+	}
+	
 	public void recommendN(int user, int nItems) {
 		// Mostrar nItems predicciones con mayor puntuación.
 		LinkedList<Node> predictionList = predictionsN.get(user);
@@ -97,8 +110,13 @@ public class SlopeOneFilterNode {
 		so.predictionsN.get(1).add( so.new Node(1 , 8.0));
 		so.predictionsN.get(1).add( so.new Node(2 , 1.0));
 		so.predictionsN.get(1).add( so.new Node(3 , 10.0));
-
+		
+		System.out.println(so.predictionsN);
 		so.recommendN(1, 2);
+		System.out.println(so.predictionsN);
+		so.predictionsN.get(1).add(so.getIndex(1, 5.0), so.new Node(4 , 5.0));
+		so.predictionsN.get(1).add(so.getIndex(1, 4.0), so.new Node(5 , 4.0));
+		so.predictionsN.get(1).add(so.getIndex(1, 6.0), so.new Node(6 , 6.0));
 		System.out.println(so.predictionsN);
 	}
 }
