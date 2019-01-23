@@ -71,8 +71,55 @@ public class SlopeOneFilterNode {
 		// Crear diffMap y weightMap a partir de data.
 	}
 
+
+/*
+
+	public float[] pelisPuntuadasPorUsuario(int user) {
+		
+		- Mirar en data a ver qué pelis ha puntuado el usuario
+		return pelisPuntuadas;
+	}
+
+	public int predictPuntPeli(int user, int peli) {
+		pelisPunt = pelisPuntuadasPorUsuario(user); // un array de los IDs de las pelis puntuadas por el usuario
+		for(i=0;i<size(pelisPunt);i++){
+			puntPelisPunt = data[pelisPunt[i]]; // Puntuaciones de las pelis puntuadas por el usuario
+		}
+
+		diffs [] // array con las diferencias medias de puntuaciones respecto a una peli concreta
+		frecs [] // array con el número de diferencias de puntuaciones que se han usado para comparar 
+
+		if(size(frecs)==size(diffs)==size(puntPelisPunt)){
+			total=0;
+			n=sum(frecs[]);
+
+			for(i=0;i<size(frecs);i++) {
+				total = total + (frecs[i] * (diffs[i]+puntPelisPunt[i]) )
+			}
+			total = total/n;
+
+		}else{
+			print("Error en los tamaños de los arrays");
+		}
+
+		return total;
+	}
+*/
+
 	public void predict(int user) {
 		// Crear predictionsN para ese usuario determinado.
+/*
+		predictionsN = [];
+
+		for(i=0;i<npelis;i++) {
+			peli= pelis[i];
+			if(noPuntuada(user, peli)){
+				predictionsN.add(predictPuntPeli(user, peli));
+			}else{
+				predictionsN.add(valorPuntuadoPorElUsuario);
+			}
+		}
+*/
 	}
 	
 	public int getIndex(int user, double value) {
