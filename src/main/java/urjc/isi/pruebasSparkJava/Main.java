@@ -429,7 +429,7 @@ public class Main {
     		"<p>Elija el criterio por el que desea filtrar en nuestra base de datos.</p>" +
     		"<hr>" +
     		"<h4>1. Filtrar por nombre de la película.</h4>" +
-        	"<form action='/filter_film' method='post'>" +
+        	"<form action='/filter_name' method='post'>" +
         		"<label for='film'>Película que desea buscar: </label>" + 
         		"<input type='text' name='film' id='film'> " +
         		"<input type='submit' value='Enviar'>" +
@@ -444,7 +444,7 @@ public class Main {
         	"<hr>"
         );
         
-        post("/filter_film", (req, res) -> {
+        post("/filter_name", (req, res) -> {
         	// Para acceder al valor del parametro "film" del form:
         	// req.queryParams("film") => hay que pasarselo a la función que busque en la BD.
         	
