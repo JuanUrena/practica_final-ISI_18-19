@@ -16,15 +16,16 @@ public class Injector {
 	
 	private static Connection c;
 	
-	public Injector(String name){
+	public Injector(String name) throws URISyntaxException{
 		try {
-			if(c!=null) return;
+			if(c!=null){
 				URI dbUri = new URI(System.getenv(name));
 				String username = dbUri.getUserInfo().split(":")[0];
 				String password = dbUri.getUserInfo().split(":")[1];
 				String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-				connection = DriverManager.getConnection(dbUrl, username, password);
+				c = DriverManager.getConnection(dbUrl, username, password);
 				c.setAutoCommit(false);
+			}
 		}catch (SQLException e) {
             throw new RuntimeException(e);
         }
