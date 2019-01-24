@@ -31,7 +31,7 @@ public class Injector {
         }
 	}
 
-	public List<String> filtrarPorPelicula(String film) {
+	public List<String> filterByName(String film) {
 		String sql = "SELECT * FROM movies WHERE title = "+'"'+film+'"';
 		List<String> result = new ArrayList<String>();
     	
@@ -59,7 +59,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filtrarPorAnyo(String year) {
+	public List<String> filterByYear(String year) {
 		String sql = "SELECT * FROM movies WHERE year = "+'"'+year+'"';
 		List<String> result = new ArrayList<String>();
     	
@@ -76,7 +76,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filtrarPorDuracion(Integer minutes) {
+	public List<String> filterByDuration(Integer minutes) {
 		String sql = "SELECT * FROM movies WHERE runtimeMinutes <= "+minutes;
 		List<String> result = new ArrayList<String>();
     	
@@ -93,7 +93,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filtrarPorValoracion(Double rating) {
+	public List<String> filterByRating(Double rating) {
 		String sql = "SELECT * FROM movies WHERE averageRating >= "+rating;
 		List<String> result = new ArrayList<String>();
     	
