@@ -423,71 +423,14 @@ public class Main {
         	return result;	
         });
         
-        // Recurso /filter encargado de la funcionalidad del filtrado de películas
-        get("/filter", (req, res) ->
-    		"<h1>Búsqueda personalizada de películas</h1>" + 
-    		"<p>Elija el criterio por el que desea filtrar en nuestra base de datos.</p>" +
-    		"<hr>" +
-    		"<h4>1. Filtrar por nombre de la película.</h4>" +
-        	"<form action='/filter_name' method='post'>" +
-        		"<label for='film'>Película que desea buscar: </label>" + 
-        		"<input type='text' name='film' id='film'> " +
-        		"<input type='submit' value='Enviar'>" +
-    		"</form>" +
-        	"<hr>" +
-    		"<h4>2. Filtrar por año de estreno de la película.</h4>" +
-        	"<form action='/filter_year' method='post'>" +
-    			"<label for='year'>Año de la película que desea buscar: </label>" + 
-        		"<input type='text' name='year' id='year'> " +
-        		"<input type='submit' value='Enviar'>" +
-            "</form>" +
-        	"<hr>"
-        );
+        // Recurso /filter encargado de la funcionalidad del filtrado de películas.
+        get("/filter", (req, res) -> Filter.showFilterMenu());
         
-        post("/filter_name", (req, res) -> {
-        	// Para acceder al valor del parametro "film" del form:
-        	// req.queryParams("film") => hay que pasarselo a la función que busque en la BD.
-        	
-        	// Los siguientes valores están puestos a modo de prueba. Hay que
-        	// sustituirlos por los valores que devuelva la función que busque en la BD.
-        	String titulo = "titulo de prueba";
-        	String año = "año de prueba";
-        	String duracion = "duracion de prueba";
-        	String puntuacionMedia = "puntuacion media de prueba";
-        	String numVotos = "numero de votos de prueba";
-        	String generos = "generos de prueba";
-        	String puntuacion = "puntuacion";
-        	String comentario = "Comentario";
-        	
-        	String tabla = "<table border=2" +
-        						"<tr>" +
-        							"<th>Título</th>" +
-        							"<th>Año</th>" +
-        							"<th>Duración</th>" +
-          							"<th>Puntuación media</th>" +
-          							"<th>Número de votos</th>" +
-          							"<th>Géneros</th>" +
-          							"<th>Puntuación</th>" +
-          							"<th>Comentario</th>" +
-        						"</tr>" +
-        						"<tr>" +
-        							"<td>" + titulo + "</td>" +
-        							"<td>" + año + "</td>" +
-        							"<td>" + duracion + "</td>" +
-        							"<td>" + puntuacionMedia + "</td>" +
-        							"<td>" + numVotos + "</td>" +
-        							"<td>" + generos + "</td>" +
-        							"<td>" + puntuacion + "</td>" +
-        							"<td>" + comentario + "</td>" +
-
-        						"</tr>" +
-        					"</table>";
-        	return tabla;
-        });
+        // Recurso /filter_name encargado de mostrar la info de una película dado el nombre.
+        post("/filter_name", (req, res) -> Filter.showFilmByName());
         
-        post("/filter_year", (req, res) ->
-    		"Has buscado por el año:" + req.queryParams("year")
-        );
+        // Recurso /filter_year encargado de mostrar todas las películsa dado un año.
+        post("/filter_year", (req, res) -> Filter.showFilmByYear(req));
         
         get("/distance", (req, res) -> {
         	String form = 
