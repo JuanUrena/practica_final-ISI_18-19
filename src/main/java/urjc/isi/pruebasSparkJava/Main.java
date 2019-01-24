@@ -463,7 +463,7 @@ public class Main {
         // Recurso /filter_name encargado de mostrar la info de una película dado el nombre.
         post("/filter_name", (req, res) -> Filter.showFilmByName());
         
-        // Recurso /filter_year encargado de mostrar todas las películsa dado un año.
+        // Recurso /filter_year encargado de mostrar todas las películas dado un año.
         post("/filter_year", (req, res) -> Filter.showFilmByYear(req));
         
         get("/distance", (req, res) -> {
