@@ -308,6 +308,44 @@ public class Main {
     }
     
     
+    /**
+     * Devuelve los vecinos dado un name (nodo). Uso de IndexGraph.java.
+     * @param graph sobre el que hallar vecinos
+     * @param name sobre el que hallar vecinos
+     * @return String con sus vecinos, u otro string en caso de error o 'no vecinos'.
+     */
+    public static String doGraphFilter(Graph graph, String name) {
+    	if (graph.V() == 0) throw new NullPointerException("Main.doDistance");
+    	
+    	String result = new String("");
+    	ArrayList<String> allNames = new ArrayList<String>();
+    	String noMatch = "<p>Ninguna coincidencia. Error al introducir nombre," +
+    					"o no existe en nuestra BD</p><br>";
+    	try {
+	    	if (name.equals("")){ //caso de no introducir nada
+	    		throw new IllegalArgumentException("Main.doDistance");
+	    	}else if (!graph.hasVertex(name)){ //no coincidencia nombre
+	    		allNames = nameChecker(connection,name);
+	    		if (!allNames.isEmpty()) {
+	    			result =  "<p>Múltiples coincidencias. Copia nombre exacto en el formulario:</p><ul>"; 
+	    			for(String aux: allNames) {
+	    				result += "<li>" + aux + "</li>"; 
+	    			}
+	    			result += "</ul>";
+	    		}else { //no coincidencia
+	    			result += noMatch;
+	    		}
+			}else{
+		    	for (String w : graph.adjacentTo(name)){
+		    		result += "<li>" + w + "</li>";
+		        }
+			}
+    	}catch(IllegalArgumentException e) {
+    		result ="<p>ERROR. Ver 'uso'. Por favor, inténtalo de nuevo.</p>";
+    	}
+		return result;
+    }
+    
 //MAIN---
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
     	// Establecemos el puerto del server con el método getHerokuAssignedPort()
@@ -348,8 +386,13 @@ public class Main {
     				"</div>" +
     			"</form>" +
     			"<a href='/filter'>Búsqueda de películas</a>" +
-    			"<br><br>" + 
-				"<a href= '/distance'>Distancia entre actores, películas, directores...<a/>" +
+    			"<br><br>" +
+    			"<p>Grafos:</p>" +
+    			"<ul>" + 
+					"<li><a href= '/distance'>Distancia entre actores y películas<a/></li>" +
+					"<li><a href= '/graph_info'>Información sobre el grafo<a/></li>" +
+					"<li><a href= '/graph_filter'>Uso de grafos para filtrado<a/></li>" +
+				"</ul>" + 
     		"</body></html>";
 
         // spark server
@@ -491,8 +534,8 @@ public class Main {
     			  "<li>Actor --> (1):'Nombre1 Apellido1' | (2): 'Nombre2 Apellido2'" +
     			  "<br>Ejemplo: 'Leonardo DiCaprio'</li>" +
     			"</ul>" +
-        		"*Nota* Si no se sabe el nombre exacto, poner una palabra (p.e. 'Travolta' " +
-    			"u 'Odyssey' en este caso). Se ofreceran las coincidencias de esa palabra (en progreso).";
+        		"<p>*Nota* Si no se sabe el nombre exacto, poner una palabra (p.e. 'Leonardo' " +
+    			"o 'Great' en este caso). Se ofreceran las coincidencias de esa palabra.</p>";
     		return form;
         });
         
@@ -519,6 +562,59 @@ public class Main {
         	//Tobey Maguire | The Great Gatsby / Spiderman --> actor que relaciona
         	//Willem Dafoe (Spiderman) --> NAME 2
         	//Distancia 4
+        });
+        
+        get("/graph_info", (req, res) -> {
+        	Graph graph = new Graph("Database/film_actors.txt", "/"); //podemos poner como global?
+        	String nodos = String.format("%d", graph.V());
+        	String edges = String.format("%d", graph.E());
+        	String maxDegree = String.format("%d", SmallWorld.maxDegree(graph));
+        	String averageDegree = String.format("%.3f", SmallWorld.averageDegree(graph));
+//        	String length = String.format("%d", SmallWorld.pathLength(graph, "King Kong"));
+        	
+        	
+        	String result = "<p>Información sobre nuestro grafo:</p>" + 
+        			"<ul>" + 
+        			"<li>Número de nodos (vértices) = " + nodos + "</li>" +
+        			"<li>Número de enlaces (edges) = " + edges + "</li>" +
+        			"<li>Grado máximo (nodo con más vecinos) = " + maxDegree + "</li>" +
+        			"<li>Grado medio = " + averageDegree + "</li>" +
+//        			"<li>Longitud máxima dada un actor o película (long max del subgrafo): " +
+//        				"<br>Ejemplo usado: 'King Kong' --> MaxLength = " + length + "</li>" +
+        			"</ul>";
+        	return result;
+        });
+        
+
+        get("/graph_filter", (req, res) -> {
+        	String form =
+        	"<h3>Filtrado mediante grafos</h3> " +
+        	"<p>Proporcione nombre de película o actor. Se obtendrán actores que han " + 
+        	"trabajado en esa película, o películas en las que ha trabajado ese actor:</p>" +
+    		"<form action='/graph_filter_show' method='post'>" +
+				"<div>" + 
+					"<label for='name'>Nombre del actor o película: </label>" +
+					"<input type='text' name='name'/>" +
+					"<button type='submit'>Enviar</button>" +
+				"</div>" +
+			"</form>" +
+        	"<p>*Nota* Si no se sabe el nombre exacto, poner una palabra (p.e. 'Mark' " +
+			"o 'Batman'). Se ofreceran las coincidencias de esa palabra.</p>";
+        	return form; 
+        	//USAR DESPLEGABLE PARA ELEGIR PELI O ACTOR
+        });
+        
+        post("/graph_filter_show", (req, res) -> {
+        	Graph graph = new Graph("Database/film_actors.txt", "/");
+    		String name= req.queryParams("name");
+    		String result = doGraphFilter(graph, name);
+    		
+        	return "<p>Has buscado los vecinos de: '" + name + ".</p>" +
+        			"<p>RESULTADO:</p>" +
+        			"<ul>" + 
+        			result + 
+        			"</ul>" +
+        			"<br><a href='/'>Volver</a>";
         });
     }
 }
