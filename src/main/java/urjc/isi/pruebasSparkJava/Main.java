@@ -357,7 +357,6 @@ public class Main {
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
     	// Set it to false to improve performance
-    	connection.setAutoCommit(false);
 
     	String home = "<html><body>" +
     		"<h1>Bienvenidos a la web de películas</h1>" +
