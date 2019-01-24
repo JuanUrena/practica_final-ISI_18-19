@@ -32,17 +32,6 @@ public class SmallWorld {
         }
         return (double) sum / (G.V() * (G.V() - 1));
     }
-    
-    // Nuevo método. Dado un nodo v, devolvemos su maxPathLength
-//    public static int pathLength(Graph G, String v) {
-//        int sum = 0;
-//        PathFinder pf = new PathFinder(G, v);
-//        for (String w : G.vertices()){
-//                sum += pf.distanceTo(w);
-//        }
-//        return sum;
-//    }
-
 
     // Compute clustering coefficient.
     public static double clusteringCoefficient(Graph G) {
