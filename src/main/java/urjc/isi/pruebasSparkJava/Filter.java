@@ -62,8 +62,6 @@ public class Filter {
 								"<th>Puntuación media</th>" +
 								"<th>Número de votos</th>" +
 								"<th>Géneros</th>" +
-								"<th>Puntuación</th>" +
-								"<th>Comentario</th>" +
 							"</tr>" +
 							"<tr>" +
 								"<td>" + titulo + "</td>" +
@@ -72,10 +70,11 @@ public class Filter {
 								"<td>" + puntuacionMedia + "</td>" +
 								"<td>" + numVotos + "</td>" +
 								"<td>" + generos + "</td>" +
-								"<td>" + puntuacion + "</td>" +
-								"<td>" + comentario + "</td>" +
 							"</tr>" +
 						"</table>";
+    	
+    	table = table+Formulario.formulary;
+    	
     	return table;
 	}
 	

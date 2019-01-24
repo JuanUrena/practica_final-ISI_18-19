@@ -353,6 +353,8 @@ public class Main {
 
     	// Connect to SQLite sample.db database
     	// connection will be reused by every query in this simplistic example
+    	//El constructor para acceder a la base de datos, en el futuro se debe descomentar. 
+    	//Comentar para probar en local
     	Injector connector = new Injector("IMDb.db");
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
@@ -399,7 +401,6 @@ public class Main {
         get("/info", Main::infoGet);
         post("/info", Main::infoPost);
         get("/hello", Main::doWork);
-        get("/score",(req, res)-> Score.getScore(req));
         post("/score",(req, res)-> Score.postScore(req));
         post("/comment",(req, res)-> Comment.postComment(req));
 

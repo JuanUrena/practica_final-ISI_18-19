@@ -11,7 +11,7 @@ public class Comment {
 	//Guardo un nuevo comentario de un usuario hacia una pelicula
 	public static String postComment(Request request) throws ClassNotFoundException, URISyntaxException {
 		String result = new String("Comentario");
-		String comment=request.queryParams("coment");
+		String comment=request.queryParams("comment");
 		String user_string=request.queryParams("user");
 		int user=Integer.parseInt(user_string);
 		String film=request.queryParams("film");
@@ -22,7 +22,7 @@ public class Comment {
 	public static String newComment(String text, int user, String film) {
 		//Obtengo id de la pelicula
 		//Almaceno el nuevo comentario
-		System.out.println("guardado");
+		System.out.println("Guardado");
 
 		return "Comentario almacenado";
 	}

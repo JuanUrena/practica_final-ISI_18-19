@@ -40,7 +40,7 @@ public class Score {
 			String result = new String("Puntuacion");			
 			String score_string=request.queryParams("score");
 			int score=Integer.parseInt(score_string);
-			String user_string=request.queryParams("ID");
+			String user_string=request.queryParams("user");
 			System.out.println(user_string);
 			int user=Integer.parseInt(user_string);
 			String film=request.queryParams("film");
@@ -48,10 +48,5 @@ public class Score {
 			score=getScor(film);
 			changeScore(score, film);
 			return result;
-		}
-	
-		public static String getScore (Request request) {
-			String resp="<form action='/comment' method='post'> Comment:<br> <input type='text' name='comment'> User: <input type='number' name='ID' required/><br> <input type='submit' value='Comentar'> </form> <form action='/score' method='post'> Score(1-5):<br> <input type='number' name='score' min='1' max='5'> User: <input type='number' name='ID' required/><br> <input type='submit' value='Puntuar'> </form>";
-			return resp;
 		}
 }
