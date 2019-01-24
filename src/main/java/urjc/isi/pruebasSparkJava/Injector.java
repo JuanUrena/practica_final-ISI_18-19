@@ -16,7 +16,7 @@ public class Injector {
 	
 	private static Connection c;
 	
-	public Connection Injector(String name) throws URISyntaxException{
+	public Injector(String name) throws URISyntaxException{
 		try {
 			if(c!=null){
 				URI dbUri = new URI(System.getenv(name));
@@ -25,14 +25,13 @@ public class Injector {
 				String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 				c = DriverManager.getConnection(dbUrl, username, password);
 				c.setAutoCommit(false);
-				return c;
 			}
 		}catch (SQLException e) {
             throw new RuntimeException(e);
         }
 	}
 
-	public List<String> filterByName(Connection c,String film) {
+	public List<String> filterByName(String film) {
 		String sql = "SELECT * FROM movies WHERE title = "+'"'+film+'"';
 		List<String> result = new ArrayList<String>();
     	
@@ -60,7 +59,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByYear(Connection c,String year) {
+	public List<String> filterByYear(String year) {
 		String sql = "SELECT * FROM movies WHERE year = "+'"'+year+'"';
 		List<String> result = new ArrayList<String>();
     	
@@ -77,7 +76,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByDuration(Connection c,Integer minutes) {
+	public List<String> filterByDuration(Integer minutes) {
 		String sql = "SELECT * FROM movies WHERE runtimeMinutes <= "+minutes;
 		List<String> result = new ArrayList<String>();
     	
@@ -94,7 +93,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByRating(Connection c,Double rating) {
+	public List<String> filterByRating(Double rating) {
 		String sql = "SELECT * FROM movies WHERE averageRating >= "+rating;
 		List<String> result = new ArrayList<String>();
     	
@@ -111,7 +110,7 @@ public class Injector {
     	return result;
 	}
 
-	public Integer meanScores(Connection c,String film) {
+	public Integer meanScores(String film) {
 		String sql = "SELECT avg(score)  FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"' + "GROUP BY ratings.titleID";
     	Integer result = 0;
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -125,7 +124,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByActorActress(Connection c,String name) {
+	public List<String> filterByActorActress(String name) {
 		String sql = "SELECT title FROM movies JOIN works_in ON movies.titleID=works_in.titleID ";
 		sql+= "JOIN workers ON workers.nameID=works_in.nameID ";
 		sql += "WHERE workers.primaryName LIKE "+'"' + name +'"';
