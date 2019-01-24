@@ -49,4 +49,14 @@ public class Score {
 			changeScore(score, film);
 			return result;
 		}
+		
+		public static String concatComentarios(String nombre_pelicula[][]){
+		String text = "<h1>Comentarios que tiene la película:</h1>";
+		for (int x = 0; x < nombre_pelicula.length; x++){
+			String br = " ";
+			text += br + nombre_pelicula[x][0] + ":" + nombre_pelicula[x][1];
+		}
+		text +=" ";
+		return text;
+	}
 }
