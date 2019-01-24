@@ -14,15 +14,50 @@ import java.util.Map.Entry;
  * data: userID | titleID | score<br>
  * diffMap: titleID-A | titleID-B | difference<br>
  * weightMap: titleID-A | titleID-B | weight<br>
- * predictionsN: userID | titleID | prediction
+ * predictions: userID | titleID | prediction
  */
 public class SlopeOneFilter {
 
 	Map<Integer, Map<Integer, Double>> data;
 	Map<Integer, Map<Integer, Double>> diffMap;
 	Map<Integer, Map<Integer, Integer>> weightMap;
-	Map<Integer, Map<Integer, Double>> predictions;
+	Map<Integer, LinkedList<Node>> predictions;
 
+	class Node {
+		int titleID;
+		double prediction;
+
+		public Node(int t, double p) {
+			titleID = t;
+			prediction = p;
+		}
+		
+		public int getKey() { 
+			return titleID; 
+		}
+
+		public double getValue() { 
+			return prediction; 
+		}
+
+		public String toString() {
+			return "titleID: " + getKey() + ", Pred: " + getValue();
+		}		
+	}
+	
+	class NodeComp implements Comparator<Node> {
+		@Override
+		public int compare(Node d1, Node d2) {
+			if(d2.prediction<d1.prediction) {
+				return -1;
+			} else if(d1.prediction<d2.prediction) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
 	public SlopeOneFilter() {
 //		data  = new HashMap<>();
 //		JDBC call
@@ -108,29 +143,63 @@ public class SlopeOneFilter {
 	}
 
 	public void predict(int user) {
-		// Crear predictionsN para ese usuario determinado.
+		// Crear predictions para ese usuario determinado.
+/*
+		predictions = [];
+
+		for(i=0;i<npelis;i++) {
+			peli= pelis[i];
+			if(noPuntuada(user, peli)){
+				predictions.add(predictPuntPeli(user, peli));
+			}else{
+				predictions.add(valorPuntuadoPorElUsuario);
+			}
+		}
+*/
 	}
 
+	public int getIndex(int user, double value) {
+		int pos = 0;
+		ListIterator<Node> itrator = predictions.get(user).listIterator();
+		while (itrator.hasNext()) {
+			if (itrator.next().getValue() <= value) {
+				break;
+			} else {
+				pos++;
+			}
+		}
+		return pos;
+	}
+	
 	public void recommend(int user, int nItems) {
 		// Mostrar nItems predicciones con mayor puntuación.
-		Map<Integer, Double> predictionList = predictions.get(user);
-		Iterator<Entry<Integer, Double>> itr = predictionList.entrySet().stream()
-				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).iterator();
-
+		LinkedList<Node> predictionList = predictions.get(user);
+		predictionList.sort(new NodeComp());
+		
+		ListIterator<Node> itrator = predictionList.listIterator();
+		 
 		for (int i=0; i < nItems; i++) {
-			itr.hasNext();
-			System.out.println(itr.next());
+			itrator.hasNext();
+			System.out.println(itrator.next());
 		}
 	}
-
+	
 	public static void main(String args[]){
 		SlopeOneFilter so = new SlopeOneFilter();
+		
 		so.predictions = new HashMap<>();
-		so.predictions.put(1, new HashMap<Integer, Double>());
-		so.predictions.get(1).put(1 , 8.0);
-		so.predictions.get(1).put(2 , 1.0);
-		so.predictions.get(1).put(3 , 10.0);
+		so.predictions.put(1, new LinkedList<Node>());
+
+		so.predictions.get(1).add( so.new Node(1 , 8.0));
+		so.predictions.get(1).add( so.new Node(2 , 1.0));
+		so.predictions.get(1).add( so.new Node(3 , 10.0));
+		
+		System.out.println(so.predictions);
 		so.recommend(1, 2);
+		System.out.println(so.predictions);
+		so.predictions.get(1).add(so.getIndex(1, 5.0), so.new Node(4 , 5.0));
+		so.predictions.get(1).add(so.getIndex(1, 4.0), so.new Node(5 , 4.0));
+		so.predictions.get(1).add(so.getIndex(1, 6.0), so.new Node(6 , 6.0));
 		System.out.println(so.predictions);
 	}
 }
