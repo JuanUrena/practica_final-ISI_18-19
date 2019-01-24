@@ -7,7 +7,7 @@ import spark.Request;
 public class Filter {
 
 	// Método encargado de mostrar al usuario el menú con las distintas
-	// opciones para filtrar (HTML devuelto al hacer GET sobre /filter)
+	// opciones para filtrar (HTML devuelto al hacer GET sobre /filter).
 	public static String showFilterMenu() {
 		String menu = 	"<h1>Búsqueda personalizada de películas</h1>" + 
 						"<p>Elija el criterio por el que desea filtrar en nuestra base de datos.</p>" +
@@ -38,7 +38,7 @@ public class Filter {
 
 	// Método encargado de mostrar al usuario toda la información sobre
 	// la película cuyo nombre ha introducido (HTML devuelto al hacer
-	// POST sobre /filter_name)
+	// POST sobre /filter_name).
 	public static String showFilmByName() {
     	// Para acceder al valor del parametro "film" del form:
     	// req.queryParams("film") => hay que pasarselo a la función que busque en la BD.
@@ -80,7 +80,7 @@ public class Filter {
 	}
 	
 	// Método encargado de mostrar al usuario todas las películas estrenadas
-	// en el año que ha introducido (HTML devuelto al hacer POST sobre /filter_year)
+	// en el año que ha introducido (HTML devuelto al hacer POST sobre /filter_year).
 	public static String showFilmByYear(Request req) {
     	// Los siguientes valores están puestos a modo de prueba. Hay que
     	// sustituirlos por los valores que devuelva la función que busque en la BD.
@@ -91,6 +91,33 @@ public class Filter {
     	String table = "<table border=2" +
 							"<tr>" +
 								"<th>Año: " + req.queryParams("year") + "</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli1 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli2 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli3 + "</td>" +
+							"</tr>" +	
+						"</table>";
+    	return table;
+	}
+	
+	// Método encargado de mostrar al usuario todas las películas en las que
+	// participa el actor/actriz que ha introducido (HTML devuelto al hacer POST
+	// sobre /filter_actoractress).
+	public static String showFilmByActorActress(Request req) {
+    	// Los siguientes valores están puestos a modo de prueba. Hay que
+    	// sustituirlos por los valores que devuelva la función que busque en la BD.
+    	String peli1 = "película de prueba 1";
+    	String peli2 = "película de prueba 2";
+    	String peli3 = "película de prueba 3";
+    	
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Actor/Actriz: " + req.queryParams("actoractress") + "</th>" +
 							"</tr>" +
 							"<tr>" +
 								"<td>" + peli1 + "</td>" +

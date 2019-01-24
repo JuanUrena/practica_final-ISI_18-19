@@ -466,6 +466,11 @@ public class Main {
         // Recurso /filter_year encargado de mostrar todas las películas dado un año.
         post("/filter_year", (req, res) -> Filter.showFilmByYear(req));
         
+        // Recurso /filter_actoractress encargado de mostrar todas las películas
+        // en las que participa un actor o una actriz.
+        post("/filter_actoractress", (req, res) -> Filter.showFilmByActorActress(req));
+
+        
         get("/distance", (req, res) -> {
         	String form = 
         		"<h3>Calculador de distancias mediante grafos</h3> " +
