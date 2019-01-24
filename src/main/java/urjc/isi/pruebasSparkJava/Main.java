@@ -400,6 +400,9 @@ public class Main {
         get("/info", Main::infoGet);
         post("/info", Main::infoPost);
         get("/hello", Main::doWork);
+        post("/score",(req, res)-> Score.postScore(req));
+        post("/comment",(req, res)-> Comment.postComment(req));
+
 
         // In this case we use a Java 8 method reference to specify
         // the method to be called when a GET /:table/:film HTTP request
