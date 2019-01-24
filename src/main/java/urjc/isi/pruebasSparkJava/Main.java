@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.servlet.MultipartConfigElement;
 import java.io.BufferedReader;
@@ -190,17 +191,63 @@ public class Main {
     public static String doDistance(Graph graph, String name1, String name2) {
     	if (graph.V() == 0) throw new NullPointerException("Main.doDistance");
     	
-    	String result = new String("");    	
+    	String result = new String("");
+    	ArrayList<String> allNames = new ArrayList<String>();
+    	String noMatch = "<p>Ninguna coincidencia. Error al introducir nombre," +
+    					"o no existe en nuestra BD</p><br>";
     	try {
 	    	if (name1.equals("") || name2.equals("")){ //caso de no introducir nada
 	    		throw new IllegalArgumentException("Main.doDistance");
 	    	}else if (!graph.hasVertex(name1) && !graph.hasVertex(name2)){ //caso 2 erroneos
-	    		result = "<p>Campo 1: </p>" + nameChecker(connection, name1);
-	    		result += "<p>Campo 2: </p>" + nameChecker(connection, name2); 
+	    		allNames = nameChecker(connection,name1);
+	    		result = "<p>Campo 1: </p>";
+	    		if (!allNames.isEmpty()) { 
+	    			result += "<p>Múltiples coincidencias. Copia nombre exacto para cálculo de distancia:</p><ul>"; 
+	    			for(String aux: allNames) {
+	    				result += "<li>" + aux + "</li>"; 
+	    			}
+	    			result += "</ul>";
+	    		}else {
+	    			result += noMatch;
+	    		}
+	    		
+	    		allNames.clear(); //limpiamos por si acaso
+	    		allNames = nameChecker(connection,name2);
+	    		result += "<p>Campo 2: </p>"; 
+	    		if (!allNames.isEmpty()) {
+	    			result += "<p>Múltiples coincidencias. Copia nombre exacto para cálculo de distancia:</p><ul>"; 
+	    			for(String aux: allNames) {
+	    				result += "<li>" + aux + "</li>"; 
+	    			}
+	    			result += "</ul>";
+	    		}else {
+	    			result += noMatch;
+	    		}
+	    		
 	    	}else if (!graph.hasVertex(name1)){ //no coincidencia nombre1
-				result = "<p>Campo 1: </p>" + nameChecker(connection, name1); //Control de nombres
+	    		allNames = nameChecker(connection,name1); //Control de nombres
+	    		if (!allNames.isEmpty()) {
+	    			result = "<p>Campo 1: </p>" + 
+	    					"<p>Múltiples coincidencias. Copia nombre exacto para cálculo de distancia:</p><ul>"; 
+	    			for(String aux: allNames) {
+	    				result += "<li>" + aux + "</li>"; 
+	    			}
+	    			result += "</ul>";
+	    		}else { //no coincidencia
+	    			result += noMatch;
+	    		}
 	    	}else if (!graph.hasVertex(name2)){ //no coincidencia nombre2
-	    		result = "<p>Campo 2: </p>" + nameChecker(connection, name2);
+	    		allNames = nameChecker(connection,name2);
+	    		if (!allNames.isEmpty()) {
+	    			result = "<p>Campo 2: </p>" + 
+	    					"<p>Múltiples coincidencias. Copia nombre exacto para cálculo de distancia:</p><ul>"; 
+	    			for(String aux: allNames) {
+	    				result += "<li>" + aux + "</li>"; 
+	    			}
+	    			result += "</ul>";
+	    		}else {
+	    			result += noMatch;
+	    		}
 			}else{
 				PathFinder pf = new PathFinder(graph, name1);
 				if (pf.hasPathTo(name2)) { //si tenemos ruta, procedemos	
@@ -224,52 +271,39 @@ public class Main {
      * Comprueba si se han introducido nombres incorrectos/incompletos 
      * (p.e. 'Tom', en vez de 'Tom Cruise', o no coincidente como 'abcd').
      * @param name para buscar y comparar.
-     * @return Nombres coincidentes con parte de los strings dados (p.e. devuelve todos los
-     * 'Tom' de la tabla, en el caso de haber introducido 'Tom' en vez de 'Tom Cruise').
-     * Devuelve string de 'no coincidencia' en caso de que no exista nada similar en la BD.
+     * @return ArrayList con nombres coincidentes con parte de los strings dados 
+     * (p.e. devuelve todos los 'Tom' de la tabla, en el caso de haber introducido 'Tom'
+     * en vez de 'Tom Cruise'). Devuelve ArrayList vacío en caso de no coincidencia.
      */
-    public static String nameChecker(Connection conn, String name){
+    public static ArrayList<String> nameChecker(Connection conn, String name){
     	String sql = "SELECT title FROM movies " + //consulta para nombre_pelis
     			"WHERE title LIKE ?";
     	String sql2 = "SELECT primaryName FROM workers " + //consulta para nombre_actores
     			"WHERE primaryName LIKE ?";
     	
-    	String result = new String();
+    	ArrayList<String> result = new ArrayList<String>();
     	try {
-    	PreparedStatement pstmt = conn.prepareStatement(sql);
-    	pstmt.setString(1, "%" + name + "%");
-    	PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-		pstmt2.setString(1, "%" + name + "%");
-    	ResultSet rs = pstmt.executeQuery();
-    	
-    		if(rs.next()) { //pelis
-    			result += "<p>Múltiples coincidencias. Copia nombre exacto para cálculo de distancia:</p>" +
-    					"<p>Películas coincidentes:</p><ul>";
-    			do{
-    				result += "<li>" + rs.getString(1) + "</li>"; 
-    			}while(rs.next());
-    			result += "</ul>";
-    		}else {
-    			ResultSet rs2 = pstmt2.executeQuery(); //ejecutamos aqui la segunda query, para no matar la primera
-    			if (rs2.next()) { //actores
-    				result += "<p>Múltiples coincidencias. Copia nombre exacto para cálculo de distancia:</p>" +
-    						"<p>Actores coincidentes:</p><ul>";
-        			do{
-        				result += "<li>" + rs2.getString(1) + "</li>"; 
-        			}while(rs2.next()); 
-        			result += "</ul>";
-    			}else {
-    				result += "<p>Ninguna ruta disponible entre " +
-    						"ambos actores/peliculas. Error al introducir nombres," +
-    						"o no existen en nuestra BD</p>" + 
-    						"<br>";
-    			}
-    			
-    		}
+	    	PreparedStatement pstmt = conn.prepareStatement(sql);
+	    	pstmt.setString(1, "%" + name + "%");
+	    	PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+			pstmt2.setString(1, "%" + name + "%");
+			
+	    	ResultSet rs = pstmt.executeQuery();
+	    	if(rs.next()) { //pelis
+	    		do{
+	    			result.add(rs.getString(1));
+	    		}while(rs.next());
+	    	}
+	    			
+	    	ResultSet rs2 = pstmt2.executeQuery(); //ejecutamos aqui la segunda query, para no matar la primera
+	    	if (rs2.next()) { //actores
+	        	do{
+	        		result.add(rs2.getString(1));
+	        	}while(rs2.next()); 
+	    	}
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
-    	}
-    		
+    	}	
     	return result;
     }
     
