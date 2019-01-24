@@ -14,16 +14,23 @@ public class Filter {
 						"<hr>" +
 						"<h4>1. Filtrar por nombre de la película.</h4>" +
 						"<form action='/filter_name' method='post'>" +
-							"<label for='film'>Película que desea buscar: </label>" + 
+							"<label for='film'>Nombre de la película: </label>" + 
 							"<input type='text' name='film' id='film'> " +
-							"<input type='submit' value='Enviar'>" +
+							"<input type='submit' value='Buscar'>" +
 						"</form>" +
 						"<hr>" +
 						"<h4>2. Filtrar por año de estreno de la película.</h4>" +
 						"<form action='/filter_year' method='post'>" +
-							"<label for='year'>Año de la película que desea buscar: </label>" + 
+							"<label for='year'>Año de la película: </label>" + 
 							"<input type='text' name='year' id='year'> " +
-							"<input type='submit' value='Enviar'>" +
+							"<input type='submit' value='Buscar'>" +
+						"</form>" +
+						"<hr>" +
+						"<h4>3. Filtrar por nombre de un actor/actriz que participa en la película.</h4>" +
+						"<form action='/filter_actoractress' method='post'>" +
+							"<label for='actoractress'>Actor/actriz que participa en la película: </label>" + 
+							"<input type='text' name='actoractress' id='actoractress'> " +
+							"<input type='submit' value='Buscar'>" +
 						"</form>" +
 						"<hr>";
 		return menu;
