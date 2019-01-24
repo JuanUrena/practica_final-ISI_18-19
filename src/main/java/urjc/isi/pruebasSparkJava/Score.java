@@ -35,7 +35,7 @@ public class Score {
 			//Llamar a la función para cambiar la puntuacion de la pelicula, pedir. 
 		}
 		
-		public static String postScore(Request request, Response response) throws ClassNotFoundException, URISyntaxException {
+		public static String postScore(Request request) throws ClassNotFoundException, URISyntaxException {
 			String result = new String("Puntuacion");			
 			String score_string=request.queryParams("score");
 			int score=Integer.parseInt(score_string);

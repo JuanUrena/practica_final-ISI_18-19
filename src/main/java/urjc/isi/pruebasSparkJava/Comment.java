@@ -5,11 +5,11 @@ import java.net.URISyntaxException;
 import spark.Request;
 import spark.Response;
 
-public class Commet {
+public class Comment {
 	//Comentarios
 	
 	//Guardo un nuevo comentario de un usuario hacia una pelicula
-	public static String postComent(Request request, Response response) throws ClassNotFoundException, URISyntaxException {
+	public static String postComment(Request request) throws ClassNotFoundException, URISyntaxException {
 		String result = new String("Comentario");
 		String comment=request.queryParams("coment");
 		String user_string=request.queryParams("user");
