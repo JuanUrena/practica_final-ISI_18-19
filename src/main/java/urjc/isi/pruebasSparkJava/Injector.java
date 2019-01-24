@@ -16,7 +16,7 @@ public class Injector {
 	
 	private static Connection c;
 	
-	public Connection Injector(String name) throws URISyntaxException{
+	public Injector(String name) throws URISyntaxException{
 		try {
 			if(c!=null){
 				URI dbUri = new URI(System.getenv(name));
@@ -25,7 +25,6 @@ public class Injector {
 				String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 				c = DriverManager.getConnection(dbUrl, username, password);
 				c.setAutoCommit(false);
-				return c;
 			}
 		}catch (SQLException e) {
             throw new RuntimeException(e);
