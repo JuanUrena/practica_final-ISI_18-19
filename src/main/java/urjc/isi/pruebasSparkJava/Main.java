@@ -347,17 +347,16 @@ public class Main {
     }
     
 //MAIN---
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, URISyntaxException {
     	// Establecemos el puerto del server con el método getHerokuAssignedPort()
     	port(getHerokuAssignedPort());
 
     	// Connect to SQLite sample.db database
     	// connection will be reused by every query in this simplistic example
-    	connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
+    	Injector connector = new Injector("IMDb.db");
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
     	// Set it to false to improve performance
-    	connection.setAutoCommit(false);
 
     	String home = "<html><body>" +
     		"<h1>Bienvenidos a la web de películas</h1>" +

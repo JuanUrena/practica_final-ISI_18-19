@@ -30,7 +30,7 @@ public class Injector {
         }
 	}
 
-	public List<String> filtrarPorPelicula(String film) {
+	public List<String> filterByName(String film) {
 		String sql = "SELECT * FROM movies WHERE title = "+'"'+film+'"';
 		List<String> result = new ArrayList<String>();
     	
@@ -58,7 +58,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filtrarPorAnyo(String year) {
+	public List<String> filterByYear(String year) {
 		String sql = "SELECT * FROM movies WHERE year = "+'"'+year+'"';
 		List<String> result = new ArrayList<String>();
     	
@@ -75,7 +75,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filtrarPorDuracion(Integer minutes) {
+	public List<String> filterByDuration(Integer minutes) {
 		String sql = "SELECT * FROM movies WHERE runtimeMinutes <= "+minutes;
 		List<String> result = new ArrayList<String>();
     	
@@ -92,7 +92,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filtrarPorValoracion(Double rating) {
+	public List<String> filterByRating(Double rating) {
 		String sql = "SELECT * FROM movies WHERE averageRating >= "+rating;
 		List<String> result = new ArrayList<String>();
     	
@@ -109,17 +109,14 @@ public class Injector {
     	return result;
 	}
 
-	public List<Integer>getpuntuaciones(String film) {
-		String sql = "SELECT score  FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"';
-		List<Integer> result = new ArrayList<Integer>();
-    	
+	public Integer meanScores(String film) {
+		String sql = "SELECT avg(score)  FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"' + "GROUP BY ratings.titleID";
+    	Integer result = 0;
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
-    		while(rs.next()) {
-                result.add(rs.getInt("score"));
-               
-            }
+    		rs.next();
+    		result = rs.getInt("score");
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
     	}

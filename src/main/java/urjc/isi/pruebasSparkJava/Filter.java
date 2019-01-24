@@ -132,4 +132,81 @@ public class Filter {
     	return table;
 	}
 	
+	// Método encargado de mostrar al usuario todas las películas con una duración
+	// menor a la que se ha introducido (HTML devuelto al hacer POST sobre /filter_duration)
+	public static String showFilmByDuration(Request req) {
+    	// Los siguientes valores están puestos a modo de prueba. Hay que
+    	// sustituirlos por los valores que devuelva la función que busque en la BD.
+    	String peli1 = "película de prueba 1";
+    	String peli2 = "película de prueba 2";
+    	String peli3 = "película de prueba 3";
+		
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Año: " + req.queryParams("duration") + "</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli1 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli2 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli3 + "</td>" +
+							"</tr>" +	
+						"</table>";
+    	return table;
+	}
+
+	// Método encargado de mostrar al usuario todas las películas con el genero
+	// que se ha introducido (HTML devuelto al hacer POST sobre /filter_genre)
+	public static String showFilmByGenre(Request req) {
+    	// Los siguientes valores están puestos a modo de prueba. Hay que
+    	// sustituirlos por los valores que devuelva la función que busque en la BD.
+    	String peli1 = "película de prueba 1";
+    	String peli2 = "película de prueba 2";
+    	String peli3 = "película de prueba 3";
+		
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Año: " + req.queryParams("genre") + "</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli1 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli2 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli3 + "</td>" +
+							"</tr>" +	
+						"</table>";
+    	return table;
+	}
+
+	// Método encargado de mostrar al usuario todas las películas con una valoración
+	// mayor a la que se ha introducido (HTML devuelto al hacer POST sobre /filter_rating)
+	public static String showFilmByRating(Request req) {
+    	// Los siguientes valores están puestos a modo de prueba. Hay que
+    	// sustituirlos por los valores que devuelva la función que busque en la BD.
+    	String peli1 = "película de prueba 1";
+    	String peli2 = "película de prueba 2";
+    	String peli3 = "película de prueba 3";
+		
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Año: " + req.queryParams("rating") + "</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli1 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli2 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli3 + "</td>" +
+							"</tr>" +	
+						"</table>";
+    	return table;
+	}
 }
