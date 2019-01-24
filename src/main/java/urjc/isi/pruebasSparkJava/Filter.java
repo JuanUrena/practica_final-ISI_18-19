@@ -130,7 +130,7 @@ public class Filter {
 							"</tr>" +	
 						"</table>";
     	return table;
-	
+	}
 	
 	// Método encargado de mostrar al usuario todas las películas con una duración
 	// menor a la que se ha introducido (HTML devuelto al hacer POST sobre /filter_duration)
@@ -209,6 +209,4 @@ public class Filter {
 						"</table>";
     	return table;
 	}
-	
-	
 }
