@@ -517,7 +517,17 @@ public class Main {
         // en las que participa un actor o una actriz.
         post("/filter_actoractress", (req, res) -> Filter.showFilmByActorActress(req));
 
-        
+        // Recurso /filter_duration encargado de mostrar todas las películas con una 
+        //duración menor a la dada
+        post("/filter_duration", (req, res) -> Filter.showFilmByDuration(req));
+
+        // Recurso /filter_genre encargado de mostrar todas las películas dado un genero.
+        post("/filter_genre", (req, res) -> Filter.showFilmByGenre(req));
+
+        // Recurso /filter_rating encargado de mostrar todas las películas dado un año.
+        post("/filter_rating", (req, res) -> Filter.showFilmByRating(req));
+
+
         get("/distance", (req, res) -> {
         	String form = 
         		"<h3>Calculador de distancias mediante grafos</h3> " +
