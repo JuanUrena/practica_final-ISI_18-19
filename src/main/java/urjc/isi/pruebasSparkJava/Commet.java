@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import spark.Request;
 import spark.Response;
 
-public class Comentarios {
+public class Commet {
 	//Comentarios
 	
 	//Guardo un nuevo comentario de un usuario hacia una pelicula

@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import spark.Request;
 import spark.Response;
 
-public class Puntuacion {
+public class Score {
 	//Puntuaciones
 	
 		//Guardo la nueva puntuacion
