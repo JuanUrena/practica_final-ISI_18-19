@@ -400,6 +400,7 @@ public class Main {
         get("/info", Main::infoGet);
         post("/info", Main::infoPost);
         get("/hello", Main::doWork);
+        get("/score",(req, res)-> Score.getScore(req));
         post("/score",(req, res)-> Score.postScore(req));
         post("/comment",(req, res)-> Comment.postComment(req));
 
