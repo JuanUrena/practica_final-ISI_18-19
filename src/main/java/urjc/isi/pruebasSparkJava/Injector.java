@@ -18,14 +18,13 @@ public class Injector {
 	
 	public Injector(String name) throws URISyntaxException{
 		try {
-			if(c!=null){
+			if(c!=null) return;
 				URI dbUri = new URI(System.getenv(name));
 				String username = dbUri.getUserInfo().split(":")[0];
 				String password = dbUri.getUserInfo().split(":")[1];
 				String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 				c = DriverManager.getConnection(dbUrl, username, password);
 				c.setAutoCommit(false);
-			}
 		}catch (SQLException e) {
             throw new RuntimeException(e);
         }
