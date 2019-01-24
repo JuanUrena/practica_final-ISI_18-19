@@ -353,7 +353,7 @@ public class Main {
 
     	// Connect to SQLite sample.db database
     	// connection will be reused by every query in this simplistic example
-    	connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
+    	Connection connector = new Injector.Injector("IMDb.db")
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
     	// Set it to false to improve performance
