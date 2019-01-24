@@ -25,6 +25,27 @@ public class Filter {
 							"<input type='text' name='year' id='year'> " +
 							"<input type='submit' value='Enviar'>" +
 						"</form>" +
+						"<hr>" +
+						"<h4>2. Filtrar por duración máxima de la película.</h4>" +
+						"<form action='/filter_duration' method='post'>" +
+							"<label for='duracion'>Duración máxima de las películas: </label>" + 
+							"<input type='text' name='duracion' id='duracion'> " +
+							"<input type='submit' value='Enviar'>" +
+						"</form>" +
+						"<hr>" +
+						"<h4>2. Filtrar por genero de la película.</h4>" +
+						"<form action='/filter_genre' method='post'>" +
+							"<label for='genre'>Género de la película que desea buscar: </label>" + 
+							"<input type='text' name='genre' id='genre'> " +
+							"<input type='submit' value='Enviar'>" +
+						"</form>" +
+						"<hr>" + 
+						"<h4>2. Filtrar por valoracion mínima.</h4>" +
+						"<form action='/filter_rating' method='post'>" +
+							"<label for='rating'>Valoración mínima: </label>" + 
+							"<input type='text' name='rating' id='rating'> " +
+							"<input type='submit' value='Enviar'>" +
+						"</form>" +
 						"<hr>";
 		return menu;
 	}
@@ -71,9 +92,7 @@ public class Filter {
 						"</table>";
     	return table;
 	}
-	
-	// Método encargado de mostrar al usuario todas las películas estrenadas
-	// en el año que ha introducido (HTML devuelto al hacer POST sobre /filter_year)
+
 	public static String showFilmByYear(Request req) {
     	// Los siguientes valores están puestos a modo de prueba. Hay que
     	// sustituirlos por los valores que devuelva la función que busque en la BD.
@@ -97,5 +116,84 @@ public class Filter {
 						"</table>";
     	return table;
 	}
+	
+	// Método encargado de mostrar al usuario todas las películas con una duración
+	// menor a la que se ha introducido (HTML devuelto al hacer POST sobre /filter_duration)
+	public static String showFilmByDuration(Request req) {
+    	// Los siguientes valores están puestos a modo de prueba. Hay que
+    	// sustituirlos por los valores que devuelva la función que busque en la BD.
+    	String peli1 = "película de prueba 1";
+    	String peli2 = "película de prueba 2";
+    	String peli3 = "película de prueba 3";
+		
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Año: " + req.queryParams("duration") + "</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli1 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli2 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli3 + "</td>" +
+							"</tr>" +	
+						"</table>";
+    	return table;
+	}
+
+	// Método encargado de mostrar al usuario todas las películas con el genero
+	// que se ha introducido (HTML devuelto al hacer POST sobre /filter_genre)
+	public static String showFilmByGenre(Request req) {
+    	// Los siguientes valores están puestos a modo de prueba. Hay que
+    	// sustituirlos por los valores que devuelva la función que busque en la BD.
+    	String peli1 = "película de prueba 1";
+    	String peli2 = "película de prueba 2";
+    	String peli3 = "película de prueba 3";
+		
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Año: " + req.queryParams("genre") + "</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli1 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli2 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli3 + "</td>" +
+							"</tr>" +	
+						"</table>";
+    	return table;
+	}
+
+	// Método encargado de mostrar al usuario todas las películas con una valoración
+	// mayor a la que se ha introducido (HTML devuelto al hacer POST sobre /filter_rating)
+	public static String showFilmByRating(Request req) {
+    	// Los siguientes valores están puestos a modo de prueba. Hay que
+    	// sustituirlos por los valores que devuelva la función que busque en la BD.
+    	String peli1 = "película de prueba 1";
+    	String peli2 = "película de prueba 2";
+    	String peli3 = "película de prueba 3";
+		
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Año: " + req.queryParams("rating") + "</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli1 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli2 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli3 + "</td>" +
+							"</tr>" +	
+						"</table>";
+    	return table;
+	}
+	
 	
 }
