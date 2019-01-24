@@ -47,36 +47,55 @@ public class Filter {
     	String puntuacion = "puntuacion";
     	String comentario = "Comentario";
     	
-    	String tabla = "<table border=2" +
-				"<tr>" +
-					"<th>Título</th>" +
-					"<th>Año</th>" +
-					"<th>Duración</th>" +
-						"<th>Puntuación media</th>" +
-						"<th>Número de votos</th>" +
-						"<th>Géneros</th>" +
-						"<th>Puntuación</th>" +
-						"<th>Comentario</th>" +
-				"</tr>" +
-				"<tr>" +
-					"<td>" + titulo + "</td>" +
-					"<td>" + año + "</td>" +
-					"<td>" + duracion + "</td>" +
-					"<td>" + puntuacionMedia + "</td>" +
-					"<td>" + numVotos + "</td>" +
-					"<td>" + generos + "</td>" +
-					"<td>" + puntuacion + "</td>" +
-					"<td>" + comentario + "</td>" +
-				"</tr>" +
-			"</table>";
-    	
-    	return tabla;
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Título</th>" +
+								"<th>Año</th>" +
+								"<th>Duración</th>" +
+								"<th>Puntuación media</th>" +
+								"<th>Número de votos</th>" +
+								"<th>Géneros</th>" +
+								"<th>Puntuación</th>" +
+								"<th>Comentario</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + titulo + "</td>" +
+								"<td>" + año + "</td>" +
+								"<td>" + duracion + "</td>" +
+								"<td>" + puntuacionMedia + "</td>" +
+								"<td>" + numVotos + "</td>" +
+								"<td>" + generos + "</td>" +
+								"<td>" + puntuacion + "</td>" +
+								"<td>" + comentario + "</td>" +
+							"</tr>" +
+						"</table>";
+    	return table;
 	}
 	
 	// Método encargado de mostrar al usuario todas las películas estrenadas
 	// en el año que ha introducido (HTML devuelto al hacer POST sobre /filter_year)
 	public static String showFilmByYear(Request req) {
-    	return "Has buscado por el año:" + req.queryParams("year");
+    	// Los siguientes valores están puestos a modo de prueba. Hay que
+    	// sustituirlos por los valores que devuelva la función que busque en la BD.
+    	String peli1 = "película de prueba 1";
+    	String peli2 = "película de prueba 2";
+    	String peli3 = "película de prueba 3";
+		
+    	String table = "<table border=2" +
+							"<tr>" +
+								"<th>Año: " + req.queryParams("year") + "</th>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli1 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli2 + "</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>" + peli3 + "</td>" +
+							"</tr>" +	
+						"</table>";
+    	return table;
 	}
 	
 }
