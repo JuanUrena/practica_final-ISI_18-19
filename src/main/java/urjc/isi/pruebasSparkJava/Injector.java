@@ -110,17 +110,14 @@ public class Injector {
     	return result;
 	}
 
-	public List<Integer>getpuntuaciones(String film) {
-		String sql = "SELECT score  FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"';
-		List<Integer> result = new ArrayList<Integer>();
-    	
+	public Integer meanScores(String film) {
+		String sql = "SELECT avg(score)  FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"' + "GROUP BY ratings.titleID";
+    	Integer result = 0;
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
-    		while(rs.next()) {
-                result.add(rs.getInt("score"));
-               
-            }
+    		rs.next();
+    		result = rs.getInt("score");
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
     	}
