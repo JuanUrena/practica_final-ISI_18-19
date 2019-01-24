@@ -69,6 +69,7 @@ public class SlopeOneFilter {
 
 	//Introduzco las diferencias totales de cada pareja de películas: movie_A movie_B total_diff
 	public void setDiffMap(int movie_A, int movie_B, Double diff, Map<Integer,Double> movie_diff) {
+		// if(!diffMap.containsKey(movie_A)) {
 		if(this.diffMap.get(movie_A) == null) {
 			movie_diff = new HashMap<Integer,Double>();
 			movie_diff.put(movie_B,diff);
@@ -119,6 +120,12 @@ public class SlopeOneFilter {
 		this.weightMap = new HashMap<Integer,Map<Integer,Integer>>();
 		Map<Integer,Double> movie_B_diff = new HashMap<Integer,Double>();
 		Map<Integer,Integer> movie_B_weight = new HashMap<Integer,Integer>();
+
+		
+		// for(Map<Integer, Double> user_movies: data.values()) {
+		// 	for(Entry<Integer, Double> movie: user_movies.entrySet()) {
+		// 		.......
+		// }
 
 		for(Map.Entry<Integer, Map<Integer, Double>> entry: data.entrySet()) {
 			Map<Integer,Double> user_movies = entry.getValue();
@@ -186,6 +193,35 @@ public class SlopeOneFilter {
 	
 	public static void main(String args[]){
 		SlopeOneFilter so = new SlopeOneFilter();
+
+		so.data = new HashMap<>();
+		
+		Integer item_A = 1;
+		Integer item_B = 11;
+		Integer item_C = 111;
+
+		HashMap<Integer, Double> user1 = new HashMap<>();
+		HashMap<Integer, Double> user2 = new HashMap<>();
+		HashMap<Integer, Double> user3 = new HashMap<>();
+
+		user1.put(item_A, 5.0);
+		user1.put(item_B, 3.0);
+		user1.put(item_C, 2.0);
+		so.data.put(1, user1);
+		user2.put(item_A, 3.0);
+		user2.put(item_B, 4.0);
+		so.data.put(2, user2);
+		user3.put(item_B, 2.0);
+		user3.put(item_C, 5.0);
+		so.data.put(3, user3);
+		System.out.println("data\n" + so.data);
+		System.out.println("----");
+		so.buildMaps();
+		
+		System.out.println("diffMap\n" + so.diffMap);
+		System.out.println("----");
+		System.out.println("weightMap\n" + so.weightMap);
+		System.out.println("----");
 		
 		so.predictions = new HashMap<>();
 		so.predictions.put(1, new LinkedList<Node>());
