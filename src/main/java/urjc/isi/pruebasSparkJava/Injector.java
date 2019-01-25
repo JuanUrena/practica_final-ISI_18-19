@@ -156,8 +156,8 @@ public class Injector {
 		}
 	}
 	
-	public void insertRating(Integer titleID, Integer clientID, Integer score) {
-		String sql= new String();
+    public void insertRating(Integer titleID, Integer clientID, Integer score) {
+	String sql= new String();
     	
     	if(searchRating(titleID, clientID)) {
     		sql = "UPDATE ratings SET score=" + score; 
@@ -180,6 +180,7 @@ public class Injector {
         		System.out.println(e.getMessage());
         	}
     	}
+    }
 
     public Boolean searchUser(Integer clientID) {
 		String sql = "SELECT clientID FROM clients WHERE clientID = "+ clientID;
