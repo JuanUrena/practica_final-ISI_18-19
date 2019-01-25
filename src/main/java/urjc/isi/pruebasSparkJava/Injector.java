@@ -142,6 +142,45 @@ public class Injector {
     	return result;
 	}
 	
+
+    public Boolean searchRating(Integer titleID, Integer clientID) {
+		String sql = "SELECT score FROM ratings WHERE titleID = "+ titleID;
+		sql += " and clientID = "+ clientID;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("score");
+			return true;
+		}catch (SQLException e) {
+			return false;		
+		}
+	}
+	
+	public void insertRating(Integer titleID, Integer clientID, Integer score) {
+		String sql= new String();
+    	
+    	if(searchRating(titleID, clientID)) {
+    		sql = "UPDATE ratings SET score=" + score; 
+    		sql += " WHERE titleID=" + titleID + " and clientID="+ clientID;
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+        		pstmt.executeUpdate();
+        		c.commit();
+        	} catch (SQLException e) {    		
+        		System.out.println(e.getMessage());
+        	}
+    	}else {
+    		sql = "INSERT INTO ratings(titleID, clientID,score) VALUES(?,?,?)";
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+        		pstmt.setInt(1, titleID);
+        		pstmt.setInt(2, clientID);
+        		pstmt.setInt(3, score);
+        		pstmt.executeUpdate();
+        		c.commit();
+        	} catch (SQLException e) {    		
+        		System.out.println(e.getMessage());
+        	}
+    	}
+
 	public void close() {
         try {
             c.close();
