@@ -181,6 +181,32 @@ public class Injector {
         	}
     	}
 
+    public Boolean searchUser(Integer clientID) {
+		String sql = "SELECT clientID FROM clients WHERE clientID = "+ clientID;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("clientID");
+			return true;
+		}catch (SQLException e) {
+			return false;		
+		}
+	}
+	
+	public void insertUser(Integer clientid) {
+		String sql= new String();
+    	
+    	if(not searchRating(titleID, clientID)) {
+    		sql = "INSERT INTO clients(clientID) VALUES(clientid)";
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+        		pstmt.executeUpdate();
+        		c.commit();
+        	} catch (SQLException e) {    		
+        		System.out.println(e.getMessage());
+        	}
+    	}
+    	}
+
 	public void close() {
         try {
             c.close();
