@@ -170,6 +170,24 @@ public class Injector {
     	}
 		return result;
 	}
+	
+	public List<String> filterByGenre(String genre) {
+		String sql = "SELECT title FROM movies WHERE genres LIKE "+'"'+"%"+genre+"%"+'"';
+		List<String> result = new ArrayList<String>();
+    	
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		ResultSet rs = pstmt.executeQuery();
+    		c.commit();
+    		while(rs.next()) {
+         
+                String title = rs.getString("title");
+                result.add(title);
+            }
+    	} catch (SQLException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return result;
+	}
 
 	public List<String> filterByActorActress(String name) {
 		String sql = "SELECT title FROM movies JOIN works_in ON movies.titleID=works_in.titleID ";
