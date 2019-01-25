@@ -196,7 +196,7 @@ public class Injector {
 	public void insertUser(Integer clientid) {
 		String sql= new String();
     	
-    	if(not searchRating(titleID, clientID)) {
+    	if(!searchUser(clientid) ){
     		sql = "INSERT INTO clients(clientID) VALUES(clientid)";
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
         		pstmt.executeUpdate();
@@ -205,7 +205,20 @@ public class Injector {
         		System.out.println(e.getMessage());
         	}
     	}
-    	}
+    }
+
+//titleid, clientID y comment
+//NOMBRE TABLA: comments(Hay que crearla)
+    public void insertComments(Integer titleid, Integer clientid, String comments) {
+   		String sql= "INSERT INTO comments(titleID, clientID,comment) VALUES("+titleid+","+clientid+","+comments+")";
+
+       	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+           	pstmt.executeUpdate();
+           	c.commit();
+           } catch (SQLException e) {    		
+          	System.out.println(e.getMessage());
+        }
+   	}
 
 	public void close() {
         try {
