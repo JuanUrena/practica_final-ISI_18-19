@@ -40,6 +40,9 @@ public class Filter {
 	// la película cuyo nombre ha introducido (HTML devuelto al hacer
 	// POST sobre /filter_name).
 	public static String showFilmByName() {
+		
+		Formulario f=new Formulario();
+		Comment c=new Comment();
     	// Para acceder al valor del parametro "film" del form:
     	// req.queryParams("film") => hay que pasarselo a la función que busque en la BD.
     	
@@ -73,9 +76,10 @@ public class Filter {
 							"</tr>" +
 						"</table>";
     	
-    	table = table+Formulario.formulary;
+    	String response = table+ f.formulary;
     	
-    	return table;
+    	response=response+c.commentsFilm("titulo");
+    	return response;
 	}
 	
 	// Método encargado de mostrar al usuario todas las películas estrenadas

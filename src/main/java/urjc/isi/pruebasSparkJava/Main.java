@@ -356,6 +356,9 @@ public class Main {
     	//El constructor para acceder a la base de datos, en el futuro se debe descomentar. 
     	//Comentar para probar en local
     	Injector connector = new Injector("IMDb.db");
+    	
+    	Score score =new Score();
+    	Comment comment =new Comment();
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
     	// Set it to false to improve performance
@@ -401,8 +404,8 @@ public class Main {
         get("/info", Main::infoGet);
         post("/info", Main::infoPost);
         get("/hello", Main::doWork);
-        post("/score",(req, res)-> Score.postScore(req));
-        post("/comment",(req, res)-> Comment.postComment(req));
+        post("/score",(req, res)-> score.postScore(req));
+        post("/comment",(req, res)-> comment.postComment(req));
 
 
         // In this case we use a Java 8 method reference to specify
