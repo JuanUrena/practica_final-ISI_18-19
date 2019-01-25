@@ -456,9 +456,21 @@ public class Main {
 				"</div>" +
 			"</form>" +
         	"<p>*Nota* Si no se sabe el nombre exacto, poner una palabra (p.e. 'Mark' " +
-			"o 'Batman'). Se ofreceran las coincidencias de esa palabra.</p>";
-        	return form; 
-        	//USAR DESPLEGABLE PARA ELEGIR PELI O ACTOR
+			"o 'Batman'). Se ofreceran las coincidencias de esa palabra.</p>" +
+        	
+			"<hr>" + 
+			
+			"<p>Ranking de actores. Introduzca un número. Se obtendrán actores que han " + 
+			"trabajado en x o más películas, el número y los nombres de estas:</p>" +
+			"<form action='/graph_filter_ranking_show' method='post'>" +
+			"<div>" + 
+				"<label for='name'>Número mínimo de películas: </label>" +
+				"<input type='number' name='number'/>" +
+				"<button type='submit'>Enviar</button>" +
+			"</div>" +
+			"</form>"
+			;
+        	return form;
         });
         
         post("/graph_filter_show", (req, res) -> {
@@ -471,6 +483,37 @@ public class Main {
         			"<ul>" + 
         			result + 
         			"</ul>" +
+        			"<br><a href='/'>Volver</a>";
+        });
+        
+        post("/graph_filter_ranking_show", (req, res) -> {
+        	Graph graph = new Graph("Database/film_actors.txt", "/");
+    		String number= req.queryParams("number");
+//    		GraphFuncionality.doRanking(graph, number);
+    		String result = "";
+    		
+    		if (number.equals("")) {
+    			result = "<p>ERROR. Debe introducir un número en el form. Por favor, inténtalo de nuevo.</p>";
+    		}else {
+    			result = "<table>" + 
+    				"<tr>" +
+						"<th>Actor</th>" + 
+						"<th>Número de películas</th>" +
+					"</tr>";
+	
+    			for (String v : GraphFuncionality.doRanking(graph, number)) { //Iterador
+    				if (graph.getter(v) == 0) {
+    					result += "<tr>" + 
+    							"<td>" + v + "</td>" + 
+    							"<td>" + graph.degree(v) + "</td></tr>";
+    				}
+    			}
+    			result += "</table>";
+    		}
+    		
+        	return "<p>Has buscado actores con " + number + " o más películas.</p>" +
+        			"<p>RESULTADO:</p>" +
+        			result + 
         			"<br><a href='/'>Volver</a>";
         });
     }
