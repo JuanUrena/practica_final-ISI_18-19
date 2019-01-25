@@ -9,7 +9,7 @@ public class Comment {
 	//Comentarios
 	
 	//Guardo un nuevo comentario de un usuario hacia una pelicula
-	public String postComment(Request request) throws ClassNotFoundException, URISyntaxException {
+	public String postComment(Request request) {
 		String result = new String("Comentario");
 		String comment=request.queryParams("comment");
 		String user_string=request.queryParams("user");
