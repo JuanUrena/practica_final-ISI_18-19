@@ -149,21 +149,86 @@ public class SlopeOneFilter {
 		setAvgDiff();
 	}
 
-	public void predict(int user) {
-		// Crear predictions para ese usuario determinado.
-/*
-		predictions = [];
 
-		for(i=0;i<npelis;i++) {
-			peli= pelis[i];
+
+
+/*
+	public int sumaWeights(Map<Integer, Map<Integer, Integer>> weights) {
+
+		int suma = 0;
+
+		for(Map.Entry<Integer, Map<Integer, Integer>> entry: weights.entrySet()) {
+			//Map<Integer, Integer> ;
+		}
+		return suma;
+	}
+
+
+	public int predictOneMovie() {
+
+		this.predictions = new HashMap<Integer,Map<Integer,Double>>();
+		Map<Integer, Double> moviesUser = new HashMap<Integer, Double>();
+
+		//Creamos user_movies
+		for(Map.Entry<Integer, Map<Integer, Double>> entry: data.entrySet()) {
+			Map<Integer, Double> user_movies = entry.getValue();
+		}
+
+		Iterator it = user_movies.entrySet().iterator();
+
+		// Cantidad de diferencias y de veces que hay diferencias
+                ndiffMap = this.diffMap.size();
+		nweightMap = this.weightMap.size();
+
+                if(ndiffMap == nweightMap){
+                        int total = 0;
+                        int n = sumaWeigths(this.weightMap);
+			int i = 0;
+			int j = 0;
+
+				for(Map.Entry<Integer, Map<Integer, Integer>> entry: this.weightMap.entrySet()) {
+                                	Map<Integer, Integer> weights = entry.getValue();
+					for(Map.Entry<Integer, Integer> weight = weights.entrySet()) {
+						int frec = weight.getValue();
+					}
+				}
+
+				for(Map.Entry<Integer, Map<Integer, Double>> entry: this.diffMap.entrySet()) {
+					Map<Integer, Double> diffs = entry.getValue();
+					for(Map.Entry<Integer, Double> diff = diffs.entrySet()) {
+						double diff = diff.getValue();
+					}
+				}
+
+			//	total = total + (frec * (diff + );
+                       
+
+                        total = total/n;
+
+                }else{
+                        System.out.println("Error en los tamaños de los arrays");
+                }
+
+                return total;
+        }
+
+
+
+	public void predict(int user) {
+
+		while(it.hasNext()) {
+			peli= ;
 			if(noPuntuada(user, peli)){
-				predictions.add(predictPuntPeli(user, peli));
+				predictions.add(predictOneMovie(user, peli));
 			}else{
 				predictions.add(valorPuntuadoPorElUsuario);
+
 			}
 		}
-*/
 	}
+*/
+
+
 
 	public int getIndex(int user, double value) {
 		int pos = 0;
