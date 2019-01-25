@@ -426,18 +426,20 @@ public class Main {
         	String nodos = String.format("%d", graph.V());
         	String edges = String.format("%d", graph.E());
         	String maxDegree = String.format("%d", SmallWorld.maxDegree(graph));
+        	String maxDegreeName = SmallWorld.maxDegreeName(graph);
+        	String minDegree = String.format("%d", SmallWorld.minDegree(graph));
+        	String minDegreeName = SmallWorld.minDegreeName(graph);
         	String averageDegree = String.format("%.3f", SmallWorld.averageDegree(graph));
-//        	String length = String.format("%d", SmallWorld.pathLength(graph, "King Kong"));
-        	
+        	//String length = String.format("%d", SmallWorld.pathLength(graph, "King Kong"));
+        	//El método de arriba es muy lento computacionalmente (tarda alrededor de 1 min).
         	
         	String result = "<p>Información sobre nuestro grafo:</p>" + 
         			"<ul>" + 
         			"<li>Número de nodos (vértices) = " + nodos + "</li>" +
         			"<li>Número de enlaces (edges) = " + edges + "</li>" +
-        			"<li>Grado máximo (nodo con más vecinos) = " + maxDegree + "</li>" +
+        			"<li>Grado máximo (nodo con más vecinos) = " + maxDegree + " --> " + maxDegreeName +  ".</li>" +
+        			"<li>Grado mínimo (nodo con menos vecinos) = " + minDegree + " --> " + minDegreeName +  ".</li>" +
         			"<li>Grado medio = " + averageDegree + "</li>" +
-//        			"<li>Longitud máxima dada un actor o película (long max del subgrafo): " +
-//        				"<br>Ejemplo usado: 'King Kong' --> MaxLength = " + length + "</li>" +
         			"</ul>";
         	return result;
         });
