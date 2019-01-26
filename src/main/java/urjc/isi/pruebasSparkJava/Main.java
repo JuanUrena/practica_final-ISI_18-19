@@ -22,6 +22,7 @@ public class Main {
     // Connection to the SQLite database. Used by insert and select methods.
     // Initialized in main
     private static Connection connection;
+    private static String last_added;
 	
     static int getHerokuAssignedPort() {
     	ProcessBuilder processBuilder = new ProcessBuilder();
@@ -229,6 +230,12 @@ public class Main {
     					"<button type='submit'>Add Films</button>" +
     				"</div>" +
     			"</form>" +
+			"<form action='/showlastadded' method='get'>" +
+				"<div class='button'>" +
+					"Últimas películas añadidas: <br/>" +
+					"<button type='submit'>Show Last Added</button>" +
+				"</div>" +
+			"</form>" +
     			"<a href='/filter'>Búsqueda de películas</a>" +
     			"<br><br>" +
     			"<p>Grafos:</p>" +
@@ -333,11 +340,11 @@ public class Main {
         //Incluido formulario para añadir películas
         
         post("/add_films", (req, res) -> {
-        	String result = "Has añadido ->"
-        		+ "</p>pelicula: " + req.queryParams("film")
+        	last_added = "</p>pelicula: " + req.queryParams("film")
         		+ "</p>year: " + req.queryParams("year") 
         		+ "</p>Género: " + req.queryParams("genres")
         		+ "</p>Actor: " + req.queryParams("actor");
+        	String result = "Has añadido ->" + last_added;
         	insertFilm(connection, req.queryParams("film")
         			,req.queryParams("year"), req.queryParams("genres"));
         	String title_ID = selectTitle_ID(connection, "movies", req.queryParams("film"), req.queryParams("year"), req.queryParams("genres"));
@@ -346,7 +353,19 @@ public class Main {
         	//insertWorks_In(connection, title_ID, name_ID);
         	return result;	
         });
-        
+
+        get("/showlastadded", (req, res) -> {
+        	if (last_added == null) {
+        		return "No se han añadido películas" +
+        				"</p>Esta página mostrará más peliculas recientemente añadidas" +
+        				"cuando dispongamos de acceso a la base de datos</p>";
+        	}else {
+        		return "<div style='color:#1A318C'><b>ÚLTIMA PELÍCULA AÑADIDA:</b></p>" +  last_added +
+        				"</p>Esta página mostrará más peliculas recientemente añadidas" +
+        				"cuando dispongamos de acceso a la base de datos</p>";
+		}
+        });
+
         // Recurso /filter encargado de la funcionalidad del filtrado de películas.
         get("/filter", (req, res) -> Filter.showFilterMenu());
         
