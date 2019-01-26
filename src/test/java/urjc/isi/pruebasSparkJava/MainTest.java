@@ -15,6 +15,8 @@ import java.sql.SQLException;
 
 public class MainTest {
 	
+	private static Connection connection;
+
 	private String s;
 	@Before //Set up - called before every test method.
 	public void setUp()
