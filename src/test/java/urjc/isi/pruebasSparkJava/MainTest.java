@@ -14,7 +14,7 @@ public class MainTest {
     		try {
       			connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
       			Bbdd.eraseBBDD(connection); // Prepare SQL to create table
-    		} catch(SQLException e {
+    		} catch(SQLException e) {
 	      		System.err.println(e.getMessage());
 	    		}
 		}
