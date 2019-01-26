@@ -1,9 +1,0 @@
--- DOCUMENTO EXPLICATIVO DE LAS PRUEBAS CAJA NEGRA NECESARIAS DE FUNCIONES PARA AÑADIR PELÍCULAS --
-
--Main.insert()
-
--Main.insertFilm()
-
--Main.insertActor()
-
--Main.insertWorks_In()
