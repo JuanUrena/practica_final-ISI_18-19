@@ -42,7 +42,7 @@ public class Comment {
 			throw new IllegalArgumentException("Pelicula invalida");
 		}else {
 			String coments [][]= new String[1][1];
-			String result=commentToString(coments);
+			//String result=commentToString(coments);
 			return "comentario";
 		}
 	}
@@ -50,16 +50,16 @@ public class Comment {
 	public String commentToString(String matrix_coment[][])
 	{
 		String text = "<h1>Comentarios que tiene la película:</h1>";
-		if (matrix_coment.length==0) {
-			throw new NullPointerException("No tiene comentarios");
-		}else {
-			for (int x = 0; x < matrix_coment.length; x++){
-				String br = " ";
-				text += br + matrix_coment[x][0] + ":" + matrix_coment[x][1];
-			}
-			text +=" ";
-			return text;
-		}
+		return text;
+		//if (matrix_coment.length==0) {
+		//	throw new NullPointerException("No tiene comentarios");
+		//}else {
+		//	for (int x = 0; x < matrix_coment.length; x++){
+		//		String br = " ";
+		//		text += br + matrix_coment[x][0] + ":" + matrix_coment[x][1];
+		//	}
+		//	text +=" ";
+		//	return text;
+		//}
 	}
-
 }
