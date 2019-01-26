@@ -69,13 +69,12 @@ public class SlopeOneFilter {
 
 	//Introduzco las diferencias totales de cada pareja de películas: movie_A movie_B total_diff
 	public void setDiffMap(int movie_A, int movie_B, Double diff, Map<Integer,Double> movie_diff) {
-		// if(!diffMap.containsKey(movie_A)) {
-		if(this.diffMap.get(movie_A) == null) {
+		if(!diffMap.containsKey(movie_A)) {
 			movie_diff = new HashMap<Integer,Double>();
 			movie_diff.put(movie_B,diff);
-			this.diffMap.put(movie_A,movie_diff);
+			diffMap.put(movie_A,movie_diff);
 		}else{
-			movie_diff = this.diffMap.get(movie_A);
+			movie_diff = diffMap.get(movie_A);
 			if(movie_diff.get(movie_B) == null) {
 				movie_diff.put(movie_B,diff);
 			}else {
@@ -86,12 +85,12 @@ public class SlopeOneFilter {
 
 	//Introduzco la frecuencia de cada pareja de peliculas: movie_A movie_B weight
 	public void setWeightMap(int movie_A, int movie_B,Map<Integer,Integer> movie_weight) {
-		if(this.weightMap.get(movie_A) == null) {
+		if(!weightMap.containsKey(movie_A)) {
 			movie_weight = new HashMap<Integer,Integer>();
 			movie_weight.put(movie_B,1);
-			this.weightMap.put(movie_A,movie_weight);
+			weightMap.put(movie_A,movie_weight);
 		}else {
-			movie_weight = this.weightMap.get(movie_A);
+			movie_weight = weightMap.get(movie_A);
 			if(movie_weight.get(movie_B) == null) {
 				movie_weight.put(movie_B,1);
 			}else {
@@ -102,11 +101,11 @@ public class SlopeOneFilter {
 
 	//Calculo y establezco la diferencia promedio de cada pareja apoyandome de la frecuencia
 	public void setAvgDiff() {
-		for(Map.Entry<Integer, Map<Integer, Double>> entry: this.diffMap.entrySet()) {
+		for(Map.Entry<Integer, Map<Integer, Double>> entry: diffMap.entrySet()) {
 			int movie_A = entry.getKey();
 			Map<Integer,Double> movie = entry.getValue();
 			for(Map.Entry<Integer, Double> my_movie: movie.entrySet()) {
-				Map<Integer,Integer> movie_weight = this.weightMap.get(movie_A);
+				Map<Integer,Integer> movie_weight = weightMap.get(movie_A);
 				int movie_B = my_movie.getKey();
 				int weight = movie_weight.get(movie_B);
 				my_movie.setValue(my_movie.getValue()/weight);
@@ -116,20 +115,14 @@ public class SlopeOneFilter {
 
 	public void buildMaps(){
 		// Crear diffMap y weightMap a partir de data.
-		this.diffMap = new HashMap<Integer,Map<Integer,Double>>();
-		this.weightMap = new HashMap<Integer,Map<Integer,Integer>>();
+		diffMap = new HashMap<Integer,Map<Integer,Double>>();
+		weightMap = new HashMap<Integer,Map<Integer,Integer>>();
 		Map<Integer,Double> movie_B_diff = new HashMap<Integer,Double>();
 		Map<Integer,Integer> movie_B_weight = new HashMap<Integer,Integer>();
 
-		
-		// for(Map<Integer, Double> user_movies: data.values()) {
-		// 	for(Entry<Integer, Double> movie: user_movies.entrySet()) {
-		// 		.......
-		// }
 
-		for(Map.Entry<Integer, Map<Integer, Double>> entry: data.entrySet()) {
-			Map<Integer,Double> user_movies = entry.getValue();
-			for(Map.Entry<Integer, Double> movie: user_movies.entrySet()) {
+		for(Map<Integer, Double> user_movies: data.values()) {
+			for(Entry<Integer, Double> movie: user_movies.entrySet()) {
 				int movie_A = movie.getKey();
 				for(Map.Entry<Integer, Double> other_movie: user_movies.entrySet()) {
 					int movie_B = other_movie.getKey();
