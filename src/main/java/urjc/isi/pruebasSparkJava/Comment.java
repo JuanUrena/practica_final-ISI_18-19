@@ -43,7 +43,7 @@ public class Comment {
 		}else {
 			String coments [][]= new String[1][1];
 			String result=commentToString(coments);
-			return result;
+			return "comentario";
 		}
 	}
 	
