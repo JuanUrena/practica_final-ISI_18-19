@@ -181,7 +181,8 @@ public class Main {
     }
     
     
-    public static Connection getConnection() {
+    //getter para connection (utilizado en GraphFuncionality.namechecker(connection,name) en mi caso
+    public static Connection getConnection() { 
     	return connection;
     }
     
@@ -491,7 +492,6 @@ public class Main {
         post("/graph_filter_ranking_show", (req, res) -> {
         	Graph graph = new Graph("Database/film_actors.txt", "/");
     		String number= req.queryParams("number");
-//    		GraphFuncionality.doRanking(graph, number);
     		String result = "";
     		
     		if (number.equals("")) {
