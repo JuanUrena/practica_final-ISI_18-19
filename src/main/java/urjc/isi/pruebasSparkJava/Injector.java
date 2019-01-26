@@ -109,13 +109,80 @@ public class Injector {
 	}
 
 	public Integer meanScores(String film) {
-		String sql = "SELECT avg(score)  FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"' + "GROUP BY ratings.titleID";
+		String sql = "SELECT avg(score) FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"' + " GROUP BY ratings.titleID";
     	Integer result = 0;
+    	
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
-    		rs.next();
-    		result = rs.getInt("score");
+    		result = rs.getInt("avg(score)");
+    	} catch (SQLException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return result;
+	}
+	
+	public Integer contar(String name_table,String name_col) {
+		String sql = "SELECT COUNT("+name_col+") FROM "+ name_table;
+		Integer result = 0;
+		
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		ResultSet rs = pstmt.executeQuery();
+    		c.commit();
+    		result = rs.getInt("COUNT("+name_col+")");
+    	} catch (SQLException e) {
+			
+    		System.out.println(e.getMessage());
+    	}
+		return result;
+	}
+	
+	public String[][] userandcomments(String film){
+		String sql = "SELECT comment,clientID FROM Comments JOIN movies ON movies.titleID = Comments.titleID JOIN clients ON clients.clientID=movies.clientID WHERE movies.title LIKE "+"+film+"+" GROUP BY clientID";
+		
+		String name_col= "clientID";
+		String name_col2= "commentID";
+		String table = "Comments";
+		String table2 = "clients";
+		Integer total_comment = 0;
+		Integer total_clients = 0;
+		total_comment = contar(table,name_col);
+		total_clients = contar(table2,name_col2);
+		String[][] result = new String[total_clients][total_comment];
+		Integer aux = 0;
+		
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		ResultSet rs = pstmt.executeQuery();
+    		c.commit();
+
+    		while(rs.next()) {
+    			aux = rs.getInt("ClientID");
+    			for (int i = 0; i< total_comment;i++) {
+    				if (result[aux-1][i] == null) {
+    					result[aux-1][i] = rs.getString("comment");
+    					break;
+    				}
+    			}
+   		}
+		} catch (SQLException e) {
+			
+    		System.out.println(e.getMessage());
+    	}
+		return result;
+	}
+	
+	public List<String> filterByGenre(String genre) {
+		String sql = "SELECT title FROM movies WHERE genres LIKE "+'"'+"%"+genre+"%"+'"';
+		List<String> result = new ArrayList<String>();
+    	
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		ResultSet rs = pstmt.executeQuery();
+    		c.commit();
+    		while(rs.next()) {
+         
+                String title = rs.getString("title");
+                result.add(title);
+            }
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
     	}
