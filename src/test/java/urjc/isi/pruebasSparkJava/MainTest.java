@@ -44,7 +44,7 @@ public class MainTest {
 
 	//Test1: insert
 	@Test (expected = NullPointerException.class)
-	public void testInsertNullMovie()
+	public void testInsertNull()
 	{
 		Main.insert(connection, null, null);
 	}
