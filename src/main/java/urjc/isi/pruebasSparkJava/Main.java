@@ -333,10 +333,10 @@ public class Main {
     		"<form action='/add_films' method='post'>" +
     		"<label for='actor'>Actor: </label>" + 
     		"<input type='text' name='actor' id='actor'" +
-    		"pattern=[A-Za-z]{0,}>" +
+    		"pattern=[A-Za-z ]{0,}>" +
     		"<p><input type='submit' value='Enviar'></p>" +
     		"</form>"
-    		+ "<p>Implementada funcionalidad a espera de solucionar problemas con upload films debido al límite de peliculas</p>");
+    		+ "<p>Implementada funcionalidad a espera de solucionar problemas con la base de datos</p>");
         //Incluido formulario para añadir películas
         
         post("/add_films", (req, res) -> {
@@ -357,11 +357,11 @@ public class Main {
         get("/showlastadded", (req, res) -> {
         	if (last_added == null) {
         		return "No se han añadido películas" +
-        				"</p>Esta página mostrará más peliculas recientemente añadidas" +
+        				"</p>Esta página mostrará más peliculas recientemente añadidas " +
         				"cuando dispongamos de acceso a la base de datos</p>";
         	}else {
         		return "<div style='color:#1A318C'><b>ÚLTIMA PELÍCULA AÑADIDA:</b></p>" +  last_added +
-        				"</p>Esta página mostrará más peliculas recientemente añadidas" +
+        				"</p>Esta página mostrará más peliculas recientemente añadidas " +
         				"cuando dispongamos de acceso a la base de datos</p>";
 		}
         });
