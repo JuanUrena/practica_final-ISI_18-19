@@ -28,7 +28,7 @@ public class Injector {
 			String password = dbUri.getUserInfo().split(":")[1];
 			password="9af656a22a347d97f0cb2cc44fd36f562d903b70252a2cd57a9c85de29d935a5";
 		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPath();
-			dbUrl="ec2-54-235-67-106.compute-1.amazonaws.com:5432/d20eronoadp48j";
+		    dbUrl="jdbc:postgresql://ec2-54-235-67-106.compute-1.amazonaws.com:5432/d20eronoadp48j";		   
 		    c = DriverManager.getConnection(dbUrl, username, password);
 			c.setAutoCommit(false);
 		}catch (SQLException e) {
