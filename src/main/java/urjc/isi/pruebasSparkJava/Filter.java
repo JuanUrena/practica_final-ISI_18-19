@@ -41,14 +41,14 @@ public class Filter {
 	// Método encargado de mostrar al usuario toda la información sobre
 	// la película cuyo nombre ha introducido (HTML devuelto al hacer
 	// POST sobre /filter_name).
-	public static String showFilmByName(Injector inj, Request req) {
+	public static String showFilmByName(Injector conn, Request req) {
 		
 		Formulario f=new Formulario();
 		Comment c=new Comment();
     	// Para acceder al valor del parametro "film" del form:
     	// req.queryParams("film") => hay que pasarselo a la función que busque en la BD.
-    	List<String> infoFields = inj.filterByName(req.queryParams("film"));
-		
+    	List<String> infoFields = conn.filterByName(req.queryParams("film"));
+		System.out.println("CAMPOS:" + infoFields);
     	// Los siguientes valores están puestos a modo de prueba. Hay que
     	// sustituirlos por los valores que devuelva la función que busque en la BD.
     	String titulo = "titulo de prueba";
