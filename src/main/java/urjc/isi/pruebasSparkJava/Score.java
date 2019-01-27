@@ -17,16 +17,11 @@ public class Score {
 			}else if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				try {
-					Injector connector = new Injector("JDBC_DATABASE_URL");
-					connector.insertUser(user);
-					//int filmID=connector.filterByName(film)
-					//Problema, no tengo manera de sacar el idfilm
-					connector.insertRating(2, user, score);
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Injector connector = new Injector("JDBC_DATABASE_URL");
+				connector.insertUser(user);
+				//int filmID=connector.filterByName(film)
+				//Problema, no tengo manera de sacar el idfilm
+				connector.insertRating(2, user, score);
 				
 			return ("Puntuacion añadida");
 			}
@@ -37,16 +32,9 @@ public class Score {
 			if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				try {
-					Injector connector = new Injector("JDBC_DATABASE_URL");
-					int media =connector.meanScores(film);
-					return media;
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-					//Lanzar error de bbdd
-					//Quitar este return esta puesto para que no de errores
-					return 0;
-				}
+				Injector connector = new Injector("JDBC_DATABASE_URL");
+				int media =connector.meanScores(film);
+				return media;
 			}
 		}
 		
@@ -57,12 +45,7 @@ public class Score {
 			}else if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				try {
-					Injector connector = new Injector("JDBC_DATABASE_URL");
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Injector connector = new Injector("JDBC_DATABASE_URL");
 			//Llamar a la función para cambiar la puntuacion de la pelicula, pedir. 
 			//Parace no estar hecha
 			}

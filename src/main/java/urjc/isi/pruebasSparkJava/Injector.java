@@ -2,15 +2,6 @@ package urjc.isi.pruebasSparkJava;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-import javax.servlet.MultipartConfigElement;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.net.URISyntaxException;
-import java.net.URI;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -20,20 +11,8 @@ public class Injector {
 
 	private static Connection c;
 
-	public Injector(String name) throws URISyntaxException{
-		try {
-//			URI dbUri = new URI(System.getenv(name));
-//			String username = dbUri.getUserInfo().split(":")[0];
-//			String password = dbUri.getUserInfo().split(":")[1];
-//			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-//		    c = DriverManager.getConnection(dbUrl, username, password);
-			
-//			URI dbUri = new URI(System.getenv(name));
-//		    String username = dbUri.getUserInfo().split(":")[0];
-//		    String password = dbUri.getUserInfo().split(":")[1];
-//		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-//		    c = DriverManager.getConnection(dbUrl, username, password);
-		    
+	public Injector(String name) {
+		try {		    
 		    String dbUrl = System.getenv(name);
 		    c = DriverManager.getConnection(dbUrl);
 
