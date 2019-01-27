@@ -224,22 +224,28 @@ public class SlopeOneFilter {
                 return total;
         }
 
+*/
 
 
 	public void predict(int user) {
 
-		while(it.hasNext()) {
-			peli= ;
-			if(noPuntuada(user, peli)){
-				predictions.add(predictOneMovie(user, peli));
-			}else{
-				predictions.add(valorPuntuadoPorElUsuario);
+		predictions2 = new HashMap<Integer, Double>();
 
+		for(Map.Entry<Integer, Map<Integer, Double>> entry: data.entrySet()) {
+			Map<Integer, Double> user_movies = entry.values();
+		}
+
+		Map<Integer, Double> all_movies = new HashMap<Integer, Double>();
+		all_movies = getAllMovies(data);
+
+		for(Map.Entry<Integer, Double> movieKey: all_movies.keySet()) {
+			if(!predictions2.containsKey(movieKey)){
+				predictions2.put(movieKey, predictOneMovie());
 			}
 		}
 	}
 
-*/
+
 
 
 	public int getIndex(int user, double value) {
