@@ -8,7 +8,7 @@ import spark.Response;
 public class Comment {
 	//Comentarios
 	
-	public String newComment(String text, int user, String film) throws ClassNotFoundException {
+	public String newComment(String text, int user, String film) {
 		if (text.equals(null)) {
 			throw new IllegalArgumentException("Comentario invalido");
 		}else if (user<0) {
@@ -67,7 +67,7 @@ public class Comment {
 	}
 	
 	//Guardo un nuevo comentario de un usuario hacia una pelicula
-	public String postComment(Request request) throws ClassNotFoundException {
+	public String postComment(Request request) {
 		String comment=request.queryParams("comment");
 		
 		String user_string=request.queryParams("user");

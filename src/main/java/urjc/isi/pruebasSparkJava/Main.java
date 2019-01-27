@@ -197,7 +197,7 @@ public class Main {
     	// connection will be reused by every query in this simplistic example
     	//El constructor para acceder a la base de datos, en el futuro se debe descomentar. 
     	//Comentar para probar en local
-    	Injector connector = new Injector("DATABASE_URL");
+    	Injector connector = new Injector("JDBC_DATABASE_URL");
 //    	connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
     	Score score =new Score();
     	Comment comment =new Comment();

@@ -42,15 +42,15 @@
       <artifactId>spark-core</artifactId>
       <version>2.7.2</version>
     </dependency>
-    <dependency>
+    <!-- <dependency>
         <groupId>org.xerial</groupId>
         <artifactId>sqlite-jdbc</artifactId>
         <version>3.21.0</version>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>9.3-1103-jdbc3</version>
+      <version>9.4-1206-jdbc4</version>
     </dependency>
   </dependencies>
 
