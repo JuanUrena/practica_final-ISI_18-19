@@ -145,18 +145,20 @@ public class SlopeOneFilter {
 
 
 
-/*
+
 	public int sumaWeights(Map<Integer, Map<Integer, Integer>> weights) {
 
 		int suma = 0;
 
-		for(Map.Entry<Integer, Map<Integer, Integer>> entry: weights.entrySet()) {
-			//Map<Integer, Integer> ;
+		for(Map.Entry<Integer, Map<Integer, Integer>> entry: weights.values()) {
+			for(Map.Entry<Integer, Integer> weight: entry.values()) {
+				suma = suma + weight;
+			}
 		}
 		return suma;
 	}
 
-
+/*
 	public int predictOneMovie() {
 
 		this.predictions = new HashMap<Integer,Map<Integer,Double>>();
@@ -194,7 +196,7 @@ public class SlopeOneFilter {
 				}
 
 			//	total = total + (frec * (diff + );
-                       
+
 
                         total = total/n;
 
@@ -219,8 +221,8 @@ public class SlopeOneFilter {
 			}
 		}
 	}
-*/
 
+*/
 
 
 	public int getIndex(int user, double value) {
