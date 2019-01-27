@@ -239,7 +239,7 @@ public class SlopeOneFilter {
 		all_movies = getAllMovies(data);
 
 		for(Map.Entry<Integer, Double> movieKey: all_movies.keySet()) {
-			if(!predictions2.containsKey(movieKey)){
+			if(!user_movies.containsKey(movieKey)){
 				predictions2.put(movieKey, predictOneMovie());
 			}
 		}
