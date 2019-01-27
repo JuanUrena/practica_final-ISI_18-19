@@ -18,7 +18,7 @@ public class Score {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
 				try {
-					Injector connector = new Injector("jdbc:sqlite:Database/IMDb.db");
+					Injector connector = new Injector("JDBC_DATABASE_URL");
 					connector.insertUser(user);
 					//int filmID=connector.filterByName(film)
 					//Problema, no tengo manera de sacar el idfilm
@@ -38,7 +38,7 @@ public class Score {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
 				try {
-					Injector connector = new Injector("jdbc:sqlite:Database/IMDb.db");
+					Injector connector = new Injector("JDBC_DATABASE_URL");
 					int media =connector.meanScores(film);
 					return media;
 				} catch (URISyntaxException e) {
@@ -57,6 +57,12 @@ public class Score {
 			}else if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
+				try {
+					Injector connector = new Injector("JDBC_DATABASE_URL");
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			//Llamar a la función para cambiar la puntuacion de la pelicula, pedir. 
 			//Parace no estar hecha
 			}

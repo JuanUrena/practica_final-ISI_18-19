@@ -19,7 +19,7 @@ public class Comment {
 		//Obtengo id de la pelicula
 		//Almaceno el nuevo comentario
 			try {
-				Injector connector = new Injector("jdbc:sqlite:Database/IMDb.db");
+				Injector connector = new Injector("JDBC_DATABASE_URL");
 				connector.insertUser(user);
 				connector.insertComments(4, user, text);
 				return "Comentario almacenado";
@@ -38,7 +38,7 @@ public class Comment {
 			throw new IllegalArgumentException("Pelicula invalida");
 		}else{
 			try {
-				Injector connector = new Injector("jdbc:sqlite:Database/IMDb.db");
+				Injector connector = new Injector("JDBC_DATABASE_URL");
 				
 				String comments[][]=connector.userandcomments(film);
 				
