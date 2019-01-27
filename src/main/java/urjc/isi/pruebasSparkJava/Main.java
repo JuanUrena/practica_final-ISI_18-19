@@ -3,6 +3,7 @@ package urjc.isi.pruebasSparkJava;
 import static spark.Spark.*;
 import spark.Request;
 import spark.Response;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -196,9 +197,20 @@ public class Main {
     	// connection will be reused by every query in this simplistic example
     	//El constructor para acceder a la base de datos, en el futuro se debe descomentar. 
     	//Comentar para probar en local
+<<<<<<< HEAD
+//    	Injector connector = new Injector("DATABASE_URL");
+=======
     	Injector connector = new Injector("JDBC_DATABASE_URL");
+>>>>>>> f86213a530cbb3c6dbeac1442843df6eb96525ca
 //    	connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
     	
+		URI dbUri = new URI(System.getenv("DATABASE_URL"));
+		String username = dbUri.getUserInfo().split(":")[0];
+		String password = dbUri.getUserInfo().split(":")[1];
+		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+		connection = DriveManager.getConnection(dbUrl, username, password);
+
+
     	Score score =new Score();
     	Comment comment =new Comment();
 
