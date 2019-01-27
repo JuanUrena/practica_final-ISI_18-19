@@ -151,7 +151,7 @@ public class SlopeOneFilter {
 
 
 
-
+/*
 	public int sumaWeights(Map<Integer, Map<Integer, Integer>> weights, int movieKey) {
 
 		int suma = 0;
@@ -229,7 +229,7 @@ public class SlopeOneFilter {
 
 
 
-
+*/
 	public int getIndex(int user, double value) {
 		int pos = 0;
 		ListIterator<Node> itrator = predictions.get(user).listIterator();
