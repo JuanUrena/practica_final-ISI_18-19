@@ -196,7 +196,7 @@ public class Main {
     	// connection will be reused by every query in this simplistic example
     	//El constructor para acceder a la base de datos, en el futuro se debe descomentar. 
     	//Comentar para probar en local
-    	//Injector connector = new Injector("DATABASE_URL");
+    	Injector connector = new Injector("DATABASE_URL");
 //    	connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
     	
     	Score score =new Score();
@@ -371,8 +371,8 @@ public class Main {
         get("/filter", (req, res) -> Filter.showFilterMenu());
         
         // Recurso /filter_name encargado de mostrar la info de una película dado el nombre.
-        post("/filter_name", (req, res) -> Filter.showFilmByName(req));
-        //Poner el injector aqui antes de req, 
+        post("/filter_name", (req, res) -> Filter.showFilmByName(connector, req));
+        
         // Recurso /filter_year encargado de mostrar todas las películas dado un año.
         post("/filter_year", (req, res) -> Filter.showFilmByYear(req));
         
