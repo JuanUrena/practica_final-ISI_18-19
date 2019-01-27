@@ -20,7 +20,7 @@ public class Injector {
 
 	private static Connection c;
 
-	public Injector(String name) throws URISyntaxException{
+	public Injector(String name) throws URISyntaxException, ClassNotFoundException{
 		try {
 //			URI dbUri = new URI(System.getenv(name));
 //			String username = dbUri.getUserInfo().split(":")[0];
@@ -28,13 +28,15 @@ public class Injector {
 //			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 //		    c = DriverManager.getConnection(dbUrl, username, password);
 			
-			URI dbUri = new URI(System.getenv(name));
-
-		    String username = dbUri.getUserInfo().split(":")[0];
-		    String password = dbUri.getUserInfo().split(":")[1];
-		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-
-		    c = DriverManager.getConnection(dbUrl, username, password);
+//			URI dbUri = new URI(System.getenv(name));
+//		    String username = dbUri.getUserInfo().split(":")[0];
+//		    String password = dbUri.getUserInfo().split(":")[1];
+//		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+//		    c = DriverManager.getConnection(dbUrl, username, password);
+		    
+		    String dbUrl = System.getenv("JDBC_DATABASE_URL");   
+		    Class.forName("org.postgresql.Driver");
+		    c = DriverManager.getConnection(dbUrl); 
 
 			c.setAutoCommit(false);
 		}catch (SQLException e) {

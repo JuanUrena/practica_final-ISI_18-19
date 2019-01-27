@@ -50,7 +50,8 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.2.1</version>
+      <version>42.2.5</version>
+      <type>bundle</type>
     </dependency>
   </dependencies>
 
@@ -68,23 +69,23 @@
     <plugin>
       <artifactId>maven-assembly-plugin</artifactId>
       <executions>
-      <execution>
-      <phase>package</phase>
-      <goals>
-      <goal>single</goal>
-      </goals>
-      </execution>
+        <execution>
+          <phase>package</phase>
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
       </executions>
       <configuration>
-      <descriptorRefs>
-      <!-- This tells Maven to include all dependencies -->
-      <descriptorRef>jar-with-dependencies</descriptorRef>
-      </descriptorRefs>
-      <archive>
-      <manifest>
-      <mainClass>urjc.isi.pruebasSparkJava.Main</mainClass>
-      </manifest>
-      </archive>
+        <descriptorRefs>
+          <!-- This tells Maven to include all dependencies -->
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+        <archive>
+          <manifest>
+            <mainClass>urjc.isi.pruebasSparkJava.Main</mainClass>
+          </manifest>
+        </archive>
       </configuration>
     </plugin>
     <plugin>
@@ -92,12 +93,12 @@
       <artifactId>heroku-maven-plugin</artifactId>
       <version>0.4.4</version>
       <configuration>
-      <jdkVersion>1.8</jdkVersion>
-      <appName>pfinalisi</appName>
-      <processTypes>
-      <!-- Tell Heroku how to launch your application. -->
-      <web>java -jar ./target/pruebasSparkJava-0.0.1-jar-with-dependencies.jar</web>
-      </processTypes>
+        <jdkVersion>1.8</jdkVersion>
+        <appName>pfinalisi</appName>
+        <processTypes>
+          <!-- Tell Heroku how to launch your application. -->
+          <web>java -jar ./target/pruebasSparkJava-0.0.1-jar-with-dependencies.jar</web>
+        </processTypes>
       </configuration>
     </plugin>
     <plugin>
