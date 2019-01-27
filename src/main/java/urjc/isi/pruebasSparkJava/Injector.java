@@ -22,6 +22,7 @@ public class Injector {
 
 	public Injector(String name) throws URISyntaxException{
 		try {
+			System.out.println("DATABASE_URL:" + System.getenv(name));
 			//URI dbUri = new URI(System.getenv(name));
 			//String username = dbUri.getUserInfo().split(":")[0];
 			String username="ziziqewgavwldn";
