@@ -210,6 +210,28 @@ public class Injector {
     	return result;
 	}
 	
+	public void makeDataHashMap(Map<Integer, Map<Integer, Double>> data) {
+		String sql = "SELECT * FROM ratings ORDER BY clientid;";
+
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+			Integer titleid = rs.getInt("titleid");
+			Integer clientid = rs.getInt("clientid");
+			Double score = rs.getDouble("score");
+
+			if (!data.containsKey(clientid)) {
+				data.put(clientid, new HashMap<Integer, Double>());
+			}
+
+			data.get(clientid).put(titleid, score);
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 
     public Boolean searchRating(Integer titleID, Integer clientID) {
 		String sql = "SELECT score FROM ratings WHERE titleID = "+ titleID;
