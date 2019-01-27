@@ -12,10 +12,14 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URI;
 
+import java.util.Map;
+import java.util.HashMap;
+
+
 public class Injector {
-	
+
 	private static Connection c;
-	
+
 	public Injector(String name) throws URISyntaxException{
 		try {
 			URI dbUri = new URI(System.getenv(name));
@@ -35,7 +39,7 @@ public class Injector {
 	public List<String> filterByName(String film) {
 		String sql = "SELECT * FROM movies WHERE title = "+'"'+film+'"';
 		List<String> result = new ArrayList<String>();
-    	
+
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
@@ -61,7 +65,7 @@ public class Injector {
 	public List<String> filterByYear(String year) {
 		String sql = "SELECT * FROM movies WHERE year = "+'"'+year+'"';
 		List<String> result = new ArrayList<String>();
-    	
+
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
@@ -78,7 +82,7 @@ public class Injector {
 	public List<String> filterByDuration(Integer minutes) {
 		String sql = "SELECT * FROM movies WHERE runtimeMinutes <= "+minutes;
 		List<String> result = new ArrayList<String>();
-    	
+
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
@@ -95,7 +99,7 @@ public class Injector {
 	public List<String> filterByRating(Double rating) {
 		String sql = "SELECT * FROM movies WHERE averageRating >= "+rating;
 		List<String> result = new ArrayList<String>();
-    	
+
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
@@ -112,7 +116,7 @@ public class Injector {
 	public Integer meanScores(String film) {
 		String sql = "SELECT avg(score) FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"' + " GROUP BY ratings.titleID";
     	Integer result = 0;
-    	
+
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
@@ -122,25 +126,25 @@ public class Injector {
     	}
     	return result;
 	}
-	
+
 	public Integer contar(String name_table,String name_col) {
 		String sql = "SELECT COUNT("+name_col+") FROM "+ name_table;
 		Integer result = 0;
-		
+
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
     		result = rs.getInt("COUNT("+name_col+")");
     	} catch (SQLException e) {
-			
+
     		System.out.println(e.getMessage());
     	}
 		return result;
 	}
-	
+
 	public String[][] userandcomments(String film){
 		String sql = "SELECT comment,clientID FROM Comments JOIN movies ON movies.titleID = Comments.titleID JOIN clients ON clients.clientID=movies.clientID WHERE movies.title LIKE "+"+film+"+" GROUP BY clientID";
-		
+
 		String name_col= "clientID";
 		String name_col2= "commentID";
 		String table = "Comments";
@@ -151,7 +155,7 @@ public class Injector {
 		total_clients = contar(table2,name_col2);
 		String[][] result = new String[total_clients][total_comment];
 		Integer aux = 0;
-		
+
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
@@ -166,21 +170,21 @@ public class Injector {
     			}
    		}
 		} catch (SQLException e) {
-			
+
     		System.out.println(e.getMessage());
     	}
 		return result;
 	}
-	
+
 	public List<String> filterByGenre(String genre) {
 		String sql = "SELECT title FROM movies WHERE genres LIKE "+'"'+"%"+genre+"%"+'"';
 		List<String> result = new ArrayList<String>();
-    	
+
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
     		while(rs.next()) {
-         
+
                 String title = rs.getString("title");
                 result.add(title);
             }
@@ -196,7 +200,7 @@ public class Injector {
 		sql += "WHERE workers.primaryName LIKE "+'"' + name +'"';
 		sql += " and (worksas LIKE 'actor' or worksas LIKE 'actress')";
 		List<String> result = new ArrayList<String>();
-    	
+
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
@@ -209,7 +213,7 @@ public class Injector {
     	}
     	return result;
 	}
-	
+
 	public void makeDataHashMap(Map<Integer, Map<Integer, Double>> data) {
 		String sql = "SELECT * FROM ratings ORDER BY clientid;";
 
@@ -231,7 +235,7 @@ public class Injector {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 
     public Boolean searchRating(Integer titleID, Integer clientID) {
 		String sql = "SELECT score FROM ratings WHERE titleID = "+ titleID;
@@ -242,20 +246,20 @@ public class Injector {
 			rs.getInt("score");
 			return true;
 		}catch (SQLException e) {
-			return false;		
+			return false;
 		}
 	}
-	
+
     public void insertRating(Integer titleID, Integer clientID, Integer score) {
 	String sql= new String();
-    	
+
     	if(searchRating(titleID, clientID)) {
-    		sql = "UPDATE ratings SET score=" + score; 
+    		sql = "UPDATE ratings SET score=" + score;
     		sql += " WHERE titleID=" + titleID + " and clientID="+ clientID;
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
         		pstmt.executeUpdate();
         		c.commit();
-        	} catch (SQLException e) {    		
+        	} catch (SQLException e) {
         		System.out.println(e.getMessage());
         	}
     	}else {
@@ -266,7 +270,7 @@ public class Injector {
         		pstmt.setInt(3, score);
         		pstmt.executeUpdate();
         		c.commit();
-        	} catch (SQLException e) {    		
+        	} catch (SQLException e) {
         		System.out.println(e.getMessage());
         	}
     	}
@@ -280,19 +284,19 @@ public class Injector {
 			rs.getInt("clientID");
 			return true;
 		}catch (SQLException e) {
-			return false;		
+			return false;
 		}
 	}
-	
+
 	public void insertUser(Integer clientid) {
 		String sql= new String();
-    	
+
     	if(!searchUser(clientid) ){
     		sql = "INSERT INTO clients(clientID) VALUES(clientid)";
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
         		pstmt.executeUpdate();
         		c.commit();
-        	} catch (SQLException e) {    		
+        	} catch (SQLException e) {
         		System.out.println(e.getMessage());
         	}
     	}
@@ -306,7 +310,7 @@ public class Injector {
        	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
            	pstmt.executeUpdate();
            	c.commit();
-           } catch (SQLException e) {    		
+           } catch (SQLException e) {
           	System.out.println(e.getMessage());
         }
    	}
@@ -318,5 +322,5 @@ public class Injector {
             throw new RuntimeException(e);
         }
     }
-	
+
 }
