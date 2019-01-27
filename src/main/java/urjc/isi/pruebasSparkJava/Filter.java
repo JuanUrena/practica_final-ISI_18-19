@@ -41,13 +41,13 @@ public class Filter {
 	// Método encargado de mostrar al usuario toda la información sobre
 	// la película cuyo nombre ha introducido (HTML devuelto al hacer
 	// POST sobre /filter_name).
-	public static String showFilmByName(Injector inj, Request req) {
-		
+	public static String showFilmByName( Request req) {
+		//Injector inj
 		Formulario f=new Formulario();
 		Comment c=new Comment();
     	// Para acceder al valor del parametro "film" del form:
     	// req.queryParams("film") => hay que pasarselo a la función que busque en la BD.
-    	List<String> infoFields = inj.filterByName(req.queryParams("film"));
+    	//List<String> infoFields = inj.filterByName(req.queryParams("film"));
 		
     	// Los siguientes valores están puestos a modo de prueba. Hay que
     	// sustituirlos por los valores que devuelva la función que busque en la BD.
@@ -69,14 +69,14 @@ public class Filter {
 								"<th>Número de votos</th>" +
 								"<th>Géneros</th>" +
 							"</tr>" +
-							"<tr>" +
-								"<td>" + infoFields.get(0) + "</td>" +
-								"<td>" + infoFields.get(1) + "</td>" +
-								"<td>" + infoFields.get(2) + "</td>" +
-								"<td>" + infoFields.get(3) + "</td>" +
-								"<td>" + infoFields.get(4) + "</td>" +
-								"<td>" + infoFields.get(5) + "</td>" +
-							"</tr>" +
+							//"<tr>" +
+							//	"<td>" + infoFields.get(0) + "</td>" +
+							//	"<td>" + infoFields.get(1) + "</td>" +
+							//	"<td>" + infoFields.get(2) + "</td>" +
+							//	"<td>" + infoFields.get(3) + "</td>" +
+							//	"<td>" + infoFields.get(4) + "</td>" +
+							//	"<td>" + infoFields.get(5) + "</td>" +
+							//"</tr>" +
 						"</table>";
     	
     	String response = table+ f.formulary;
