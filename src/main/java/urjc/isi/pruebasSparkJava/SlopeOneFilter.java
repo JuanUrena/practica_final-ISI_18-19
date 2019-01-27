@@ -163,6 +163,18 @@ public class SlopeOneFilter {
 		return suma;
 	}
 
+        public static Map<Integer, Double> getAllMovies(Map<Integer, Map<Integer, Double>> data) {
+                Map <Integer, Double> allMovies = new HashMap<Integer, Double>();
+
+                for(Map.Entry<Integer, Map<Integer, Double> user_movies: data.entrySet()) {
+                        for(Map.Entry<Integer, Double> movie: user_movies.keySet()) {
+                                allMovies.put(movie, user_movies.get(movie)); // realmente solo nos interesa guardar el key (para tener una lista de películas únicas)
+                        }
+                }
+                return allMovies;
+        }
+
+
 /*
 	public int predictOneMovie() {
 
