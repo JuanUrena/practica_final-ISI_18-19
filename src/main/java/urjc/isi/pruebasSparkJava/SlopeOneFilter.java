@@ -22,6 +22,7 @@ public class SlopeOneFilter {
 	Map<Integer, Map<Integer, Double>> diffMap;
 	Map<Integer, Map<Integer, Integer>> weightMap;
 	Map<Integer, LinkedList<Node>> predictions;
+	Map<Integer, Double> predictions2;
 
 	class Node {
 		int titleID;
@@ -151,17 +152,19 @@ public class SlopeOneFilter {
 
 
 
-	public int sumaWeights(Map<Integer, Map<Integer, Integer>> weights) {
+	public int sumaWeights(Map<Integer, Map<Integer, Integer>> weights, int movieKey) {
 
 		int suma = 0;
 
-		for(Map.Entry<Integer, Map<Integer, Integer>> entry: weights.values()) {
-			for(Map.Entry<Integer, Integer> weight: entry.values()) {
-				suma = suma + weight;
-			}
+		Map<Integer, Integer> weights_movie = new HashMap<Integer, Integer>(); 
+		weights_movie = weights.get(movieKey);
+
+		for(Map.Entry<Integer, Integer> weight: weights_movie.values()) {
+			suma = suma + weight;
 		}
 		return suma;
 	}
+
 
         public static Map<Integer, Double> getAllMovies(Map<Integer, Map<Integer, Double>> data) {
                 Map <Integer, Double> allMovies = new HashMap<Integer, Double>();
@@ -175,26 +178,16 @@ public class SlopeOneFilter {
         }
 
 
-/*
-	public int predictOneMovie() {
 
-		this.predictions = new HashMap<Integer,Map<Integer,Double>>();
-		Map<Integer, Double> moviesUser = new HashMap<Integer, Double>();
-
-		//Creamos user_movies
-		for(Map.Entry<Integer, Map<Integer, Double>> entry: data.entrySet()) {
-			Map<Integer, Double> user_movies = entry.getValue();
-		}
-
-		Iterator it = user_movies.entrySet().iterator();
+	public int predictOneMovie(int movieKey, Map<Integer, Double> user_movies) {
 
 		// Cantidad de diferencias y de veces que hay diferencias
-                ndiffMap = this.diffMap.size();
-		nweightMap = this.weightMap.size();
+                //int ndiffMap = this.diffMap.size();
+		//int nweightMap = this.weightMap.size();
 
-                if(ndiffMap == nweightMap){
+                //if(ndiffMap == nweightMap){
                         int total = 0;
-                        int n = sumaWeigths(this.weightMap);
+                        int n = sumaWeigths(this.weightMap, movieKey);
 			int i = 0;
 			int j = 0;
 
@@ -224,23 +217,21 @@ public class SlopeOneFilter {
                 return total;
         }
 
-*/
-
 
 	public void predict(int user) {
 
 		predictions2 = new HashMap<Integer, Double>();
 
-		for(Map.Entry<Integer, Map<Integer, Double>> entry: data.entrySet()) {
-			Map<Integer, Double> user_movies = entry.values();
+		if(data.containsKey(user)){
+			Map<Integer, Double> user_movies = data.get(user);
 		}
 
 		Map<Integer, Double> all_movies = new HashMap<Integer, Double>();
 		all_movies = getAllMovies(data);
 
-		for(Map.Entry<Integer, Double> movieKey: all_movies.keySet()) {
+		for(int movieKey: all_movies.keySet()) {
 			if(!user_movies.containsKey(movieKey)){
-				predictions2.put(movieKey, predictOneMovie());
+				predictions2.put(movieKey, predictOneMovie(movieKey, user_movies));
 			}
 		}
 	}
