@@ -428,12 +428,6 @@ public class Main {
         			result + 
         			"<br><a href='/'>Volver</a>";
         	
-        	//EJEMPLO (con moviesG.txt):
-        	//Travolta, John (That's Dancing! (1985)) --> NAME 1
-        	//Garland, Judy (mago de oz, dancing dancing) --> actriz que relaciona
-        	//Burke, Billie (mago de oz) --> NAME 2
-        	//Distancia 4
-        	
         	//EJEMPLO (con film_actors.txt):
         	//Leonardo DiCaprio | The Great Gatsby --> NAME 1
         	//Tobey Maguire | The Great Gatsby / Spiderman --> actor que relaciona

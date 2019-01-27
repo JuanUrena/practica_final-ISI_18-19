@@ -6,12 +6,14 @@ import org.junit.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.*;
 
 public class GraphFuncionalityTests {
 
         private String name1,name2;
         private Graph g;
+        private Connection connection;
 
         @Before      // Set up - Called before every test method.
         public void setUp()
@@ -19,13 +21,24 @@ public class GraphFuncionalityTests {
         	g = new Graph("Database/film_actors.txt", "/");
         	name1 = "Hugh Jackman";
         	name2 = "Scarlett Johansson";
+    		try {
+      			connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
+    		} catch(SQLException e) {
+    			e.printStackTrace();
+    		}
         }
-
-//        @After      // Tear down - Called after every test method.
-//        public void tearDown()
-//        {
-//                ;
-//        }
+        
+        @After // Tear Down - Called after every test method.
+    	public void tearDown()
+    	{
+    		try{
+    			if(connection != null){
+            		connection.close();
+          			}
+        		} catch(SQLException e) {
+        			e.printStackTrace();
+       	 	}
+    	}
 
         //Test para comprobar que al crear Graph con filename=null se eleva excepción
     	@Test (expected = IllegalArgumentException.class) 
@@ -67,19 +80,55 @@ public class GraphFuncionalityTests {
     	{
     	PathFinder pf = new PathFinder(g, "");
     	}
+    	
+    	//Test para comprobar que salta la excepcion si no introducimos connection correcto (cerrado)
+    	@Test (expected = IllegalArgumentException.class) 
+    	public void testForCloseConnection()
+    	{
+    		try{
+    			connection.close();
+        	} catch(SQLException e) {
+        		e.printStackTrace();
+       	 	}
+    		GraphFuncionality.nameChecker(connection, "");
+    	}
 
+    	//Test para comprobar que salta la excepcion si por lo que sea a namechecker le llega 
+    	//un name="" (inválido)
+    	@Test (expected = IllegalArgumentException.class) 
+    	public void testForInvalidName()
+    	{
+    		GraphFuncionality.nameChecker(connection, "");
+    	}
     	
     	
     	//HAPPY PATHS --------------------------------------
+    	
+    	//Test para comprobar que se crea un grafo correctamente si filename y delimiter son correctos
     	@Test
-    	public void testArray()
+    	public void validGraph()
     	{
-//    	list.add ("dog");
-//    	list.add ("cat");
-//    	Object obj = Min.min (list);
-//    	assertTrue ("Double Element List", obj.equals ("cat"));
+    	assertTrue ("Not valid graph", g.V() >= 1);
     	}
 
+    	//Test para comprobar que se crea un pathfinder correcto (con ruta) dado dos nombres relacionados
+    	@Test
+    	public void validPathFinder()
+    	{
+    	PathFinder pf = new PathFinder(g, name1);
+    	
+    	assertTrue ("Not valid pathfinder (names)", pf.hasPathTo(name2));
+    	}
+    	
+    	//Test para comprobar si namechecker retorna un ArrayList válido dado un nombre valido
+    	@Test
+    	public void validNameChecker()
+    	{
+    	ArrayList<String> result = new ArrayList<String>();
+    	result = GraphFuncionality.nameChecker(connection,name1);
+    	assertTrue ("Not valid name", result.size() >= 1);
+    	}
+    	
     	
     	
     	//TEST PARA NO NAMES NO HACEN FALTA CREO, YA QUE SON CHECKED EXCEPTIONS (SE CAZAN CON CATCH)
@@ -103,15 +152,6 @@ public class GraphFuncionalityTests {
 //    	public void testForNoNames3()
 //    	{
 //    		GraphFuncionality.doRanking(g, "");
-//    	}
-    	
-    	//ME DA ERROR EN DRIVEMANAGER --> necesario un throw sqlexception --> ??
-    	//Test para comprobar que salta la excepcion si no introducimos número --> doRanking 
-//    	@Test (expected = IllegalArgumentException.class) 
-//    	public void testForNoNames4()
-//    	{
-//    		Connection conn = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
-//    		GraphFuncionality.nameChecker(conn, "");
 //    	}
 }
 

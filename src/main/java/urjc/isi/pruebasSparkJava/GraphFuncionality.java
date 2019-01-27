@@ -115,7 +115,12 @@ public class GraphFuncionality {
      * en vez de 'Tom Cruise'). Devuelve ArrayList vacío en caso de no coincidencia.
      */
     public static ArrayList<String> nameChecker(Connection conn, String name){
-    	if (name.equals("")) throw new IllegalArgumentException("GraphFuncionality.nameChecker"); //por si acaso (ver Tests)
+    	if (name.equals("")) throw new IllegalArgumentException("GraphFuncionality.nameChecker.names"); //por si acaso (ver Tests)
+    	try { //comprobar si connection dada sigue abierta
+			if (conn.isClosed()) throw new IllegalArgumentException("GraphFuncionality.nameChecker.connection");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
     	
     	String sql = "SELECT title FROM movies " + //consulta para nombre_pelis
     			"WHERE title LIKE ?";
