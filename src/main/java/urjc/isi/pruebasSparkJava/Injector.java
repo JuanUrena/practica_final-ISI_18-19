@@ -34,9 +34,9 @@ public class Injector {
 //		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
 //		    c = DriverManager.getConnection(dbUrl, username, password);
 		    
-		    String dbUrl = System.getenv("JDBC_DATABASE_URL");   
+		    String dbUrl = System.getenv("JDBC_DATABASE_URL"); 
 		    Class.forName("org.postgresql.Driver");
-		    c = DriverManager.getConnection(dbUrl); 
+		    c = DriverManager.getConnection(dbUrl);
 
 			c.setAutoCommit(false);
 		}catch (SQLException e) {

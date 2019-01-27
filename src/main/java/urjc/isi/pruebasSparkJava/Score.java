@@ -9,7 +9,7 @@ public class Score {
 	
 	
 		//Guardo la nueva puntuacion
-		public String newScore(int score, int user, String film) {
+		public String newScore(int score, int user, String film) throws ClassNotFoundException {
 			if (score<0 || score>10) {
 				throw new IllegalArgumentException("Puntuacion invalida");
 			}else if (user<0) {
@@ -33,7 +33,7 @@ public class Score {
 		}
 		
 		//Obtengo la nueva media 
-		public int getScore(String film) {
+		public int getScore(String film) throws ClassNotFoundException {
 			if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
