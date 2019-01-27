@@ -181,38 +181,29 @@ public class SlopeOneFilter {
 
 	public int predictOneMovie(int movieKey, Map<Integer, Double> user_movies) {
 
-		// Cantidad de diferencias y de veces que hay diferencias
-                //int ndiffMap = this.diffMap.size();
-		//int nweightMap = this.weightMap.size();
-
-                //if(ndiffMap == nweightMap){
-                        int total = 0;
-                        int n = sumaWeigths(this.weightMap, movieKey);
-			int i = 0;
-			int j = 0;
-
-				for(Map.Entry<Integer, Map<Integer, Integer>> entry: this.weightMap.entrySet()) {
-                                	Map<Integer, Integer> weights = entry.getValue();
-					for(Map.Entry<Integer, Integer> weight = weights.entrySet()) {
-						int frec = weight.getValue();
-					}
-				}
-
-				for(Map.Entry<Integer, Map<Integer, Double>> entry: this.diffMap.entrySet()) {
-					Map<Integer, Double> diffs = entry.getValue();
-					for(Map.Entry<Integer, Double> diff = diffs.entrySet()) {
-						double diff = diff.getValue();
-					}
-				}
-
-			//	total = total + (frec * (diff + );
+		int total = 0;
+		int n = sumaWeigths(this.weightMap, movieKey);
 
 
-                        total = total/n;
+		Map<Integer, Double> movie_diffs = new HashMap<Integer, Double>();
+		movie_diffs = diffMap.get(movieKey);
 
-                }else{
-                        System.out.println("Error en los tamaños de los arrays");
-                }
+		for(Integer each_movie: movie_diffs.keySet()) {
+			if(user_movies.containsKey(current_movie)){
+				double diff = movie_diffs.get(current_movie);
+
+				int weight = weightMap.get(movieKey).get(current_movie);
+
+				punt_user = user_movies.get(current_movie);
+
+				total = total + (weight * (diff+punt_user));
+
+			}
+		}
+		//	total = total + (frec * (diff + );
+
+
+		total = total/n;
 
                 return total;
         }
