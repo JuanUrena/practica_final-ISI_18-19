@@ -21,7 +21,8 @@ public class Injector {
 			URI dbUri = new URI(System.getenv(name));
 			String username = dbUri.getUserInfo().split(":")[0];
 			String password = dbUri.getUserInfo().split(":")[1];
-		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";			c = DriverManager.getConnection(dbUrl, username, password);
+		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+			c = DriverManager.getConnection(dbUrl, username, password);
 			c.setAutoCommit(false);
 		}catch (SQLException e) {
             throw new RuntimeException(e);
