@@ -69,14 +69,14 @@ public class MainTest {
 	@Test (expected = NullPointerException.class)
 	public void testInsertNullMovie()
 	{
-		Main.insertFilm(connection, null, "2019", null);
+		Injector.insertFilm(null, "2019", null);
 	}
 
 	//Test1: insertActor
 	@Test (expected = NullPointerException.class)
 	public void testInsertNullActor() throws SQLException
 	{
-		Main.insertActor(connection, null);
+		Injector.insertActor(null);
 	}
 
 	//Test1: insertWorks_In

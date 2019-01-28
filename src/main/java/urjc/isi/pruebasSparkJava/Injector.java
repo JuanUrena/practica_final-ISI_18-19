@@ -22,6 +22,41 @@ public class Injector {
         }
 	}
 
+	public static void insertFilm(String data1, String data2, String data3){
+    		String sql="";
+		//Comprobar elementos que son distintos que null
+    		if(data1 == null || data2 == null){
+    			throw new NullPointerException();
+    		}
+    			sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
+
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    			pstmt.setString(1, data1);
+    			pstmt.setString(2, data2);
+    			pstmt.setString(3, data3);
+    			pstmt.executeUpdate();
+    		} catch (SQLException e) {
+    	   	 System.out.println(e.getMessage());
+    		}
+    	}
+
+	public static void insertActor(String data1){
+    		String sql="";
+		//Comprobar elementos que son distintos que null
+    		if(data1 == null){
+    			throw new NullPointerException();
+    		}
+    			sql = "INSERT INTO workers (primaryName) VALUES(?)";
+
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    			pstmt.setString(1, data1);
+    			pstmt.executeUpdate();
+    		} catch (SQLException e) {
+    	   	 	System.out.println(e.getMessage());
+    		}
+    	}
+	
+
 	public List<String> filterByName(String film) {
 		String sql = "SELECT * FROM movies WHERE title = "+"'"+film+"'";
 		List<String> result = new ArrayList<String>();
