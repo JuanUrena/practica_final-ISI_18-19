@@ -18,5 +18,5 @@ Paso 4: aplicar criterios de cobertura.
 		Test 2: A2 = F => no hay películas con ese/a actor/actriz en la BD.
 
 Paso 5: traducir las combinaciones elegidas en valores que pasar a los tests.
-	- Test 1 => "Brad Pitt" (por ejemplo)
+	- Test 1 => "Jennifer Lawrence" (por ejemplo)
 	- Test 2 => "Lady Gaga" (por ejemplo)
