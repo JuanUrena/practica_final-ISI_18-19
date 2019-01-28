@@ -31,13 +31,15 @@ public class Injector {
     			sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-    			pstmt.setString(1, data1);
-    			pstmt.setInt(2, Integer.valueOf(data2));
-    			pstmt.setString(3, data3);
-    			pstmt.executeUpdate();
-    		} catch (SQLException e) {
-    	   	 System.out.println(e.getMessage());
-    		}
+        		pstmt.setString(1, data1);
+        		pstmt.setInt(2, Integer.valueOf(data2));
+        		pstmt.setString(3, data3);
+        		pstmt.executeUpdate();
+        		c.commit();
+        	} catch (SQLException e) {
+        		System.out.println(e.getMessage());
+        	}
+
     	}
 
 	public static void insertActor(String data1){
@@ -49,12 +51,15 @@ public class Injector {
     			sql = "INSERT INTO workers (primaryName) VALUES(?)";
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-    			pstmt.setString(1, data1);
-    			pstmt.executeUpdate();
+        		pstmt.setString(1, data1);
+        		pstmt.executeUpdate();
+        		c.commit();
     		} catch (SQLException e) {
     	   	 	System.out.println(e.getMessage());
     		}
     	}
+	
+
 	
 
 	public List<String> filterByName(String film) {
@@ -166,8 +171,8 @@ public class Injector {
 		return result;
 	}
 
-	public List<String> getFilmComments(String film){
-		String sql = "SELECT comment FROM Comments JOIN movies ON movies.titleID = Comments.titleID WHERE movies.title LIKE "+ film;
+	public List<String> getFilmComments(int film){
+		String sql = "SELECT comment FROM comments WHERE titleid="+film;
 		
 		List<String> result = new ArrayList<String>();
 		
@@ -205,10 +210,11 @@ public class Injector {
 	}
 
 	public List<String> filterByActorActress(String name) {
-		String sql = "SELECT title FROM movies JOIN works_in ON movies.titleID=works_in.titleID ";
-		sql+= "JOIN workers ON workers.nameID=works_in.nameID ";
-		sql += "WHERE workers.primaryName LIKE "+'"' + name +'"';
-		sql += " and (worksas LIKE 'actor' or worksas LIKE 'actress')";
+		String sql = "SELECT title FROM movies JOIN works_in ON movies.titleid=works_in.titleid ";
+		sql+= "JOIN workers ON workers.nameid=works_in.nameid ";
+		sql += "WHERE workers.primary_name LIKE "+ "'" + name +"'";
+		sql += " and (works_as LIKE 'actor' or works_as LIKE 'actress')";
+		sql += " ORDER BY movies.titleid DESC";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -260,12 +266,12 @@ public class Injector {
 		}
 	}
 
-    public void insertRating(Integer titleID, Integer clientID, Integer score) {
+    public void insertRating(Integer titleid, Integer clientid, Integer score) {
 	String sql= new String();
 
-    	if(searchRating(titleID, clientID)) {
+    	if(searchRating(titleid, clientid)) {
     		sql = "UPDATE ratings SET score=" + score;
-    		sql += " WHERE titleID=" + titleID + " and clientID="+ clientID;
+    		sql += " WHERE titleid=" + titleid + " and clientid="+ clientid;
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
         		pstmt.executeUpdate();
         		c.commit();
@@ -273,10 +279,10 @@ public class Injector {
         		System.out.println(e.getMessage());
         	}
     	}else {
-    		sql = "INSERT INTO ratings(titleID, clientID,score) VALUES(?,?,?)";
+    		sql = "INSERT INTO ratings(titleid, clientid,score) VALUES(?,?,?)";
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-        		pstmt.setInt(1, titleID);
-        		pstmt.setInt(2, clientID);
+        		pstmt.setInt(1, titleid);
+        		pstmt.setInt(2, clientid);
         		pstmt.setInt(3, score);
         		pstmt.executeUpdate();
         		c.commit();
@@ -287,7 +293,7 @@ public class Injector {
     }
 
     public Boolean searchUser(Integer clientID) {
-		String sql = "SELECT clientID FROM clients WHERE clientID = "+ clientID;
+		String sql = "SELECT clientID FROM clients WHERE clientid = "+ clientID;
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
 			ResultSet rs= pstmt.executeQuery();
 			rs.next();
@@ -315,7 +321,7 @@ public class Injector {
 //titleid, clientID y comment
 //NOMBRE TABLA: comments(Hay que crearla)
     public void insertComments(Integer titleid, Integer clientid, String comments) {
-   		String sql= "INSERT INTO comments(titleID, clientID,comment) VALUES("+titleid+","+clientid+","+comments+")";
+   		String sql= "INSERT INTO comments(titleid, clientid, comment) VALUES("+titleid+","+clientid+","+comments+")";
 
        	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
            	pstmt.executeUpdate();
@@ -327,7 +333,7 @@ public class Injector {
 
     public void updateAverageRating(Integer titleID, Float averageRating) {
 		String sql = "UPDATE movies SET averageRating = " + averageRating; 
-		sql += " WHERE titleID = " + titleID;
+		sql += " WHERE titleid = " + titleID;
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		pstmt.executeUpdate();
     		c.commit();
