@@ -22,39 +22,69 @@ public class Injector {
         }
 	}
 
+
 	public static void insertFilm(String data1, String data2, String data3){
     		String sql="";
+		Integer lastId = 0;
 		//Comprobar elementos que son distintos que null
     		if(data1 == null || data2 == null){
     			throw new NullPointerException();
     		}
-    			sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
+		sql = "SELECT MAX(titleid) FROM movies";
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				lastId = rs.getInt("titleid");
+				System.out.println(lastId);
+			}
+		} catch (SQLException e) {
+        		System.out.println(e.getMessage());
+        	}
+    		sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
 
-    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-    			pstmt.setString(1, data1);
-    			pstmt.setInt(2, Integer.valueOf(data2));
-    			pstmt.setString(3, data3);
-    			pstmt.executeUpdate();
-    		} catch (SQLException e) {
-    	   	 System.out.println(e.getMessage());
-    		}
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {       		
+			pstmt.setInt(1, lastId+1);			
+			pstmt.setString(2, data1);
+        		pstmt.setInt(3, Integer.valueOf(data2));
+        		pstmt.setString(4, data3);
+        		pstmt.executeUpdate();
+        		c.commit();
+        	} catch (SQLException e) {
+        		System.out.println(e.getMessage());
+        	}
+
     	}
 
 	public static void insertActor(String data1){
     		String sql="";
+		Integer lastId = 0;
 		//Comprobar elementos que son distintos que null
     		if(data1 == null){
     			throw new NullPointerException();
     		}
-    			sql = "INSERT INTO workers (primaryName) VALUES(?)";
+		sql = "SELECT MAX(nameid) FROM workers";
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				lastId = rs.getInt("nameid");
+				System.out.println(lastId);
+			}
+		} catch (SQLException e) {
+        		System.out.println(e.getMessage());
+        	}
+    		sql = "INSERT INTO workers(nameid, primary_name) VALUES(?,?)";
 
-    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-    			pstmt.setString(1, data1);
-    			pstmt.executeUpdate();
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {  
+			pstmt.setInt(1, lastId+1);
+			pstmt.setString(2, data1);
+        		pstmt.executeUpdate();
+        		c.commit();
     		} catch (SQLException e) {
     	   	 	System.out.println(e.getMessage());
     		}
     	}
+	
+
 	
 
 	public List<String> filterByName(String film) {
@@ -120,7 +150,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByRating(Double rating) {
+	public List<String> filterByRating(Float rating) {
 		String sql = "SELECT * FROM movies WHERE averageRating >= "+rating;
 		List<String> result = new ArrayList<String>();
 
@@ -149,6 +179,40 @@ public class Injector {
     		System.out.println(e.getMessage());
     	}
     	return result;
+	}
+	
+		public String[][] userandcomments(String film){
+		String sql = "SELECT comment,clientID FROM Comments JOIN movies ON movies.titleID = Comments.titleID JOIN clients ON clients.clientID=movies.clientID WHERE movies.title LIKE "+"+film+"+" GROUP BY clientID";
+		
+		String name_col= "clientID";
+		String name_col2= "commentID";
+		String table = "Comments";
+		String table2 = "clients";
+		Integer total_comment = 0;
+		Integer total_clients = 0;
+		total_comment = contar(table,name_col);
+		total_clients = contar(table2,name_col2);
+		String[][] result = new String[total_clients][total_comment];
+		Integer aux = 0;
+		
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		ResultSet rs = pstmt.executeQuery();
+    		c.commit();
+
+    		while(rs.next()) {
+    			aux = rs.getInt("ClientID");
+    			for (int i = 0; i< total_comment;i++) {
+    				if (result[aux-1][i] == null) {
+    					result[aux-1][i] = rs.getString("comment");
+    					break;
+    				}
+    			}
+   		}
+		} catch (SQLException e) {
+			
+    		System.out.println(e.getMessage());
+    	}
+		return result;
 	}
 
 	public Integer contar(String name_table,String name_col) {
@@ -205,10 +269,11 @@ public class Injector {
 	}
 
 	public List<String> filterByActorActress(String name) {
-		String sql = "SELECT title FROM movies JOIN works_in ON movies.titleID=works_in.titleID ";
-		sql+= "JOIN workers ON workers.nameID=works_in.nameID ";
-		sql += "WHERE workers.primaryName LIKE "+'"' + name +'"';
-		sql += " and (worksas LIKE 'actor' or worksas LIKE 'actress')";
+		String sql = "SELECT title FROM movies JOIN works_in ON movies.titleid=works_in.titleid ";
+		sql+= "JOIN workers ON workers.nameid=works_in.nameid ";
+		sql += "WHERE workers.primary_name LIKE "+ "'" + name +"'";
+		sql += " and (works_as LIKE 'actor' or works_as LIKE 'actress')";
+		sql += " ORDER BY movies.titleid DESC";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {

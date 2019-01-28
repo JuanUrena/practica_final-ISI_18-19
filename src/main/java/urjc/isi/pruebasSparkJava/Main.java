@@ -3,15 +3,12 @@ package urjc.isi.pruebasSparkJava;
 import static spark.Spark.*;
 import spark.Request;
 import spark.Response;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.servlet.MultipartConfigElement;
 import java.io.BufferedReader;
@@ -24,6 +21,7 @@ public class Main {
     // Initialized in main
     private static Connection connection;
     private static String last_added;
+    
 	
     static int getHerokuAssignedPort() {
     	ProcessBuilder processBuilder = new ProcessBuilder();
@@ -113,39 +111,7 @@ public class Main {
     	}
     }
     
-    public static void insertFilm(Connection conn, String data1, String data2, String data3){
-    	String sql="";
-		//Comprobar elementos que son distintos que null
-    	if(data1 == null || data2 == null){
-    		throw new NullPointerException();
-    	}
-    		sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
-
-    	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    		pstmt.setString(1, data1);
-    		pstmt.setString(2, data2);
-    		pstmt.setString(3, data3);
-    		pstmt.executeUpdate();
-    	} catch (SQLException e) {
-    	    System.out.println(e.getMessage());
-    	}
-}
-
-    public static void insertActor(Connection conn, String data1){
-    	String sql="";
-		//Comprobar elementos que son distintos que null
-    	if(data1 == null){
-    		throw new NullPointerException();
-    	}
-    		sql = "INSERT INTO workers (primaryName) VALUES(?)";
-
-    	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    		pstmt.setString(1, data1);
-    		pstmt.executeUpdate();
-    	} catch (SQLException e) {
-    	    System.out.println(e.getMessage());
-    	}
-}
+    
     public static void insertWorks_In(Connection conn, String data1, String data2){
     	String sql="";
 		//Comprobar elementos que son distintos que null
@@ -161,7 +127,7 @@ public class Main {
     	} catch (SQLException e) {
     	    System.out.println(e.getMessage());
     	}
-}
+    }
     
     public static String infoPost(Request request, Response response) throws 
     		ClassNotFoundException, URISyntaxException {
@@ -204,8 +170,7 @@ public class Main {
     	Comment comment =new Comment();
     	
 //    	SlopeOneFilter psql test
-//    	SlopeOneFilter slopeOneFilter = new SlopeOneFilter();
-//    	System.out.println(slopeOneFilter.data);
+    	SlopeOneFilter slopeOneFilter = new SlopeOneFilter();
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
     	// Set it to false to improve performance
@@ -244,12 +209,29 @@ public class Main {
 			"</form>" +
     			"<a href='/filter'>Búsqueda de películas</a>" +
     			"<br><br>" +
+    			"<a href='/recommend'>Recomendar peliculas a un usuario</a>" +
+    			"<br><br>" +
     			"<p>Grafos:</p>" +
     			"<ul>" + 
 					"<li><a href= '/distance'>Distancia entre actores y películas<a/></li>" +
 					"<li><a href= '/graph_info'>Información sobre el grafo<a/></li>" +
 					"<li><a href= '/graph_filter'>Uso de grafos para filtrado<a/></li>" +
 				"</ul>" + 
+				
+				"<form action='/relatedMovies' method='get'>" +
+				"<div class='button'>" +
+					"Búsqueda de películas relacionadas: <br/>" +
+					"<button type='submit'>Related Movies</button>" +
+				"</div>" +
+				"</form>" +
+				
+				"<form action='/relatedActors' method='get'>" +
+				"<div class='button'>" +
+					"Búsqueda de actores relacionados: <br/>" +
+				"<button type='submit'>Related Actors</button>" +
+				"</div>" +
+				"</form>" +	
+    		
     		"</body></html>";
 
         // spark server
@@ -383,17 +365,20 @@ public class Main {
         
         // Recurso /filter_actoractress encargado de mostrar todas las películas
         // en las que participa un actor o una actriz.
-        post("/filter_actoractress", (req, res) -> Filter.showFilmByActorActress(req));
+        post("/filter_actoractress", (req, res) -> Filter.showFilmByActorActress(connector, req));
 
         // Recurso /filter_duration encargado de mostrar todas las películas con una 
         //duración menor a la dada
-        post("/filter_duration", (req, res) -> Filter.showFilmByDuration(req));
+        post("/filter_duration", (req, res) -> Filter.showFilmByDuration(connector, req));
 
         // Recurso /filter_genre encargado de mostrar todas las películas dado un genero.
-        post("/filter_genre", (req, res) -> Filter.showFilmByGenre(req));
+        post("/filter_genre", (req, res) -> Filter.showFilmByGenre(connector, req));
 
         // Recurso /filter_rating encargado de mostrar todas las películas dado un año.
-        post("/filter_rating", (req, res) -> Filter.showFilmByRating(req));
+        post("/filter_rating", (req, res) -> Filter.showFilmByRating(connector, req));
+        
+        get("/recommend", (req, res) -> slopeOneFilter.showSOMenu());
+        post("/recommend", (req, res) -> slopeOneFilter.recommend(req));
 
 
         get("/distance", (req, res) -> {
@@ -536,6 +521,120 @@ public class Main {
         			result + 
         			"<br><a href='/'>Volver</a>";
         });
+        
+        
+        get("/relatedMovies", (req, res) -> {
+        	String page =
+        			"<h3>Funcionalidad 'Relacionados (PELÍCULAS)' </h3> " +
+        	        		"<form action='/relatedMovies_show' method='post'>" +
+        	    				"<div>" + 
+        	    					"<label for='name'>Nombre de la película: </label>" +
+        	    					"<input type='text' name='name1'/><br>" +
+        	    					"<button type='submit'>Enviar</button>" +
+        	    				"</div>" +
+        	    			"</form>" +
+        	        		"<br><p><u>--Uso--</u></p>" + 
+        	        		"<ul>" + 
+        	    			  "<li>Nombre de la película: 'The Great Gatsby''" +
+        	    			  "<br>" +
+        	    			"</ul>" +
+        	        		"<p>*Nota* Si no conoces el nombre exacto, escribe al menos una palabra (p.e. 'Spider'). " +
+        	    			"Te ofreceremos las coincidencias de esa palabra.</p>" + 
+                			"<br><a href='/'>Volver</a>";
+        	
+        	return page;
+        });
+        
+        
+        get("/relatedActors", (req, res) -> {
+        	String page =
+        			"<h3>Funcionalidad 'Relacionados (ACTORES)' </h3> " +
+        	        		"<form action='/relatedActors_show' method='post'>" +
+        	    				"<div>" + 
+        	    					"<label for='name'>Nombre del actor/actriz: </label>" +
+        	    					"<input type='text' name='name1'/><br>" +
+        	    					"<button type='submit'>Enviar</button>" +
+        	    				"</div>" +
+        	    			"</form>" +
+        	        		"<br><p><u>--Uso--</u></p>" + 
+        	        		"<ul>" + 
+        	    			  "<li>Nombre del actor/actriz: 'Angelina Jolie''" +
+        	    			  "<br>" +
+        	    			"</ul>" +
+        	        		"<p>*Nota* Si no conoces el nombre exacto, escribe al menos una palabra (p.e. 'Angelina'). " +
+        	    			"Te ofreceremos las coincidencias de esa palabra.</p>" + 
+                			"<br><a href='/'>Volver</a>";
+        	
+        	return page;
+        });
+        
+ 
+        post("/relatedMovies_show", (req, res) -> {
+        	Graph graph = new Graph("Database/film_actors.txt", "/");
+    		String name = req.queryParams("name1"); //name es el nombre introducido en el formulario.
+    		
+    		//Compruebo si se ha enviado formulario vacío.
+    		if (name.equals("")) {
+				return "<p>Error. No puedo ayudarte si no introduces nada.</p>" + 
+    			"<br><a href='/relatedMovies'>Prueba otra vez</a>";
+			}
+    		
+    		if (graph.hasVertex(name)) {	//Si name es vértice del grafo
+        		if (graph.type(name) == 1) {	//Si name es película.
+        			String page_rel_movies = GraphFuncionality.relatedMovies2(graph, name);
+        		
+        			return "<p>Películas cercanas en el grafo a '" + name + "' son: " + "</p>" +
+        			page_rel_movies + 
+            		"<br><a href='/'>Volver</a>";
+
+        		} else {	//Si name no es película.
+        			return "<p>Error. Lo que has introducido no es una película.</p>" + 
+        			"<br><a href='/relatedMovies'>Prueba otra vez</a>";
+        		}
+    		} else {	//Si name NO es vértice del grafo.
+    			String page_rel_movies = GraphFuncionality.relatedMovies2(graph, name);
+    			
+    			return "<p>Quizás con '" + name + "' quisiste decir: " + "</p>" +
+    			page_rel_movies + 
+        		"<br><a href='/relatedMovies'>Prueba otra vez</a>";
+    		}
+        	
+        });        
+        
+        
+        post("/relatedActors_show", (req, res) -> {
+        	Graph graph = new Graph("Database/film_actors.txt", "/");
+    		String name = req.queryParams("name1"); //name es el nombre introducido en el formulario.
+    		
+    		//Compruebo si se ha enviado formulario vacío.
+    		if (name.equals("")) {
+				return "<p>Error. No puedo ayudarte si no introduces nada.</p>" + 
+    			"<br><a href='/relatedActors'>Prueba otra vez</a>";
+			}
+    		
+    		if (graph.hasVertex(name)) {	//Si name es vértice del grafo
+        		if (graph.type(name) == 0) {	//Si name es actor o actriz.
+        			String page_rel_actors = GraphFuncionality.relatedActors(graph, name);
+        		
+        			return "<p>Actrices y actores cercanos en el grafo a '" + name + "' (con los que ha trabajado) son: " + "</p>" +
+        			page_rel_actors + 
+            		"<br><a href='/'>Volver</a>";
+
+        		} else {	//Si name no es actor ni actriz.
+        			return "<p>Error. Lo que has introducido no es un nombre de actriz ni de actor.</p>" + 
+        			"<br><a href='/relatedActors'>Prueba otra vez</a>";
+        		}
+    		} else {	//Si name NO es vértice del grafo.
+    			String page_rel_actors = GraphFuncionality.relatedActors(graph, name);
+    			
+    			return "<p>Quizás con '" + name + "' quisiste decir: " + "</p>" +
+    			page_rel_actors + 
+        		"<br><a href='/relatedActors'>Prueba otra vez</a>";
+    		}
+    
+        	
+        });
+        
     }
 }
 

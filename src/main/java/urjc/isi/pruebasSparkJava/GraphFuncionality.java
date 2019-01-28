@@ -188,18 +188,7 @@ public class GraphFuncionality {
 		return result;
     }
     
-    /**
-     * Dado el nombre de una película, nos proporciona películas similares, utilizando
-     * la distancia entre nodos del grafo.
-     * @param graph sobre el que calcular la distancia
-     * @param name para buscar y comparar
-     * @return ArrayList con las películas más cercanas (distancia 2 de name).
-     */
-    public static ArrayList<String> similarTo(Graph graph, String name) {
-    	ArrayList<String> result = new ArrayList<String>();
-    	return result;
-    }
-    
+
     /**
      * Ranking de los actores/actrices con más aparaciones en x o más películas.
      * @param graph sobre el que calcular la distancia
@@ -218,4 +207,188 @@ public class GraphFuncionality {
         }
     	return result.keys();
     }
+    
+    
+    /**
+     * Devuelve nombres de películas que contengan una cadena de caracteres dada.
+     * @param conn es el objeto de tipo Connection.
+     * @param movie_name es la cadena de caracteres correspondiente al nombre de la película.
+     * @return ArrayList de nombres de películas que contengan la cadena de caracteres.
+     */
+	public static ArrayList<String> nameCheckerMovie(Connection conn, String movie_name){    	
+    	String sql = "SELECT title FROM movies " + //Query para sacar nombres de películas.
+    			"WHERE title LIKE ?";
+    	
+    	ArrayList<String> result = new ArrayList<String>();
+    	try {	
+	    	PreparedStatement pstmt = conn.prepareStatement(sql);
+	    	pstmt.setString(1, "%" + movie_name + "%");
+			
+	    	ResultSet rs = pstmt.executeQuery();
+	    	if(rs.next()) { //La primera llamada a next situa el cursor en la primera fila de resultados.
+	    		do{
+	    			result.add(rs.getString(1)); //getString(1) para acceder a la columna 1 de la fila por la que se vaya iterando.
+	    		}while(rs.next());
+	    	}
+    	} catch (SQLException e) {
+    		System.out.println(e.getMessage());
+    	}	
+    	return result;
+    }
+    
+    //DEPRECATED
+    /**
+     * Dado el grafo y el nombre de una película, devuelve un ArrayList de películas cercanas a ella en el grafo.
+     * @param graph es el grafo.
+     * @param movie es el nombre de la película sobre la que se calcularán distancias relativas.
+     * @return ArrayList de películas cercanas en el grafo.
+     */
+    public static ArrayList<String> relatedMovies(Graph graph, String movie) {
+    	if (graph.V() == 0) throw new NullPointerException("GraphFuncionality.relatedMovies"); //Compruebo que grafo no vacío.
+    	
+    	ArrayList<String> rel_movies = new ArrayList<String>(); //Aquí guardaré sólo las películas que estén a distancia 2 de movie.
+    	
+    	//Compruebo que nombre introducido es de película.
+    	if (graph.type(movie) != 1) throw new IllegalArgumentException("GraphFuncionality.relatedMovies"); //Compruebo que se ha introducido nombre de película.
+    	
+    	PathFinder pf = new PathFinder(graph, movie); //Hago pathFinder con movie como source vertex (Se calculan las ST prev y dist).
+    	
+    	for (String aux : pf.dameKeys()) { //Hallo todos los vértices de la ST dist de PathFinder.java
+    		int distance = pf.distanceTo(aux); //Calculo la distancia desde source hasta vertice aux.
+    		if (distance == 2) rel_movies.add(aux); //Solo almaceno si esa distancia es 2.
+    	}
+    	
+    	return rel_movies;
+    }
+    
+    /**
+     * Dado el grafo y el nombre de una película, si es vértice, devuelve un String con la lista 
+     * de películas cercanas a ella en el grafo. Si no es vértice, devuelve una lista de películas
+     * propuestas que contienen dicha cadena de caracteres.
+     * @param graph es el grafo.
+     * @param movie es el nombre de la película sobre la que se calcularán distancias relativas.
+     * @return String con lista de películas.
+     */
+    public static String relatedMovies2(Graph graph, String movie) {
+    	if (graph.V() == 0) throw new NullPointerException("GraphFuncionality.relatedMovies2"); //Compruebo que grafo no vacío.
+    	
+    	String resultado = new String("");
+    	ArrayList<String> rel_movies = new ArrayList<String>(); //Aquí guardaré sólo las películas que estén a distancia 2 de movie.
+    	
+    	if (graph.hasVertex(movie)) { //Si nombre es un vértice del grafo.
+        	if (graph.type(movie) != 1) throw new IllegalArgumentException("GraphFuncionality.relatedMovies2"); //Compruebo que se ha introducido nombre de película.
+        	
+        	PathFinder pf = new PathFinder(graph, movie); //Hago pathFinder con movie como source vertex (Se calculan las ST prev y dist).
+	    	
+	    	for (String aux : pf.dameKeys()) { //Hallo todos los vértices de la ST dist de PathFinder.java
+	    		int distance = pf.distanceTo(aux); //Calculo la distancia desde source hasta vertice aux.
+	    		if (distance == 2) rel_movies.add(aux); //Solo almaceno en rel_movies si esa distancia es 2.
+	    	}
+	    	
+	    	resultado += show_items(rel_movies);
+    	
+    	
+    	}else { //Si nombre NO es un vértice del grafo.
+    		ArrayList<String> allNames = nameCheckerMovie(Main.getConnection(), movie);
+			if (!allNames.isEmpty()) {
+    			resultado += "<p>Múltiples coincidencias. Copia el nombre exacto de una película para que busque relacionados:</p>";
+    			resultado += show_items(allNames);
+    			
+			} else {
+				resultado += "<p>No hay coincidencias.</p>";
+			}
+    	}
+    	return resultado;	
+    }
+    
+    
+    /**
+     * Dado un ArrayList<String> de items, devuelve un String con una lista HTML de dichos items.
+     * @param related_items es el ArrayList de items.
+     * @return String con la lista HTML de los items.
+     */
+    public static String show_items(ArrayList<String> items) {
+    	String result;
+    	if (items.isEmpty()) { //ArrayList vacío.
+    		result = "<p>Error al introducir nombre. Dicho nombre, ni nada relacionado a él, se encuentra en nuestra BD.</p><br>";
+    	} else {
+    		result =  "<ul>"; 
+    		for(String aux: items) {
+    			result += "<li>" + aux + "</li>"; 
+    		}
+    		result += "</ul>";
+    	}
+		return result;
+    }
+    
+    
+    /**
+     * Devuelve nombres de actrices y actores que contengan una cadena de caracteres dada.
+     * @param conn es el objeto de tipo Connection.
+     * @param movie_name es la cadena de caracteres correspondiente al nombre de la actriz/actor.
+     * @return ArrayList de nombres de actrices/actores que contengan la cadena de caracteres.
+     */
+	public static ArrayList<String> nameCheckerActor(Connection conn, String actor_name){    	
+    	String sql = "SELECT primaryName FROM workers " + //consulta para nombres de actrices/actores.
+    			"WHERE primaryName LIKE ?";
+    	
+    	ArrayList<String> result = new ArrayList<String>();
+    	try {	
+	    	PreparedStatement pstmt = conn.prepareStatement(sql);
+	    	pstmt.setString(1, "%" + actor_name + "%");
+			
+	    	ResultSet rs = pstmt.executeQuery();
+	    	if(rs.next()) { //La primera llamada a next situa el cursor en la primera fila de resultados.
+	    		do{
+	    			result.add(rs.getString(1)); //getString(1) para acceder a la columna 1 de la fila por la que se vaya iterando.
+	    		}while(rs.next());
+	    	}
+    	} catch (SQLException e) {
+    		System.out.println(e.getMessage());
+    	}	
+    	return result;
+    }
+    
+    
+    /**
+     * Dado el grafo y el nombre de una actriz o actor, si es vértice, devuelve un String con la lista 
+     * de actrices y actores cercanos en el grafo. Si no es vértice, devuelve una lista de actrices y actores
+     * propuestos que contienen dicha cadena de caracteres.
+     * @param graph es el grafo.
+     * @param actor es el nombre de la actriz/actor sobre el que se calcularán distancias relativas.
+     * @return ArrayList de actrices/actores cercanos en el grafo.
+     */
+    public static String relatedActors(Graph graph, String actor) {
+    	if (graph.V() == 0) throw new NullPointerException("GraphFuncionality.relatedActors"); //Compruebo que grafo no vacío.
+    	
+    	String resultado = new String("");
+    	ArrayList<String> rel_actors = new ArrayList<String>(); //Aquí guardaré sólo las actrices/actores que estén a distancia 2 de actor.
+    	
+    	if (graph.hasVertex(actor)) { //Si nombre es un vértice del grafo.
+        	if (graph.type(actor) != 0) throw new IllegalArgumentException("GraphFuncionality.relatedActors"); //Compruebo que se ha introducido nombre de actriz/actor.
+        	
+        	PathFinder pf = new PathFinder(graph, actor); //Hago pathFinder con actor como source vertex (Se calculan las ST prev y dist).
+	    	
+	    	for (String aux : pf.dameKeys()) { //Hallo todos los vértices de la ST dist de PathFinder.java
+	    		int distance = pf.distanceTo(aux); //Calculo la distancia desde source hasta vertice aux.
+	    		if (distance == 2) rel_actors.add(aux); //Solo almaceno en rel_actors si esa distancia es 2.
+	    	}
+	    	
+	    	resultado += show_items(rel_actors);
+    	
+    	
+    	}else { //Si nombre NO es un vértice del grafo.
+    		ArrayList<String> allNames = nameCheckerActor(Main.getConnection(), actor);
+			if (!allNames.isEmpty()) {
+    			resultado += "<p>Múltiples coincidencias. Copia el nombre exacto de una actriz o actor para que busque relacionados:</p>";
+    			resultado += show_items(allNames);
+    			
+			} else {
+				resultado += "<p>No hay coincidencias.</p>";
+			}
+    	}
+    	return resultado;	
+    }
+    
+    
 }
