@@ -42,33 +42,39 @@ public class Filter {
 	// la película cuyo nombre ha introducido (HTML devuelto al hacer
 	// POST sobre /filter_name).
 	public static String showFilmByName(Injector conn, Request req) {
+		String response, result;
+		
 		Formulario f=new Formulario();
 		Comment c=new Comment();
 		
     	List<String> movieFields = conn.filterByName(req.queryParams("film"));
     	
-    	String table = "<table border=2" +
-							"<tr>" +
-								"<th>Título</th>" +
-								"<th>Año</th>" +
-								"<th>Duración</th>" +
-								"<th>Puntuación media</th>" +
-								"<th>Número de votos</th>" +
-								"<th>Géneros</th>" +
-							"</tr>" +
-							"<tr align='center'>" +
-								"<td>" + movieFields.get(0) + "</td>" +
-								"<td>" + movieFields.get(1) + "</td>" +
-								"<td>" + movieFields.get(2) + " min" + "</td>" +
-								"<td>" + movieFields.get(3) + "</td>" +
-								"<td>" + movieFields.get(4) + "</td>" +
-								"<td>" + movieFields.get(5) + "</td>" +
-							"</tr>" +
-						"</table>";
-    	
-    	String response = table+ f.formulary;
-    	
-    	response=response+c.commentsFilm("titulo");
+    	if (movieFields.isEmpty()) {
+    		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
+    				+ "con nombre " + "'" + req.queryParams("film") + "'" + " en la "
+    				+ "base de datos.</p>";
+    	} else {
+        	result = "<table border=2" +
+						"<tr>" +
+							"<th>Título</th>" +
+							"<th>Año</th>" +
+							"<th>Duración</th>" +
+							"<th>Puntuación media</th>" +
+							"<th>Número de votos</th>" +
+							"<th>Géneros</th>" +
+						"</tr>" +
+						"<tr align='center'>" +
+							"<td>" + movieFields.get(0) + "</td>" +
+							"<td>" + movieFields.get(1) + "</td>" +
+							"<td>" + movieFields.get(2) + " min" + "</td>" +
+							"<td>" + movieFields.get(3) + "</td>" +
+							"<td>" + movieFields.get(4) + "</td>" +
+							"<td>" + movieFields.get(5) + "</td>" +
+						"</tr>" +
+					"</table>";
+        	response = result+ f.formulary;
+        	response=response+c.commentsFilm("titulo");
+    	}
     	return response;
 	}
 	
