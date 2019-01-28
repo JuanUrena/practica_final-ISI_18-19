@@ -33,7 +33,7 @@ public class FilterByNameTest {
 	
 	
 	// Test 2: A2 = F => el nombre de la película no está en la BD.
-	// Lo comprobamos con "A Star is Born"
+	// Lo comprobamos con "A Star Is Born"
 	@Test
 	public void test2() {
 		name = "A Star Is Born";
