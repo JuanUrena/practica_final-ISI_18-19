@@ -35,6 +35,7 @@ public class Injector {
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
 				lastId = rs.getInt("titleid");
+				System.out.println(lastId);
 			}
 		} catch (SQLException e) {
         		System.out.println(e.getMessage());
@@ -56,14 +57,26 @@ public class Injector {
 
 	public static void insertActor(String data1){
     		String sql="";
+		Integer lastId = 0;
 		//Comprobar elementos que son distintos que null
     		if(data1 == null){
     			throw new NullPointerException();
     		}
-    			sql = "INSERT INTO workers(primary_name) VALUES(?)";
+		sql = "SELECT MAX(nameid) FROM workers";
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				lastId = rs.getInt("nameid");
+				System.out.println(lastId);
+			}
+		} catch (SQLException e) {
+        		System.out.println(e.getMessage());
+        	}
+    		sql = "INSERT INTO workers(nameid, primary_name) VALUES(?,?)";
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {  
-			pstmt.setString(1, data1);
+			pstmt.setInt(1, lastId+1);
+			pstmt.setString(2, data1);
         		pstmt.executeUpdate();
         		c.commit();
     		} catch (SQLException e) {
