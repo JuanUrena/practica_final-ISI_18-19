@@ -44,7 +44,7 @@ public class Injector {
 	}
 
 	public List<String> filterByName(String film) {
-		String sql = "SELECT * FROM movies WHERE title = "+'"'+film+'"';
+		String sql = "SELECT * FROM movies WHERE title = "+"'"+film+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -53,9 +53,9 @@ public class Injector {
     		rs.next();
             String title = rs.getString("title");
             String year = Integer.toString(rs.getInt("year"));
-            String runtimeMinutes = Integer.toString(rs.getInt("runtimeMinutes"));
-            String averageRating = Double.toString(rs.getDouble("averageRating"));
-            String numVotes = Integer.toString(rs.getInt("numVotes"));
+            String runtimeMinutes = Integer.toString(rs.getInt("runtime_minutes"));
+            String averageRating = (Double.toString(rs.getDouble("average_rating"))).substring(0, 3);
+            String numVotes = Integer.toString(rs.getInt("num_votes"));
             String genres = rs.getString("genres");
             result.add(title);
             result.add(year);
