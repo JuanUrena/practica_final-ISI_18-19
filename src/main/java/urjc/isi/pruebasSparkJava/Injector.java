@@ -29,7 +29,7 @@ public class Injector {
     		if(data1 == null || data2 == null){
     			throw new NullPointerException();
     		}
-		sql = "SELECT MAX(titleid) FROM movies"
+		sql = "SELECT MAX(titleid) FROM movies";
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
