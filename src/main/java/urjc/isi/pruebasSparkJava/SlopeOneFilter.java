@@ -22,7 +22,6 @@ public class SlopeOneFilter {
 	Map<Integer, Map<Integer, Double>> diffMap;
 	Map<Integer, Map<Integer, Integer>> weightMap;
 	Map<Integer, LinkedList<Node>> predictions;
-	Map<Integer, Double> predictions2;
 
 	class Node {
 		int titleID;
@@ -60,12 +59,15 @@ public class SlopeOneFilter {
 	}
 
 	public SlopeOneFilter() {
-//		data  = new HashMap<>();
+		data  = new HashMap<>();
 //		JDBC call
-//		buildMaps();
-//		for (int user : data.keySet()){
-//			predict(user);
-//		}
+//		Injector c = new Injector("JDBC_DATABASE_URL");
+//		c.makeDataHashMap(data);
+//		c.close();
+		buildMaps();
+		for (int user : data.keySet()){
+			predict(user);
+		}
 	}
 
 	//Introduzco las diferencias totales de cada pareja de películas: movie_A movie_B total_diff
@@ -76,7 +78,7 @@ public class SlopeOneFilter {
 			diffMap.put(movie_A,movie_diff);
 		}else{
 			movie_diff = diffMap.get(movie_A);
-			if(movie_diff.get(movie_B) == null) {
+			if(!movie_diff.containsKey(movie_B)) {
 				movie_diff.put(movie_B,diff);
 			}else {
 				movie_diff.put(movie_B,diff + movie_diff.get(movie_B));
@@ -92,7 +94,7 @@ public class SlopeOneFilter {
 			weightMap.put(movie_A,movie_weight);
 		}else {
 			movie_weight = weightMap.get(movie_A);
-			if(movie_weight.get(movie_B) == null) {
+			if(!movie_weight.containsKey(movie_B)) {
 				movie_weight.put(movie_B,1);
 			}else {
 				movie_weight.put(movie_B,movie_weight.get(movie_B) + 1);
@@ -102,10 +104,10 @@ public class SlopeOneFilter {
 
 	//Calculo y establezco la diferencia promedio de cada pareja apoyandome de la frecuencia
 	public void setAvgDiff() {
-		for(Map.Entry<Integer, Map<Integer, Double>> entry: diffMap.entrySet()) {
+		for(Entry<Integer, Map<Integer, Double>> entry: diffMap.entrySet()) {
 			int movie_A = entry.getKey();
 			Map<Integer,Double> movie = entry.getValue();
-			for(Map.Entry<Integer, Double> my_movie: movie.entrySet()) {
+			for(Entry<Integer, Double> my_movie: movie.entrySet()) {
 				Map<Integer,Integer> movie_weight = weightMap.get(movie_A);
 				int movie_B = my_movie.getKey();
 				int weight = movie_weight.get(movie_B);
@@ -125,7 +127,7 @@ public class SlopeOneFilter {
 		for(Map<Integer, Double> user_movies: data.values()) {
 			for(Entry<Integer, Double> movie: user_movies.entrySet()) {
 				int movie_A = movie.getKey();
-				for(Map.Entry<Integer, Double> other_movie: user_movies.entrySet()) {
+				for(Entry<Integer, Double> other_movie: user_movies.entrySet()) {
 					int movie_B = other_movie.getKey();
 
 					if(movie_A == movie_B) {
@@ -147,15 +149,14 @@ public class SlopeOneFilter {
 		}
 		setAvgDiff();
 	}
-
-
-
-
-
+	
+//  Map<Integer, Map<Integer, Integer>> weights? No hace falta pasar un mapa original por referencia,
+//	ni que el metodo sea static
 	public static int sumaWeights(Map<Integer, Map<Integer, Integer>> weights, int movieKey) {
 
 		int suma = 0;
 
+//		Map<Integer, Integer> weights_movie = weights.get(movieKey);
 		Map<Integer, Integer> weights_movie = new HashMap<Integer, Integer>();
 		weights_movie = weights.get(movieKey);
 
@@ -166,15 +167,15 @@ public class SlopeOneFilter {
 	}
 
 
-        public static Map<Integer, Double> getAllMovies(Map<Integer, Map<Integer, Double>> datos) {
-                Map<Integer, Double> allMovies = new HashMap<Integer, Double>();
-
-                for(Integer movie: datos.keySet()) {
-                	allMovies.put(movie, 0.0); // realmente solo nos interesa guardar el key (para tener una lista de películas únicas)
-                }
-
-                return allMovies;
-        }
+//        public static Map<Integer, Double> getAllMovies(Map<Integer, Map<Integer, Double>> datos) {
+//                Map<Integer, Double> allMovies = new HashMap<Integer, Double>();
+//
+//                for(Integer movie: datos.keySet()) {
+//                	allMovies.put(movie, 0.0); // realmente solo nos interesa guardar el key (para tener una lista de películas únicas)
+//                }
+//
+//                return allMovies;
+//        }
 
 
 
@@ -184,6 +185,7 @@ public class SlopeOneFilter {
 		int n = sumaWeights(this.weightMap, movieKey);
 
 
+//		Map<Integer, Double> movie_diffs = diffMap.get(movieKey);
 		Map<Integer, Double> movie_diffs = new HashMap<Integer, Double>();
 		movie_diffs = diffMap.get(movieKey);
 
@@ -210,26 +212,28 @@ public class SlopeOneFilter {
 
 	public void predict(int user) {
 
-		predictions2 = new HashMap<Integer, Double>();
-		Map<Integer, Double> user_movies = new HashMap<Integer, Double>();
+		double prediction;
+		predictions = new HashMap<Integer, LinkedList<Node>>();
 		
-	//	if(data.containsKey(user)){
-		user_movies = data.get(user);
-	//	}
-
-		Map<Integer, Double> all_movies = new HashMap<Integer, Double>();
-		all_movies = getAllMovies(data);
-
-		for(Integer movieKey: all_movies.keySet()) {
-			if(!(user_movies.containsKey(movieKey))){
-				predictions2.put(movieKey, (double) predictOneMovie(movieKey, user_movies));
+		if(data.containsKey(user)) {
+			Map<Integer, Double> user_movies = data.get(user);
+			
+			predictions.put(user, new LinkedList<Node>());
+			LinkedList<Node> predList = predictions.get(user);
+			
+			for(Integer movieKey: diffMap.keySet()) {
+				if(!(user_movies.containsKey(movieKey))) {
+					prediction = predictOneMovie(movieKey, user_movies);
+					System.out.println("value: " + prediction);
+					predList.add(getIndex(user, prediction), new Node(movieKey , prediction));
+				}
 			}
+		} else {
+			System.out.println("predict: No such user");
 		}
 	}
 
-
-
-
+	
 	public int getIndex(int user, double value) {
 		int pos = 0;
 		ListIterator<Node> itrator = predictions.get(user).listIterator();
@@ -245,14 +249,18 @@ public class SlopeOneFilter {
 
 	public void recommend(int user, int nItems) {
 		// Mostrar nItems predicciones con mayor puntuación.
-		LinkedList<Node> predictionList = predictions.get(user);
-		predictionList.sort(new NodeComp());
+		if(predictions.containsKey(user)) {
+			LinkedList<Node> predictionList = predictions.get(user);
+//			predictionList.sort(new NodeComp());
 
-		ListIterator<Node> itrator = predictionList.listIterator();
+			ListIterator<Node> itrator = predictionList.listIterator();
 
-		for (int i=0; i < nItems; i++) {
-			itrator.hasNext();
-			System.out.println(itrator.next());
+			for (int i=0; (i < nItems && itrator.hasNext()); i++) {
+				System.out.println("recommend: " + itrator.next());
+			}
+			System.out.println("----");
+		} else {
+			System.out.println("recommend: No such user");
 		}
 	}
 
@@ -287,20 +295,24 @@ public class SlopeOneFilter {
 		System.out.println("----");
 		System.out.println("weightMap\n" + so.weightMap);
 		System.out.println("----");
+		int recUser = 3;
+		so.predict(recUser);
+		System.out.println("predictions\n" + so.predictions);
+		System.out.println("----");
 
-		so.predictions = new HashMap<>();
-		so.predictions.put(1, new LinkedList<Node>());
-
-		so.predictions.get(1).add( so.new Node(1 , 8.0));
-		so.predictions.get(1).add( so.new Node(2 , 1.0));
-		so.predictions.get(1).add( so.new Node(3 , 10.0));
-
-		System.out.println(so.predictions);
-		so.recommend(1, 2);
-		System.out.println(so.predictions);
-		so.predictions.get(1).add(so.getIndex(1, 5.0), so.new Node(4 , 5.0));
-		so.predictions.get(1).add(so.getIndex(1, 4.0), so.new Node(5 , 4.0));
-		so.predictions.get(1).add(so.getIndex(1, 6.0), so.new Node(6 , 6.0));
-		System.out.println(so.predictions);
+//		so.predictions = new HashMap<>();
+//		so.predictions.put(1, new LinkedList<Node>());
+//
+//		so.predictions.get(1).add( so.new Node(1 , 8.0));
+//		so.predictions.get(1).add( so.new Node(2 , 1.0));
+//		so.predictions.get(1).add( so.new Node(3 , 10.0));
+//
+//		System.out.println(so.predictions);
+		so.recommend(recUser, 2);
+//		System.out.println(so.predictions);
+//		so.predictions.get(1).add(so.getIndex(1, 5.0), so.new Node(4 , 5.0));
+//		so.predictions.get(1).add(so.getIndex(1, 4.0), so.new Node(5 , 4.0));
+//		so.predictions.get(1).add(so.getIndex(1, 6.0), so.new Node(6 , 6.0));
+//		System.out.println(so.predictions);
 	}
 }
