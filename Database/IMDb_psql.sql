@@ -1012,10 +1012,10 @@ INSERT INTO movies VALUES(6644200,'A Quiet Place',2018,90,7.5999999999999996447,
 
 CREATE TABLE workers(
 "nameid" SERIAL NOT NULL PRIMARY KEY,
-"primaryName" TEXT,
-"birthYear" INTEGER,
-"deathYear" INTEGER,
-"primaryProfession" TEXT);
+"primary_name" TEXT,
+"birth_year" INTEGER,
+"death_year" INTEGER,
+"primary_profession" TEXT);
 
 INSERT INTO workers VALUES(4,'John Belushi',1949,1982,'actor,writer,soundtrack');
 INSERT INTO workers VALUES(6,'Ingrid Bergman',1915,1982,'actress,soundtrack,producer');
