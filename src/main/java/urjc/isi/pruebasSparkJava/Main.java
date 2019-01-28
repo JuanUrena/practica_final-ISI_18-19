@@ -168,9 +168,8 @@ public class Main {
 //    	connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
     	Score score =new Score();
     	Comment comment =new Comment();
-    	
-//    	SlopeOneFilter psql test
-    	SlopeOneFilter slopeOneFilter = new SlopeOneFilter();
+
+    	SlopeOneFilter slopeOneFilter = new SlopeOneFilter(connector);
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
     	// Set it to false to improve performance

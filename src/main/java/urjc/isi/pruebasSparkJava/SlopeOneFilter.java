@@ -60,13 +60,11 @@ public class SlopeOneFilter {
 		}
 	}
 
-	public SlopeOneFilter() {
+	public SlopeOneFilter(Injector connector) {
 		data  = new HashMap<>();
 		predictions = new HashMap<Integer, LinkedList<Node>>();
 
-		Injector c = new Injector("JDBC_DATABASE_URL");
-		c.makeDataHashMap(data);
-//		c.close();
+		connector.makeDataHashMap(data);
 
 		buildMaps();
 		for (int user : data.keySet()){
