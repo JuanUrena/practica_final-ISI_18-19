@@ -1,14 +1,14 @@
 package urjc.isi.pruebasSparkJava;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 import spark.Request;
-import spark.Response;
 
 public class Score {
 	
 	
-		//Guardo la nueva puntuacion
+		//Guardo la nueva puntuacion    COMPLETO!!!
 		public String newScore(int score, int user, String film) {
 			if (score<0 || score>10) {
 				throw new IllegalArgumentException("Puntuacion invalida");
@@ -19,15 +19,14 @@ public class Score {
 			}else {
 				Injector connector = new Injector("JDBC_DATABASE_URL");
 				connector.insertUser(user);
-				//int filmID=connector.filterByName(film)
-				//Problema, no tengo manera de sacar el idfilm
-				connector.insertRating(2, user, score);
-				
+				List<String> info_film=connector.filterByName(film);
+				int id_film=Integer.parseInt(info_film.get(6));
+				connector.insertRating(id_film, user, score);
+			}			
 			return ("Puntuacion añadida");
-			}
 		}
 		
-		//Obtengo la nueva media 
+		//Obtengo la nueva media    COMPLETO!!!
 		public int getScore(String film) {
 			if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
@@ -38,18 +37,21 @@ public class Score {
 			}
 		}
 		
-		//Actualizo la media
+		//Actualizo la media   INCOMPLETO, FALTA LA FUNCION DE BBDD
 		public void changeScore(int score, String film) {
 			if (score<0 || score>10) {
 				throw new IllegalArgumentException("Puntuacion invalida");
 			}else if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
+				int mean=getScore(film);
 				Injector connector = new Injector("JDBC_DATABASE_URL");
 			//Llamar a la función para cambiar la puntuacion de la pelicula, pedir. 
 			//Parace no estar hecha
 			}
 		}
+		
+		
 		
 		public String postScore(Request request) throws ClassNotFoundException, URISyntaxException {
 			

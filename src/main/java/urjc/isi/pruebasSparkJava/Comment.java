@@ -1,13 +1,13 @@
 package urjc.isi.pruebasSparkJava;
 
-import java.net.URISyntaxException;
+import java.util.List;
 
 import spark.Request;
-import spark.Response;
 
 public class Comment {
 	//Comentarios
 	
+	//COMPLETO!!!
 	public String newComment(String text, int user, String film) {
 		if (text.equals(null)) {
 			throw new IllegalArgumentException("Comentario invalido");
@@ -15,20 +15,20 @@ public class Comment {
 			throw new IllegalArgumentException("Usuario invalido");
 		}else if (film.equals(null)) {
 			throw new IllegalArgumentException("Pelicula invalida");
-		}else {
+		}else {			
+				Injector connector = new Injector("JDBC_DATABASE_URL");
+				connector.insertUser(user);
+				List<String> info_film=connector.filterByName(film);
+				int id_film=Integer.parseInt(info_film.get(6));
+				connector.insertComments(id_film, user, text);
+				return "Comentario almacenado";
+			}
 		//Obtengo id de la pelicula
 		//Almaceno el nuevo comentario
-			Injector connector = new Injector("JDBC_DATABASE_URL");
-			connector.insertUser(user);
-			connector.insertComments(4, user, text);
-			return "Comentario almacenado";
-		}
 	}
 	
-	//Devuelvo todos los comentarios que han hecho sobre una pelicula, con su usuario, para mostrar User: comment
+	//COMPLETO!!!
 	public String commentsFilm(String film){
-		//Obtener el id con la función basica
-		//Una funcion que me devuelva Un array de dos por dos con la info user, comen. 
 		if (film.equals(null)) {
 			throw new IllegalArgumentException("Pelicula invalida");
 		}else{
@@ -43,11 +43,11 @@ public class Comment {
 			} catch(Exception e) {
 				return e.getMessage();
 			}
-				//DEvuelvo el error de la base de datos
 		}
 
 	}
 	
+	//COMPLETO!!!
 	public String commentToString(String matrix_coment[][])
 	{
 		String text = "<u><b>Comentarios:</b></u><br>";
@@ -59,7 +59,7 @@ public class Comment {
 		return text;
 	}
 	
-	//Guardo un nuevo comentario de un usuario hacia una pelicula
+	//COMPLETO!!!
 	public String postComment(Request request) {
 		String comment=request.queryParams("comment");
 		
