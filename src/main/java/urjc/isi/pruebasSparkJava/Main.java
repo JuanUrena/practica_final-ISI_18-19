@@ -62,7 +62,7 @@ public class Main {
     	}
     	return result;
     }
-    
+    /*
     public static String selectTitle_ID(Connection conn, String table, String data1, String data2, String data3) {
 		String sql="";
     	String result = null;
@@ -99,6 +99,7 @@ public class Main {
     	    return null;
     	}
 }
+	*/
     
     public static void insert(Connection conn, String film, String actor) {
     	String sql = "INSERT INTO films(film, actor) VALUES(?,?)";
@@ -352,9 +353,9 @@ public class Main {
         	String result = "Has añadido ->" + last_added;
         	Injector.insertFilm(req.queryParams("film")
         			,req.queryParams("year"), req.queryParams("genres"));
-        	String title_ID = selectTitle_ID(connection, "movies", req.queryParams("film"), req.queryParams("year"), req.queryParams("genres"));
+        	//String title_ID = selectTitle_ID(connection, "movies", req.queryParams("film"), req.queryParams("year"), req.queryParams("genres"));
         	Injector.insertActor(req.queryParams("actor"));
-        	String name_ID = selectName_ID(connection, "workers", req.queryParams("actor"));
+        	//String name_ID = selectName_ID(connection, "workers", req.queryParams("actor"));
         	//insertWorks_In(connection, title_ID, name_ID);
         	return result;	
         });
