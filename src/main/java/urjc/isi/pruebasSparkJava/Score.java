@@ -9,7 +9,7 @@ public class Score {
 	
 	
 		//Guardo la nueva puntuacion    COMPLETO!!!
-		public String newScore(int score, int user, String film) {
+		public String newScore(int score, int user, String film, Injector I) {
 			if (score<0 || score>10) {
 				throw new IllegalArgumentException("Puntuacion invalida");
 			}else if (user<0) {
@@ -17,35 +17,31 @@ public class Score {
 			}else if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				Injector connector = new Injector("JDBC_DATABASE_URL");
-				connector.insertUser(user);
-				List<String> info_film=connector.filterByName(film);
+				I.insertUser(user);
+				List<String> info_film=I.filterByName(film);
 				int id_film=Integer.parseInt(info_film.get(6));
-				connector.insertRating(id_film, user, score);
+				I.insertRating(id_film, user, score);
 			}			
 			return ("Puntuacion añadida");
 		}
 		
 		//Obtengo la nueva media    COMPLETO!!!
-		public int getScore(String film) {
+		public int getScore(String film, Injector I) {
 			if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				Injector connector = new Injector("JDBC_DATABASE_URL");
-				int media =connector.meanScores(film);
+				int media =I.meanScores(film);
 				return media;
 			}
 		}
 		
 		//Actualizo la media   INCOMPLETO, FALTA LA FUNCION DE BBDD
-		public void changeScore(int score, String film) {
+		public void changeScore(int score, String film, Injector I) {
 			if (score<0 || score>10) {
 				throw new IllegalArgumentException("Puntuacion invalida");
 			}else if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				int mean=getScore(film);
-				Injector connector = new Injector("JDBC_DATABASE_URL");
 			//Llamar a la función para cambiar la puntuacion de la pelicula, pedir. 
 			//Parace no estar hecha
 			}
@@ -53,7 +49,7 @@ public class Score {
 		
 		
 		
-		public String postScore(Request request) throws ClassNotFoundException, URISyntaxException {
+		public String postScore(Request request, Injector I) {
 			
 			//Saco la puntuacion a int
 			String score_string=request.queryParams("score");
@@ -65,9 +61,9 @@ public class Score {
 			String film=request.queryParams("film");
 			
 			try {
-				String result=newScore(score, user, film);
-				score=getScore(film);
-				changeScore(score, film);
+				String result=newScore(score, user, film, I);
+				score=getScore(film, I);
+				changeScore(score, film, I);
 				return result;
 			}catch(IllegalArgumentException e) {
 				return e.getMessage();
