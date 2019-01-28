@@ -28,18 +28,15 @@ public class Injector {
     		if(data1 == null || data2 == null){
     			throw new NullPointerException();
     		}
-    			sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
+    			sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
 
-    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-			ResultSet rs = pstmt.executeQuery();
-    			c.commit();
-    			if (rs.next()) {        		
-				pstmt.setString(1, data1);
-        			pstmt.setInt(2, Integer.valueOf(data2));
-        			pstmt.setString(3, data3);
-        			pstmt.executeUpdate();
-        			c.commit();
-			}
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {       		
+			pstmt.setInt(1, 9999999);			
+			pstmt.setString(2, data1);
+        		pstmt.setInt(3, Integer.valueOf(data2));
+        		pstmt.setString(4, data3);
+        		pstmt.executeUpdate();
+        		c.commit();
         	} catch (SQLException e) {
         		System.out.println(e.getMessage());
         	}
@@ -52,16 +49,12 @@ public class Injector {
     		if(data1 == null){
     			throw new NullPointerException();
     		}
-    			sql = "INSERT INTO workers (primaryName) VALUES(?)";
+    			sql = "INSERT INTO workers(primary_name) VALUES(?)";
 
-    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-        		ResultSet rs = pstmt.executeQuery();
-    			c.commit();
-    			if (rs.next()) {    
-				pstmt.setString(1, data1);
-        			pstmt.executeUpdate();
-        			c.commit();
-			}
+    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {  
+			pstmt.setString(1, data1);
+        		pstmt.executeUpdate();
+        		c.commit();
     		} catch (SQLException e) {
     	   	 	System.out.println(e.getMessage());
     		}
