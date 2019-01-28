@@ -18,15 +18,10 @@ public class Comment {
 		}else {
 		//Obtengo id de la pelicula
 		//Almaceno el nuevo comentario
-			try {
-				Injector connector = new Injector("jdbc:sqlite:Database/IMDb.db");
-				connector.insertUser(user);
-				connector.insertComments(4, user, text);
-				return "Comentario almacenado";
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				return e.getMessage();
-			}
+			Injector connector = new Injector("JDBC_DATABASE_URL");
+			connector.insertUser(user);
+			connector.insertComments(4, user, text);
+			return "Comentario almacenado";
 		}
 	}
 	
@@ -38,16 +33,14 @@ public class Comment {
 			throw new IllegalArgumentException("Pelicula invalida");
 		}else{
 			try {
-				Injector connector = new Injector("jdbc:sqlite:Database/IMDb.db");
+				Injector connector = new Injector("JDBC_DATABASE_URL");
 				
 				String comments[][]=connector.userandcomments(film);
 				
 				String commentString=commentToString(comments);
 				
 				return commentString;
-			} catch (URISyntaxException e) {
-				return e.getMessage();
-			}catch(Exception e) {
+			} catch(Exception e) {
 				return e.getMessage();
 			}
 				//DEvuelvo el error de la base de datos
