@@ -166,8 +166,8 @@ public class Injector {
 		return result;
 	}
 
-	public List<String> getFilmComments(String film){
-		String sql = "SELECT comment FROM Comments JOIN movies ON movies.titleid = Comments.titleid WHERE movies.title LIKE "+ film;
+	public List<String> getFilmComments(int film){
+		String sql = "SELECT comment FROM comments WHERE titleid="+film;
 		
 		List<String> result = new ArrayList<String>();
 		
