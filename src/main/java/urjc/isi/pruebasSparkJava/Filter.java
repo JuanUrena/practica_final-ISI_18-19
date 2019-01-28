@@ -54,7 +54,8 @@ public class Filter {
     				+ "con nombre " + "'" + req.queryParams("film") + "'" + " en la "
     				+ "base de datos.</p>";
     	} else {
-    		// Sustituir 'response' por 'result' cuando se añadan comentarios y scores.
+    		// Sustituir 'response' por 'result' cuando se descomenten
+    		// las líneas de abajo
         	response = "<table border=2" +
 						"<tr>" +
 							"<th>Título</th>" +
