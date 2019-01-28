@@ -150,7 +150,7 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByRating(Double rating) {
+	public List<String> filterByRating(Float rating) {
 		String sql = "SELECT * FROM movies WHERE averageRating >= "+rating;
 		List<String> result = new ArrayList<String>();
 

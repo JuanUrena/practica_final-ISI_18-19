@@ -372,10 +372,10 @@ public class Main {
         post("/filter_duration", (req, res) -> Filter.showFilmByDuration(connector, req));
 
         // Recurso /filter_genre encargado de mostrar todas las películas dado un genero.
-        post("/filter_genre", (req, res) -> Filter.showFilmByGenre(req));
+        post("/filter_genre", (req, res) -> Filter.showFilmByGenre(connector, req));
 
         // Recurso /filter_rating encargado de mostrar todas las películas dado un año.
-        post("/filter_rating", (req, res) -> Filter.showFilmByRating(req));
+        post("/filter_rating", (req, res) -> Filter.showFilmByRating(connector, req));
         
         get("/recommend", (req, res) -> slopeOneFilter.showSOMenu());
         post("/recommend", (req, res) -> slopeOneFilter.recommend(req));
