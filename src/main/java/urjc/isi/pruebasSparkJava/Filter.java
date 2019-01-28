@@ -43,7 +43,7 @@ public class Filter {
 	// POST sobre /filter_name).
 	public static String showFilmByName(Injector conn, Request req) {
 		List<String> movieFields;
-		String response, result;
+		String response;
 		
 		Formulario f=new Formulario();
 		Comment c=new Comment();
@@ -109,28 +109,27 @@ public class Filter {
 	// Método encargado de mostrar al usuario todas las películas en las que
 	// participa el actor/actriz que ha introducido (HTML devuelto al hacer POST
 	// sobre /filter_actoractress).
-	public static String showFilmByActorActress(Request req) {
-    	// Los siguientes valores están puestos a modo de prueba. Hay que
-    	// sustituirlos por los valores que devuelva la función que busque en la BD.
-    	String peli1 = "película de prueba 1";
-    	String peli2 = "película de prueba 2";
-    	String peli3 = "película de prueba 3";
+	public static String showFilmByActorActress(Injector conn, Request req) {
+		List<String> movies;
+		String response;
     	
-    	String table = "<table border=2" +
-							"<tr>" +
-								"<th>Actor/Actriz: " + req.queryParams("actoractress") + "</th>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli1 + "</td>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli2 + "</td>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli3 + "</td>" +
-							"</tr>" +	
-						"</table>";
-    	return table;
+    	movies = conn.filterByActorActress(req.queryParams("actoractress"));
+
+    	if (movies.isEmpty()) {
+    		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
+    				+ "con el actor/actriz " + "'" + req.queryParams("actoractress")
+    				+ "'" + " en la base de datos.</p>";
+    	} else {
+    		response = "<table border=2" +
+    						"<tr>" +
+    							"<th>Actor/Actriz: " + req.queryParams("actoractress") + "</th>";
+    		for (int i = 0; i < movies.size(); i++) {
+    			response += "<tr align='center'>" +
+    							"<td>" + movies.get(i) + "</td>" +
+    						"</tr>";
+    		}
+    	}	
+    	return response;
 	}
 	
 	// Método encargado de mostrar al usuario todas las películas con una duración

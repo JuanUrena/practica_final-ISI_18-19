@@ -205,10 +205,11 @@ public class Injector {
 	}
 
 	public List<String> filterByActorActress(String name) {
-		String sql = "SELECT title FROM movies JOIN works_in ON movies.titleID=works_in.titleID ";
-		sql+= "JOIN workers ON workers.nameID=works_in.nameID ";
-		sql += "WHERE workers.primaryName LIKE "+'"' + name +'"';
-		sql += " and (worksas LIKE 'actor' or worksas LIKE 'actress')";
+		String sql = "SELECT title FROM movies JOIN works_in ON movies.titleid=works_in.titleid ";
+		sql+= "JOIN workers ON workers.nameid=works_in.nameid ";
+		sql += "WHERE workers.primary_name LIKE "+ "'" + name +"'";
+		sql += " and (works_as LIKE 'actor' or works_as LIKE 'actress')";
+		sql += " ORDER BY movies.titleid DESC";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {

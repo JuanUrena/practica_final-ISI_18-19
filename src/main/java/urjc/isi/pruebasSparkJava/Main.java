@@ -383,7 +383,7 @@ public class Main {
         
         // Recurso /filter_actoractress encargado de mostrar todas las películas
         // en las que participa un actor o una actriz.
-        post("/filter_actoractress", (req, res) -> Filter.showFilmByActorActress(req));
+        post("/filter_actoractress", (req, res) -> Filter.showFilmByActorActress(connector, req));
 
         // Recurso /filter_duration encargado de mostrar todas las películas con una 
         //duración menor a la dada
