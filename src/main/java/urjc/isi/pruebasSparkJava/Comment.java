@@ -9,11 +9,11 @@ public class Comment {
 	
 	//COMPLETO!!!
 	public String newComment(String text, int user, String film, Injector I) {
-		if (text.equals(null)) {
+		if (text == null) {
 			throw new IllegalArgumentException("Comentario invalido");
 		}else if (user<0) {
 			throw new IllegalArgumentException("Usuario invalido");
-		}else if (film.equals(null)) {
+		}else if (film == null) {
 			throw new IllegalArgumentException("Pelicula invalida");
 		}else {			
 				I.insertUser(user);
