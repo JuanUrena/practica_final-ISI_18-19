@@ -4,7 +4,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import spark.Request;
-import spark.Response;
 
 public class Score {
 	
@@ -18,19 +17,13 @@ public class Score {
 			}else if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				try {
-					Injector connector = new Injector("JDBC_DATABASE_URL");
-					connector.insertUser(user);
-					List<String> info_film=connector.filterByName(film);
-					int id_film=Integer.parseInt(info_film.get(6));
-					connector.insertRating(id_film, user, score);
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+				Injector connector = new Injector("JDBC_DATABASE_URL");
+				connector.insertUser(user);
+				List<String> info_film=connector.filterByName(film);
+				int id_film=Integer.parseInt(info_film.get(6));
+				connector.insertRating(id_film, user, score);
+			}			
 			return ("Puntuacion añadida");
-			}
 		}
 		
 		//Obtengo la nueva media    COMPLETO!!!
@@ -38,16 +31,9 @@ public class Score {
 			if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				try {
-					Injector connector = new Injector("JDBC_DATABASE_URL");
-					int media =connector.meanScores(film);
-					return media;
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-					//Lanzar error de bbdd
-					//Quitar este return esta puesto para que no de errores
-					return -1;
-				}
+				Injector connector = new Injector("JDBC_DATABASE_URL");
+				int media =connector.meanScores(film);
+				return media;
 			}
 		}
 		
@@ -58,13 +44,8 @@ public class Score {
 			}else if (film.equals(null)) {
 				throw new IllegalArgumentException("Pelicula invalida");
 			}else {
-				try {
-					int mean=getScore(film);
-					Injector connector = new Injector("JDBC_DATABASE_URL");
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				int mean=getScore(film);
+				Injector connector = new Injector("JDBC_DATABASE_URL");
 			//Llamar a la función para cambiar la puntuacion de la pelicula, pedir. 
 			//Parace no estar hecha
 			}

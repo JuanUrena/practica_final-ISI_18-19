@@ -42,23 +42,10 @@ public class Filter {
 	// la película cuyo nombre ha introducido (HTML devuelto al hacer
 	// POST sobre /filter_name).
 	public static String showFilmByName(Injector conn, Request req) {
-		
 		Formulario f=new Formulario();
 		Comment c=new Comment();
-    	// Para acceder al valor del parametro "film" del form:
-    	// req.queryParams("film") => hay que pasarselo a la función que busque en la BD.
-    	List<String> infoFields = conn.filterByName(req.queryParams("film"));
-		System.out.println("CAMPOS:" + infoFields);
-    	// Los siguientes valores están puestos a modo de prueba. Hay que
-    	// sustituirlos por los valores que devuelva la función que busque en la BD.
-    	String titulo = "titulo de prueba";
-    	String año = "año de prueba";
-    	String duracion = "duracion de prueba";
-    	String puntuacionMedia = "puntuacion media de prueba";
-    	String numVotos = "numero de votos de prueba";
-    	String generos = "generos de prueba";
-    	String puntuacion = "puntuacion";
-    	String comentario = "Comentario";
+		
+    	List<String> movieFields = conn.filterByName(req.queryParams("film"));
     	
     	String table = "<table border=2" +
 							"<tr>" +
@@ -69,13 +56,13 @@ public class Filter {
 								"<th>Número de votos</th>" +
 								"<th>Géneros</th>" +
 							"</tr>" +
-							"<tr>" +
-								"<td>" + infoFields.get(0) + "</td>" +
-								"<td>" + infoFields.get(1) + "</td>" +
-								"<td>" + infoFields.get(2) + "</td>" +
-								"<td>" + infoFields.get(3) + "</td>" +
-								"<td>" + infoFields.get(4) + "</td>" +
-								"<td>" + infoFields.get(5) + "</td>" +
+							"<tr align='center'>" +
+								"<td>" + movieFields.get(0) + "</td>" +
+								"<td>" + movieFields.get(1) + "</td>" +
+								"<td>" + movieFields.get(2) + " min" + "</td>" +
+								"<td>" + movieFields.get(3) + "</td>" +
+								"<td>" + movieFields.get(4) + "</td>" +
+								"<td>" + movieFields.get(5) + "</td>" +
 							"</tr>" +
 						"</table>";
     	

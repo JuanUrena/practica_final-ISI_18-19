@@ -1,10 +1,8 @@
 package urjc.isi.pruebasSparkJava;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 import spark.Request;
-import spark.Response;
 
 public class Comment {
 	//Comentarios
@@ -17,26 +15,16 @@ public class Comment {
 			throw new IllegalArgumentException("Usuario invalido");
 		}else if (film.equals(null)) {
 			throw new IllegalArgumentException("Pelicula invalida");
-		}else {
-			
-			try {
-				
+		}else {			
 				Injector connector = new Injector("JDBC_DATABASE_URL");
-				
 				connector.insertUser(user);
-				
 				List<String> info_film=connector.filterByName(film);
 				int id_film=Integer.parseInt(info_film.get(6));
-				
 				connector.insertComments(id_film, user, text);
-				
 				return "Comentario almacenado";
-				
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				return e.getMessage();
 			}
-		}
+		//Obtengo id de la pelicula
+		//Almaceno el nuevo comentario
 	}
 	
 	//COMPLETO!!!
@@ -52,9 +40,7 @@ public class Comment {
 				String commentString=commentToString(comments);
 				
 				return commentString;
-			} catch (URISyntaxException e) {
-				return e.getMessage();
-			}catch(Exception e) {
+			} catch(Exception e) {
 				return e.getMessage();
 			}
 		}

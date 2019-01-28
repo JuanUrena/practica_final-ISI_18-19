@@ -2,15 +2,6 @@ package urjc.isi.pruebasSparkJava;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-import javax.servlet.MultipartConfigElement;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.net.URISyntaxException;
-import java.net.URI;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -20,20 +11,8 @@ public class Injector {
 
 	private static Connection c;
 
-	public Injector(String name) throws URISyntaxException{
-		try {
-//			URI dbUri = new URI(System.getenv(name));
-//			String username = dbUri.getUserInfo().split(":")[0];
-//			String password = dbUri.getUserInfo().split(":")[1];
-//			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-//		    c = DriverManager.getConnection(dbUrl, username, password);
-			
-//			URI dbUri = new URI(System.getenv(name));
-//		    String username = dbUri.getUserInfo().split(":")[0];
-//		    String password = dbUri.getUserInfo().split(":")[1];
-//		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-//		    c = DriverManager.getConnection(dbUrl, username, password);
-		    
+	public Injector(String name) {
+		try {		    
 		    String dbUrl = System.getenv(name);
 		    c = DriverManager.getConnection(dbUrl);
 
@@ -44,7 +23,7 @@ public class Injector {
 	}
 
 	public List<String> filterByName(String film) {
-		String sql = "SELECT * FROM movies WHERE title = "+'"'+film+'"';
+		String sql = "SELECT * FROM movies WHERE title = "+"'"+film+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -54,9 +33,9 @@ public class Injector {
     		String id=Integer.toString(rs.getInt("titleID"));
             String title = rs.getString("title");
             String year = Integer.toString(rs.getInt("year"));
-            String runtimeMinutes = Integer.toString(rs.getInt("runtimeMinutes"));
-            String averageRating = Double.toString(rs.getDouble("averageRating"));
-            String numVotes = Integer.toString(rs.getInt("numVotes"));
+            String runtimeMinutes = Integer.toString(rs.getInt("runtime_minutes"));
+            String averageRating = (Double.toString(rs.getDouble("average_rating"))).substring(0, 3);
+            String numVotes = Integer.toString(rs.getInt("num_votes"));
             String genres = rs.getString("genres");
             result.add(title);
             result.add(year);
