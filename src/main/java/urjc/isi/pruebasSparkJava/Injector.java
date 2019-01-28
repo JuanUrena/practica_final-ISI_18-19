@@ -31,9 +31,9 @@ public class Injector {
     			sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-        		pstmt.setInt(1, data1);
-        		pstmt.setInt(2, data2);
-        		pstmt.setInt(3, data3);
+        		pstmt.setString(1, data1);
+        		pstmt.setInt(2, Integer.valueOf(data2));
+        		pstmt.setString(3, data3);
         		pstmt.executeUpdate();
         		c.commit();
         	} catch (SQLException e) {
