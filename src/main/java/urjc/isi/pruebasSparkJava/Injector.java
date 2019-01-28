@@ -22,16 +22,26 @@ public class Injector {
         }
 	}
 
+
 	public static void insertFilm(String data1, String data2, String data3){
     		String sql="";
 		//Comprobar elementos que son distintos que null
     		if(data1 == null || data2 == null){
     			throw new NullPointerException();
     		}
-    			sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
+		sql = "SELECT MAX(titleid) FROM movies"
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				Integer lastId = rs.getInt("titleid");
+			}
+		} catch (SQLException e) {
+        		System.out.println(e.getMessage());
+        	}
+    		sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {       		
-			pstmt.setInt(1, 9999999);			
+			pstmt.setInt(1, lastId+1);			
 			pstmt.setString(2, data1);
         		pstmt.setInt(3, Integer.valueOf(data2));
         		pstmt.setString(4, data3);
