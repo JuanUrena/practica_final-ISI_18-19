@@ -325,6 +325,18 @@ public class Injector {
         }
    	}
 
+    public void updateAverageRating(Integer titleID, Float averageRating) {
+		String sql = "UPDATE movies SET averageRating=" + averageRating; 
+		sql += " WHERE titleID=" + titleID;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		pstmt.executeUpdate();
+    		c.commit();
+    	} catch (SQLException e) {    		
+    		System.out.println(e.getMessage());
+    	}
+		
+	}
+
 	public void close() {
         try {
             c.close();
