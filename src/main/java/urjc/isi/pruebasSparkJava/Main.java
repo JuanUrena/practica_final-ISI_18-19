@@ -257,8 +257,8 @@ public class Main {
         get("/info", Main::infoGet);
         post("/info", Main::infoPost);
         get("/hello", Main::doWork);
-        post("/score",(req, res)-> score.postScore(req));
-        post("/comment",(req, res)-> comment.postComment(req));
+        post("/score",(req, res)-> score.postScore(req, connector));
+        post("/comment",(req, res)-> comment.postComment(req, connector));
 
 
         // In this case we use a Java 8 method reference to specify

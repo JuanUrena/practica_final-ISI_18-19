@@ -8,7 +8,7 @@ public class Comment {
 	//Comentarios
 	
 	//COMPLETO!!!
-	public String newComment(String text, int user, String film) {
+	public String newComment(String text, int user, String film, Injector I) {
 		if (text.equals(null)) {
 			throw new IllegalArgumentException("Comentario invalido");
 		}else if (user<0) {
@@ -16,11 +16,10 @@ public class Comment {
 		}else if (film.equals(null)) {
 			throw new IllegalArgumentException("Pelicula invalida");
 		}else {			
-				Injector connector = new Injector("JDBC_DATABASE_URL");
-				connector.insertUser(user);
-				List<String> info_film=connector.filterByName(film);
+				I.insertUser(user);
+				List<String> info_film=I.filterByName(film);
 				int id_film=Integer.parseInt(info_film.get(6));
-				connector.insertComments(id_film, user, text);
+				I.insertComments(id_film, user, text);
 				return "Comentario almacenado";
 			}
 		//Obtengo id de la pelicula
@@ -28,18 +27,17 @@ public class Comment {
 	}
 	
 	//COMPLETO!!!
-	public String commentsFilm(String film){
+	public String commentsFilm(String film, Injector I){
 		if (film.equals(null)) {
 			throw new IllegalArgumentException("Pelicula invalida");
 		}else{
 			try {
-				Injector connector = new Injector("JDBC_DATABASE_URL");
-				
-				String comments[][]=connector.userandcomments(film);
-				
-				String commentString=commentToString(comments);
-				
-				return commentString;
+				String text = "<u><b>Comentarios:</b></u><br>";
+				List<String> comments=I.getFilmComments(film);
+				for  (String comment :comments) {
+					text=text+comment+"<br>";
+				}
+				return text;
 			} catch(Exception e) {
 				return e.getMessage();
 			}
@@ -60,7 +58,7 @@ public class Comment {
 	}
 	
 	//COMPLETO!!!
-	public String postComment(Request request) {
+	public String postComment(Request request, Injector I) {
 		String comment=request.queryParams("comment");
 		
 		String user_string=request.queryParams("user");
@@ -68,7 +66,7 @@ public class Comment {
 		
 		String film=request.queryParams("film");
 		try {
-			String result=newComment(comment, user, film);
+			String result=newComment(comment, user, film, I);
 			return result;
 		}catch (IllegalArgumentException e) {
 			return e.getMessage();
