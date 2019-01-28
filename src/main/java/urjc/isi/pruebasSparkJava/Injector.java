@@ -65,7 +65,7 @@ public class Injector {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
     		if (rs.next()) {
-        		String id=Integer.toString(rs.getInt("titleID"));
+        		String id=Integer.toString(rs.getInt("titleid"));
                 String title = rs.getString("title");
                 String year = Integer.toString(rs.getInt("year"));
                 String runtimeMinutes = Integer.toString(rs.getInt("runtime_minutes"));
