@@ -116,11 +116,6 @@ public class GraphFuncionality {
      */
     public static ArrayList<String> nameChecker(Connection conn, String name){
     	if (name.equals("")) throw new IllegalArgumentException("GraphFuncionality.nameChecker.names"); //por si acaso (ver Tests)
-    	try { //comprobar si connection dada sigue abierta
-			if (conn.isClosed()) throw new IllegalArgumentException("GraphFuncionality.nameChecker.connection");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
     	
     	String sql = "SELECT title FROM movies " + //consulta para nombre_pelis
     			"WHERE title LIKE ?";
@@ -129,6 +124,7 @@ public class GraphFuncionality {
     	
     	ArrayList<String> result = new ArrayList<String>();
     	try {	
+    		if (conn.isClosed()) throw new IllegalArgumentException("GraphFuncionality.nameChecker.connection"); //comprobar si connection dada sigue abierta
 	    	PreparedStatement pstmt = conn.prepareStatement(sql);
 	    	pstmt.setString(1, "%" + name + "%");
 	    	PreparedStatement pstmt2 = conn.prepareStatement(sql2);
@@ -212,6 +208,7 @@ public class GraphFuncionality {
      */
     public static Iterable<String> doRanking(Graph graph, String number) {
     	ST<String, Integer> result = new ST<String, Integer>();
+    	if (number.equals("")) throw new IllegalArgumentException("GraphFuncionality.doRanking.number"); //por si acaso (ver Tests)
     	
     	int numberAux = Integer.parseInt(number);
     	for (String v : graph.vertices()) {

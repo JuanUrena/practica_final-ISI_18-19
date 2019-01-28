@@ -28,21 +28,17 @@ public class Comment {
 	
 	//COMPLETO!!!
 	public String commentsFilm(String film, Injector I){
-		if (film.equals(null)) {
-			throw new IllegalArgumentException("Pelicula invalida");
-		}else{
-			try {
-				String text = "<u><b>Comentarios:</b></u><br>";
-				List<String> comments=I.getFilmComments(film);
-				for  (String comment :comments) {
-					text=text+comment+"<br>";
-				}
-				return text;
-			} catch(Exception e) {
-				return e.getMessage();
+		String text = "<u><b>Comentarios:</b></u><br>";
+		List<String> info_film=I.filterByName(film);
+		int id_film=Integer.parseInt(info_film.get(6));
+		List<String> comments=I.getFilmComments(id_film);
+		if (comments.size()!=0) {
+			for  (String comment :comments) {
+				text=text+comment+"<br>";
 			}
 		}
-
+		return text;
+		
 	}
 	
 	//COMPLETO!!!

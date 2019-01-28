@@ -3,15 +3,12 @@ package urjc.isi.pruebasSparkJava;
 import static spark.Spark.*;
 import spark.Request;
 import spark.Response;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.servlet.MultipartConfigElement;
 import java.io.BufferedReader;
@@ -24,6 +21,7 @@ public class Main {
     // Initialized in main
     private static Connection connection;
     private static String last_added;
+    
 	
     static int getHerokuAssignedPort() {
     	ProcessBuilder processBuilder = new ProcessBuilder();
@@ -204,8 +202,7 @@ public class Main {
     	Comment comment =new Comment();
     	
 //    	SlopeOneFilter psql test
-//    	SlopeOneFilter slopeOneFilter = new SlopeOneFilter();
-//    	System.out.println(slopeOneFilter.data);
+    	SlopeOneFilter slopeOneFilter = new SlopeOneFilter();
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
     	// Set it to false to improve performance
@@ -243,6 +240,8 @@ public class Main {
 				"</div>" +
 			"</form>" +
     			"<a href='/filter'>Búsqueda de películas</a>" +
+    			"<br><br>" +
+    			"<a href='/recommend'>Recomendar peliculas a un usuario</a>" +
     			"<br><br>" +
     			"<p>Grafos:</p>" +
     			"<ul>" + 
@@ -394,6 +393,8 @@ public class Main {
 
         // Recurso /filter_rating encargado de mostrar todas las películas dado un año.
         post("/filter_rating", (req, res) -> Filter.showFilmByRating(req));
+        
+        get("/recommend", (req, res) -> slopeOneFilter.showFilterMenu());
 
 
         get("/distance", (req, res) -> {

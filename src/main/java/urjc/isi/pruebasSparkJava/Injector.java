@@ -166,8 +166,8 @@ public class Injector {
 		return result;
 	}
 
-	public List<String> getFilmComments(String film){
-		String sql = "SELECT comment FROM Comments JOIN movies ON movies.titleid = Comments.titleid WHERE movies.title LIKE "+ film;
+	public List<String> getFilmComments(int film){
+		String sql = "SELECT comment FROM comments WHERE titleid="+film;
 		
 		List<String> result = new ArrayList<String>();
 		
@@ -261,12 +261,12 @@ public class Injector {
 		}
 	}
 
-    public void insertRating(Integer titleID, Integer clientID, Integer score) {
+    public void insertRating(Integer titleid, Integer clientid, Integer score) {
 	String sql= new String();
 
-    	if(searchRating(titleID, clientID)) {
+    	if(searchRating(titleid, clientid)) {
     		sql = "UPDATE ratings SET score=" + score;
-    		sql += " WHERE titleid=" + titleID + " and clientid="+ clientID;
+    		sql += " WHERE titleid=" + titleid + " and clientid="+ clientid;
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
         		pstmt.executeUpdate();
         		c.commit();
@@ -276,8 +276,8 @@ public class Injector {
     	}else {
     		sql = "INSERT INTO ratings(titleid, clientid,score) VALUES(?,?,?)";
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-        		pstmt.setInt(1, titleID);
-        		pstmt.setInt(2, clientID);
+        		pstmt.setInt(1, titleid);
+        		pstmt.setInt(2, clientid);
         		pstmt.setInt(3, score);
         		pstmt.executeUpdate();
         		c.commit();

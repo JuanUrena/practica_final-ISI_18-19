@@ -2,7 +2,6 @@ package urjc.isi.pruebasSparkJava;
 
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
@@ -246,6 +245,36 @@ public class SlopeOneFilter {
 		}
 		return pos;
 	}
+	
+	public String showFilterMenu() {
+		String menu = 	"<h1>Recomendar peliculas a un usuario</h1>" +
+						"<hr>" +
+						"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
+						"<form action='/recommend' method='post'>" +
+							"<label for='user'>Usuario: </label>" + 
+							"<input type='number' name='user' id='user' min='0' required> " +
+							"<label for='n_items'>Numero de recomendaciones: </label>" + 
+							"<input type='number' name='n_items' id='n_items' min='0' required> " +
+							"<input type='submit' value='Recomendar'>" +
+						"</form>";
+		return menu;
+	}
+	
+//	public String updateData(Request request) {
+//		
+//		Double score=Double.parseDouble(request.queryParams("score"));
+//		Integer user=Integer.parseInt(request.queryParams("user"));
+//		String film=request.queryParams("film");
+//		
+//		try {
+//			String result=newScore(score, user, film, I);
+//			score=getScore(film, I);
+//			changeScore(score, film, I);
+//			return result;
+//		}catch(IllegalArgumentException e) {
+//			return e.getMessage();
+//		}
+//	}
 
 	public void recommend(int user, int nItems) {
 		// Mostrar nItems predicciones con mayor puntuación.
