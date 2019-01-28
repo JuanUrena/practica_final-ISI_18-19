@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import spark.Request;
 
 /**
  * @author nshandra, jaimefdez96, AlbertoCoding
@@ -62,7 +63,7 @@ public class SlopeOneFilter {
 //		JDBC call
 		Injector c = new Injector("JDBC_DATABASE_URL");
 		c.makeDataHashMap(data);
-		c.close();
+//		c.close();
 		buildMaps();
 		for (int user : data.keySet()){
 			predict(user);
@@ -223,7 +224,7 @@ public class SlopeOneFilter {
 			for(Integer movieKey: diffMap.keySet()) {
 				if(!(user_movies.containsKey(movieKey))) {
 					prediction = predictOneMovie(movieKey, user_movies);
-					System.out.println("value: " + prediction);
+//					System.out.println("value: " + prediction);
 					predList.add(getIndex(user, prediction), new Node(movieKey , prediction));
 				}
 			}
@@ -246,17 +247,21 @@ public class SlopeOneFilter {
 		return pos;
 	}
 	
-	public String showFilterMenu() {
-		String menu = 	"<h1>Recomendar peliculas a un usuario</h1>" +
-						"<hr>" +
-						"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
+	public String sOForm() {
+		String menu = 	"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
 						"<form action='/recommend' method='post'>" +
-							"<label for='user'>Usuario: </label>" + 
-							"<input type='number' name='user' id='user' min='0' required> " +
-							"<label for='n_items'>Numero de recomendaciones: </label>" + 
-							"<input type='number' name='n_items' id='n_items' min='0' required> " +
-							"<input type='submit' value='Recomendar'>" +
+						"<label for='user'>Usuario: </label>" + 
+						"<input type='number' name='user' id='user' min='0' required> " +
+						"<label for='n_items'>Numero de recomendaciones: </label>" + 
+						"<input type='number' name='n_items' id='n_items' min='0' required> " +
+						"<input type='submit' value='Recomendar'>" +
 						"</form>";
+		return menu;
+	}
+	
+	public String showSOMenu() {
+		String menu = 	"<h1>Recomendar peliculas a un usuario</h1><hr>" +
+						sOForm();
 		return menu;
 	}
 	
@@ -276,8 +281,13 @@ public class SlopeOneFilter {
 //		}
 //	}
 
-	public void recommend(int user, int nItems) {
+	public String recommend(Request request) {
 		// Mostrar nItems predicciones con mayor puntuación.
+		String response = showSOMenu() + "<h4>Recomendaciones:</h4>";
+		
+		int user = Integer.parseInt(request.queryParams("user"));
+		int nItems = Integer.parseInt(request.queryParams("n_items"));
+
 		if(predictions.containsKey(user)) {
 			LinkedList<Node> predictionList = predictions.get(user);
 //			predictionList.sort(new NodeComp());
@@ -286,48 +296,50 @@ public class SlopeOneFilter {
 
 			for (int i=0; (i < nItems && itrator.hasNext()); i++) {
 				System.out.println("recommend: " + itrator.next());
+				response += (itrator.next().toString() + "<br>" );
 			}
 			System.out.println("----");
 		} else {
 			System.out.println("recommend: No such user");
 		}
+		return response;
 	}
 
-	public static void main(String args[]){
-		SlopeOneFilter so = new SlopeOneFilter();
-
-		so.data = new HashMap<>();
-
-		Integer item_A = 1;
-		Integer item_B = 11;
-		Integer item_C = 111;
-
-		HashMap<Integer, Double> user1 = new HashMap<>();
-		HashMap<Integer, Double> user2 = new HashMap<>();
-		HashMap<Integer, Double> user3 = new HashMap<>();
-
-		user1.put(item_A, 5.0);
-		user1.put(item_B, 3.0);
-		user1.put(item_C, 2.0);
-		so.data.put(1, user1);
-		user2.put(item_A, 3.0);
-		user2.put(item_B, 4.0);
-		so.data.put(2, user2);
-		user3.put(item_B, 2.0);
-		user3.put(item_C, 5.0);
-		so.data.put(3, user3);
-		System.out.println("data\n" + so.data);
-		System.out.println("----");
-		so.buildMaps();
-
-		System.out.println("diffMap\n" + so.diffMap);
-		System.out.println("----");
-		System.out.println("weightMap\n" + so.weightMap);
-		System.out.println("----");
-		int recUser = 3;
-		so.predict(recUser);
-		System.out.println("predictions\n" + so.predictions);
-		System.out.println("----");
+//	public static void main(String args[]){
+//		SlopeOneFilter so = new SlopeOneFilter();
+//
+//		so.data = new HashMap<>();
+//
+//		Integer item_A = 1;
+//		Integer item_B = 11;
+//		Integer item_C = 111;
+//
+//		HashMap<Integer, Double> user1 = new HashMap<>();
+//		HashMap<Integer, Double> user2 = new HashMap<>();
+//		HashMap<Integer, Double> user3 = new HashMap<>();
+//
+//		user1.put(item_A, 5.0);
+//		user1.put(item_B, 3.0);
+//		user1.put(item_C, 2.0);
+//		so.data.put(1, user1);
+//		user2.put(item_A, 3.0);
+//		user2.put(item_B, 4.0);
+//		so.data.put(2, user2);
+//		user3.put(item_B, 2.0);
+//		user3.put(item_C, 5.0);
+//		so.data.put(3, user3);
+//		System.out.println("data\n" + so.data);
+//		System.out.println("----");
+//		so.buildMaps();
+//
+//		System.out.println("diffMap\n" + so.diffMap);
+//		System.out.println("----");
+//		System.out.println("weightMap\n" + so.weightMap);
+//		System.out.println("----");
+//		int recUser = 3;
+//		so.predict(recUser);
+//		System.out.println("predictions\n" + so.predictions);
+//		System.out.println("----");
 
 //		so.predictions = new HashMap<>();
 //		so.predictions.put(1, new LinkedList<Node>());
@@ -337,11 +349,11 @@ public class SlopeOneFilter {
 //		so.predictions.get(1).add( so.new Node(3 , 10.0));
 //
 //		System.out.println(so.predictions);
-		so.recommend(recUser, 2);
+//		so.recommend(recUser, 2);
 //		System.out.println(so.predictions);
 //		so.predictions.get(1).add(so.getIndex(1, 5.0), so.new Node(4 , 5.0));
 //		so.predictions.get(1).add(so.getIndex(1, 4.0), so.new Node(5 , 4.0));
 //		so.predictions.get(1).add(so.getIndex(1, 6.0), so.new Node(6 , 6.0));
 //		System.out.println(so.predictions);
-	}
+//	}
 }
