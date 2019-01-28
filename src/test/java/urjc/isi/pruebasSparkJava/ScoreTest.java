@@ -1,8 +1,11 @@
 package urjc.isi.pruebasSparkJava;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api.Test;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+import org.junit.*;
+
 
 class ScoreTest {
 	
@@ -18,7 +21,7 @@ class ScoreTest {
 	//Comprobamos si devolvemos la media correctamente
 	@Test
 	void testGetScor() {
-		assertEquals(4,S.getScor("Titanic"));
+		assertEquals(4,S.getScore("Titanic"));
 		//fail("Not yet implemented");
 	}
 	
