@@ -350,10 +350,10 @@ public class Main {
         		+ "</p>Género: " + req.queryParams("genres")
         		+ "</p>Actor: " + req.queryParams("actor");
         	String result = "Has añadido ->" + last_added;
-        	insertFilm(connection, req.queryParams("film")
+        	Injector.insertFilm(req.queryParams("film")
         			,req.queryParams("year"), req.queryParams("genres"));
         	String title_ID = selectTitle_ID(connection, "movies", req.queryParams("film"), req.queryParams("year"), req.queryParams("genres"));
-        	insertActor(connection, req.queryParams("actor"));
+        	Injector.insertActor(req.queryParams("actor"));
         	String name_ID = selectName_ID(connection, "workers", req.queryParams("actor"));
         	//insertWorks_In(connection, title_ID, name_ID);
         	return result;	
