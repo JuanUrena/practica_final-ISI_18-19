@@ -101,6 +101,14 @@ public class GraphFuncionalityTests {
     		GraphFuncionality.nameChecker(connection, "");
     	}
     	
+    	//Test para comprobar que salta la excepcion si por lo que sea a doRanking le llega 
+    	//un number="" (inválido)
+    	@Test (expected = IllegalArgumentException.class) 
+    	public void testForInvalidName2()
+    	{
+    		GraphFuncionality.doRanking(g, "");
+    	}
+    	
     	
     	//HAPPY PATHS --------------------------------------
     	
