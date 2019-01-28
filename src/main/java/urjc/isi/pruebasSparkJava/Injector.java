@@ -25,7 +25,7 @@ public class Injector {
 
 	public static void insertFilm(String data1, String data2, String data3){
     		String sql="";
-		Integer lastId;
+		Integer lastId = 0;
 		//Comprobar elementos que son distintos que null
     		if(data1 == null || data2 == null){
     			throw new NullPointerException();
