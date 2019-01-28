@@ -1,5 +1,6 @@
 package urjc.isi.pruebasSparkJava;
 
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -41,7 +42,8 @@ public class SlopeOneFilter {
 		}
 
 		public String toString() {
-			return "titleID: " + getKey() + ", Pred: " + getValue();
+			DecimalFormat numberFormat = new DecimalFormat("#.00");
+			return "titleID: " + getKey() + ", Predicción: " + numberFormat.format(getValue());
 		}
 	}
 
@@ -246,22 +248,18 @@ public class SlopeOneFilter {
 		}
 		return pos;
 	}
+
 	
-	public String sOForm() {
-		String menu = 	"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
-						"<form action='/recommend' method='post'>" +
+	public String showSOMenu() {
+		String menu = 	"<h1>Recomendar peliculas a un usuario</h1><hr>" +
+						"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
+						"<hr><form action='/recommend' method='post'>" +
 						"<label for='user'>Usuario: </label>" + 
 						"<input type='number' name='user' id='user' min='0' required> " +
 						"<label for='n_items'>Numero de recomendaciones: </label>" + 
 						"<input type='number' name='n_items' id='n_items' min='0' required> " +
 						"<input type='submit' value='Recomendar'>" +
-						"</form>";
-		return menu;
-	}
-	
-	public String showSOMenu() {
-		String menu = 	"<h1>Recomendar peliculas a un usuario</h1><hr>" +
-						sOForm();
+						"</form><hr>";
 		return menu;
 	}
 	
@@ -283,30 +281,33 @@ public class SlopeOneFilter {
 
 	public String recommend(Request request) {
 		// Mostrar nItems predicciones con mayor puntuación.
-		String response = showSOMenu() + "<h4>Recomendaciones:</h4>";
+		String response = showSOMenu();
 		
 		int user = Integer.parseInt(request.queryParams("user"));
 		int nItems = Integer.parseInt(request.queryParams("n_items"));
 
 		if(predictions.containsKey(user)) {
+			response += "<h4>Recomendaciones:</h4><hr><table>";
 			LinkedList<Node> predictionList = predictions.get(user);
-//			predictionList.sort(new NodeComp());
 
 			ListIterator<Node> itrator = predictionList.listIterator();
 
 			for (int i=0; (i < nItems && itrator.hasNext()); i++) {
-				System.out.println("recommend: " + itrator.next());
-				response += (itrator.next().toString() + "<br>" );
+				response += ("<tr><td>" + itrator.next().toString() + "</td></tr>");
 			}
-			System.out.println("----");
+			response += "</table><hr>";
 		} else {
-			System.out.println("recommend: No such user");
+			response += "<h4>El usuario no existe.</h4><hr>";
 		}
+		System.out.println("recommend\n" + response);
+		System.out.println("----");
 		return response;
 	}
 
 //	public static void main(String args[]){
 //		SlopeOneFilter so = new SlopeOneFilter();
+//		System.out.println("predictions\n" + so.predictions.keySet());
+//		System.out.println("----");
 //
 //		so.data = new HashMap<>();
 //
