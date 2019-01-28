@@ -387,7 +387,7 @@ public class Main {
 
         // Recurso /filter_duration encargado de mostrar todas las películas con una 
         //duración menor a la dada
-        post("/filter_duration", (req, res) -> Filter.showFilmByDuration(req));
+        post("/filter_duration", (req, res) -> Filter.showFilmByDuration(connector, req));
 
         // Recurso /filter_genre encargado de mostrar todas las películas dado un genero.
         post("/filter_genre", (req, res) -> Filter.showFilmByGenre(req));
