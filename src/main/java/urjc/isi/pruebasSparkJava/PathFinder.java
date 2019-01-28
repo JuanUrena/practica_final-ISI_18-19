@@ -70,6 +70,13 @@ public class PathFinder {
         if (!hasPathTo(v)) return Integer.MAX_VALUE;
         return dist.get(v);
     }
+    
+    
+  //Método para que me devuelva un Iterable sobre las keys(Strings) de la ST dist (que es privada).
+    public Iterable<String> dameKeys() {
+        return dist.keys();
+    }
+    
 
     // return the shortest path from v to s as an Iterable
     public Iterable<String> pathTo(String v) {
