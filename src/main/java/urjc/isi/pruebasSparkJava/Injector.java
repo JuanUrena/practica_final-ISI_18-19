@@ -51,6 +51,7 @@ public class Injector {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
     		rs.next();
+    		String id=Integer.toString(rs.getInt("titleID"));
             String title = rs.getString("title");
             String year = Integer.toString(rs.getInt("year"));
             String runtimeMinutes = Integer.toString(rs.getInt("runtimeMinutes"));
@@ -63,6 +64,7 @@ public class Injector {
             result.add(averageRating);
             result.add(numVotes);
             result.add(genres);
+            result.add(id);
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
     	}
