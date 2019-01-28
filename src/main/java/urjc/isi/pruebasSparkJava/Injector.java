@@ -265,7 +265,7 @@ public class Injector {
 
     	if(searchRating(titleID, clientID)) {
     		sql = "UPDATE ratings SET score=" + score;
-    		sql += " WHERE titleID=" + titleID + " and clientID="+ clientID;
+    		sql += " WHERE titleid=" + titleID + " and clientid="+ clientID;
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
         		pstmt.executeUpdate();
         		c.commit();
@@ -273,7 +273,7 @@ public class Injector {
         		System.out.println(e.getMessage());
         	}
     	}else {
-    		sql = "INSERT INTO ratings(titleID, clientID,score) VALUES(?,?,?)";
+    		sql = "INSERT INTO ratings(titleid, clientid,score) VALUES(?,?,?)";
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
         		pstmt.setInt(1, titleID);
         		pstmt.setInt(2, clientID);
@@ -287,7 +287,7 @@ public class Injector {
     }
 
     public Boolean searchUser(Integer clientID) {
-		String sql = "SELECT clientID FROM clients WHERE clientID = "+ clientID;
+		String sql = "SELECT clientID FROM clients WHERE clientid = "+ clientID;
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
 			ResultSet rs= pstmt.executeQuery();
 			rs.next();
@@ -315,7 +315,7 @@ public class Injector {
 //titleid, clientID y comment
 //NOMBRE TABLA: comments(Hay que crearla)
     public void insertComments(Integer titleid, Integer clientid, String comments) {
-   		String sql= "INSERT INTO comments(titleID, clientID,comment) VALUES("+titleid+","+clientid+","+comments+")";
+   		String sql= "INSERT INTO comments(titleid, clientid, comment) VALUES("+titleid+","+clientid+","+comments+")";
 
        	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
            	pstmt.executeUpdate();
@@ -327,7 +327,7 @@ public class Injector {
 
     public void updateAverageRating(Integer titleID, Float averageRating) {
 		String sql = "UPDATE movies SET averageRating = " + averageRating; 
-		sql += " WHERE titleID = " + titleID;
+		sql += " WHERE titleid = " + titleID;
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		pstmt.executeUpdate();
     		c.commit();
