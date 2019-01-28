@@ -75,7 +75,7 @@ public class Filter {
 							"<td>" + movieFields.get(5) + "</td>" +
 						"</tr>" +
 					"</table>";
-//        	response = result+ f.formulary;
+        	response = response+ f.formulary;
 //        	response=response+c.commentsFilm("titulo");
     	}
     	return response;
