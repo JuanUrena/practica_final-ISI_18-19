@@ -86,7 +86,7 @@ public class Injector {
 	}
 
 	public List<String> filterByYear(String year) {
-		String sql = "SELECT * FROM movies WHERE year = "+'"'+year+'"';
+		String sql = "SELECT * FROM movies WHERE year = "+"'"+year+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
