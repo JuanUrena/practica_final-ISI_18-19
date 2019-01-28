@@ -64,21 +64,22 @@ public class Injector {
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
-    		rs.next();
-    		String id=Integer.toString(rs.getInt("titleID"));
-            String title = rs.getString("title");
-            String year = Integer.toString(rs.getInt("year"));
-            String runtimeMinutes = Integer.toString(rs.getInt("runtime_minutes"));
-            String averageRating = (Double.toString(rs.getDouble("average_rating"))).substring(0, 3);
-            String numVotes = Integer.toString(rs.getInt("num_votes"));
-            String genres = rs.getString("genres");
-            result.add(title);
-            result.add(year);
-            result.add(runtimeMinutes);
-            result.add(averageRating);
-            result.add(numVotes);
-            result.add(genres);
-            result.add(id);
+    		if (rs.next()) {
+        		String id=Integer.toString(rs.getInt("titleid"));
+                String title = rs.getString("title");
+                String year = Integer.toString(rs.getInt("year"));
+                String runtimeMinutes = Integer.toString(rs.getInt("runtime_minutes"));
+                String averageRating = (Double.toString(rs.getDouble("average_rating"))).substring(0, 3);
+                String numVotes = Integer.toString(rs.getInt("num_votes"));
+                String genres = rs.getString("genres");
+                result.add(title);
+                result.add(year);
+                result.add(runtimeMinutes);
+                result.add(averageRating);
+                result.add(numVotes);
+                result.add(genres);
+                result.add(id);
+    		}
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
     	}
@@ -86,7 +87,7 @@ public class Injector {
 	}
 
 	public List<String> filterByYear(String year) {
-		String sql = "SELECT * FROM movies WHERE year = "+'"'+year+'"';
+		String sql = "SELECT * FROM movies WHERE year = "+"'"+year+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {

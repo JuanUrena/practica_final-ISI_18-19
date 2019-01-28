@@ -379,7 +379,7 @@ public class Main {
         post("/filter_name", (req, res) -> Filter.showFilmByName(connector, req));
         
         // Recurso /filter_year encargado de mostrar todas las películas dado un año.
-        post("/filter_year", (req, res) -> Filter.showFilmByYear(req));
+        post("/filter_year", (req, res) -> Filter.showFilmByYear(connector, req));
         
         // Recurso /filter_actoractress encargado de mostrar todas las películas
         // en las que participa un actor o una actriz.
