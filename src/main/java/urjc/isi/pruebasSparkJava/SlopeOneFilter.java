@@ -222,6 +222,8 @@ public class SlopeOneFilter {
 			
 			predictions.put(user, new LinkedList<Node>());
 
+		//	LinkedList<Node> predList = new LinkedList<Node>();
+		//	predList = predictions.get(user);
 			LinkedList<Node> predList = predictions.get(user);
 
 			for(Integer movieKey: diffMap.keySet()) {
