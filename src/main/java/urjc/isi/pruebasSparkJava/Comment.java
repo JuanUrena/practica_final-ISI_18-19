@@ -10,15 +10,16 @@ public class Comment {
 	//COMPLETO!!!
 	public String newComment(String text, int user, String film, Injector I) {
 		if (text.equals(null)) {
-			throw new IllegalArgumentException("Comentario invalido");
+			return("Comentario invalido");
 		}else if (user<0) {
-			throw new IllegalArgumentException("Usuario invalido");
+			return("Usuario invalido");
 		}else if (film.equals(null)) {
-			throw new IllegalArgumentException("Pelicula invalida");
+			return("Pelicula invalida");
 		}else {			
 				I.insertUser(user);
 				List<String> info_film=I.filterByName(film);
 				int id_film=Integer.parseInt(info_film.get(6));
+				System.out.println(id_film);
 				I.insertComments(id_film, user, text);
 				return "Comentario almacenado";
 			}
@@ -56,17 +57,15 @@ public class Comment {
 	//COMPLETO!!!
 	public String postComment(Request request, Injector I) {
 		String comment=request.queryParams("comment");
+		System.out.println(comment);
 		
 		String user_string=request.queryParams("user");
 		int user=Integer.parseInt(user_string);
-		
+		System.out.println(user);
 		String film=request.queryParams("film");
-		try {
-			String result=newComment(comment, user, film, I);
-			return result;
-		}catch (IllegalArgumentException e) {
-			return e.getMessage();
-		}
+		System.out.println(film);
+		String result=newComment(comment, user, film, I);
+		return result;
 	}
 }
 
