@@ -167,6 +167,40 @@ public class Injector {
     	}
     	return result;
 	}
+	
+		public String[][] userandcomments(String film){
+		String sql = "SELECT comment,clientID FROM Comments JOIN movies ON movies.titleID = Comments.titleID JOIN clients ON clients.clientID=movies.clientID WHERE movies.title LIKE "+"+film+"+" GROUP BY clientID";
+		
+		String name_col= "clientID";
+		String name_col2= "commentID";
+		String table = "Comments";
+		String table2 = "clients";
+		Integer total_comment = 0;
+		Integer total_clients = 0;
+		total_comment = contar(table,name_col);
+		total_clients = contar(table2,name_col2);
+		String[][] result = new String[total_clients][total_comment];
+		Integer aux = 0;
+		
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		ResultSet rs = pstmt.executeQuery();
+    		c.commit();
+
+    		while(rs.next()) {
+    			aux = rs.getInt("ClientID");
+    			for (int i = 0; i< total_comment;i++) {
+    				if (result[aux-1][i] == null) {
+    					result[aux-1][i] = rs.getString("comment");
+    					break;
+    				}
+    			}
+   		}
+		} catch (SQLException e) {
+			
+    		System.out.println(e.getMessage());
+    	}
+		return result;
+	}
 
 	public Integer contar(String name_table,String name_col) {
 		String sql = "SELECT COUNT("+name_col+") FROM "+ name_table;
