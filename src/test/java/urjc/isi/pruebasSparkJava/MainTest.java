@@ -52,18 +52,18 @@ public class MainTest {
 	*/
 
 	//Test1: insertFilm
-	@Test (expected = RuntimeException.class)
-	public void testInsertFullFieldsMovie()
-	{
-		Main.insertFilm(connection, "Kill Bill: Volumen 3", "2020", "Accion");
-	}
+//	@Test (expected = RuntimeException.class)
+//	public void testInsertFullFieldsMovie()
+//	{
+//		Main.insertFilm(connection, "Kill Bill: Volumen 3", "2020", "Accion");
+//	}
 
 	//Test2: insertFilm
-	@Test (expected = RuntimeException.class)
-	public void testInsertNullGenre()
-	{
-		Main.insertFilm(connection, "Interstellar 2", "2022", null);
-	}
+//	@Test (expected = RuntimeException.class)
+//	public void testInsertNullGenre()
+//	{
+//		Main.insertFilm(connection, "Interstellar 2", "2022", null);
+//	}
 
 	//Test3: insertFilm
 	@Test (expected = NullPointerException.class)
