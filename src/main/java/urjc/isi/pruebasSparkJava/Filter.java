@@ -168,7 +168,7 @@ public class Filter {
     	} else {
     		response = "<table border=2" +
     						"<tr>" +
-    							"<th>Año: " + req.queryParams("duration") + "</th>";
+    							"<th>Duration: " + req.queryParams("duration") + "</th>";
     		for (int i = 0; i < movies.size(); i++) {
     			response += "<tr align='center'>" +
     							"<td>" + movies.get(i) + "</td>" +
@@ -180,53 +180,51 @@ public class Filter {
 
 	// Método encargado de mostrar al usuario todas las películas con el genero
 	// que se ha introducido (HTML devuelto al hacer POST sobre /filter_genre)
-	public static String showFilmByGenre(Request req) {
-    	// Los siguientes valores están puestos a modo de prueba. Hay que
-    	// sustituirlos por los valores que devuelva la función que busque en la BD.
-    	String peli1 = "película de prueba 1";
-    	String peli2 = "película de prueba 2";
-    	String peli3 = "película de prueba 3";
+	public static String showFilmByGenre(Injector conn,Request req) {
+		List<String> movies;
+		String response;
+    	
+    	movies = conn.filterByGenre(req.queryParams("genre"));
 		
-    	String table = "<table border=2" +
-							"<tr>" +
-								"<th>Año: " + req.queryParams("genre") + "</th>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli1 + "</td>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli2 + "</td>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli3 + "</td>" +
-							"</tr>" +	
-						"</table>";
-    	return table;
+    	if (movies.isEmpty()) {
+    		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
+    				+ "con un género  " + "'" + req.queryParams("duration") + "'" +
+    				" en la base de datos.</p>";
+    	} else {
+    		response = "<table border=2" +
+    						"<tr>" +
+    							"<th>Género: " + req.queryParams("genre") + "</th>";
+    		for (int i = 0; i < movies.size(); i++) {
+    			response += "<tr align='center'>" +
+    							"<td>" + movies.get(i) + "</td>" +
+    						"</tr>";
+    		}
+    	}	
+    	return response;
 	}
 
 	// Método encargado de mostrar al usuario todas las películas con una valoración
 	// mayor a la que se ha introducido (HTML devuelto al hacer POST sobre /filter_rating)
-	public static String showFilmByRating(Request req) {
-    	// Los siguientes valores están puestos a modo de prueba. Hay que
-    	// sustituirlos por los valores que devuelva la función que busque en la BD.
-    	String peli1 = "película de prueba 1";
-    	String peli2 = "película de prueba 2";
-    	String peli3 = "película de prueba 3";
+	public static String showFilmByRating(Injector conn,Request req) {
+		List<String> movies;
+		String response;
+    	
+    	movies = conn.filterByRating(Float.parseFloat(req.queryParams("duration")));
 		
-    	String table = "<table border=2" +
-							"<tr>" +
-								"<th>Año: " + req.queryParams("rating") + "</th>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli1 + "</td>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli2 + "</td>" +
-							"</tr>" +
-							"<tr>" +
-								"<td>" + peli3 + "</td>" +
-							"</tr>" +	
-						"</table>";
-    	return table;
+    	if (movies.isEmpty()) {
+    		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
+    				+ "con una valoración mayor a " + "'" + req.queryParams("rating") + "'" +
+    				"minutos en la base de datos.</p>";
+    	} else {
+    		response = "<table border=2" +
+    						"<tr>" +
+    							"<th>Valoración: " + req.queryParams("rating") + "</th>";
+    		for (int i = 0; i < movies.size(); i++) {
+    			response += "<tr align='center'>" +
+    							"<td>" + movies.get(i) + "</td>" +
+    						"</tr>";
+    		}
+    	}	
+    	return response;
 	}
 }
