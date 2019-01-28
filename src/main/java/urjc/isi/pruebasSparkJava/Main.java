@@ -111,39 +111,7 @@ public class Main {
     	}
     }
     
-    public static void insertFilm(Connection conn, String data1, String data2, String data3){
-    	String sql="";
-		//Comprobar elementos que son distintos que null
-    	if(data1 == null || data2 == null){
-    		throw new NullPointerException();
-    	}
-    		sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
-
-    	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    		pstmt.setString(1, data1);
-    		pstmt.setString(2, data2);
-    		pstmt.setString(3, data3);
-    		pstmt.executeUpdate();
-    	} catch (SQLException e) {
-    	    System.out.println(e.getMessage());
-    	}
-}
-
-    public static void insertActor(Connection conn, String data1){
-    	String sql="";
-		//Comprobar elementos que son distintos que null
-    	if(data1 == null){
-    		throw new NullPointerException();
-    	}
-    		sql = "INSERT INTO workers (primaryName) VALUES(?)";
-
-    	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    		pstmt.setString(1, data1);
-    		pstmt.executeUpdate();
-    	} catch (SQLException e) {
-    	    System.out.println(e.getMessage());
-    	}
-}
+    
     public static void insertWorks_In(Connection conn, String data1, String data2){
     	String sql="";
 		//Comprobar elementos que son distintos que null
@@ -159,7 +127,7 @@ public class Main {
     	} catch (SQLException e) {
     	    System.out.println(e.getMessage());
     	}
-}
+    }
     
     public static String infoPost(Request request, Response response) throws 
     		ClassNotFoundException, URISyntaxException {

@@ -31,13 +31,15 @@ public class Injector {
     			sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-    			pstmt.setString(1, data1);
-    			pstmt.setInt(2, Integer.valueOf(data2));
-    			pstmt.setString(3, data3);
-    			pstmt.executeUpdate();
-    		} catch (SQLException e) {
-    	   	 System.out.println(e.getMessage());
-    		}
+        		pstmt.setInt(1, data1);
+        		pstmt.setInt(2, data2);
+        		pstmt.setInt(3, data3);
+        		pstmt.executeUpdate();
+        		c.commit();
+        	} catch (SQLException e) {
+        		System.out.println(e.getMessage());
+        	}
+
     	}
 
 	public static void insertActor(String data1){
@@ -49,12 +51,15 @@ public class Injector {
     			sql = "INSERT INTO workers (primaryName) VALUES(?)";
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-    			pstmt.setString(1, data1);
-    			pstmt.executeUpdate();
+        		pstmt.setString(1, data1);
+        		pstmt.executeUpdate();
+        		c.commit();
     		} catch (SQLException e) {
     	   	 	System.out.println(e.getMessage());
     		}
     	}
+	
+
 	
 
 	public List<String> filterByName(String film) {
