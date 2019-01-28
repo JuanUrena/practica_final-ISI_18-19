@@ -202,9 +202,9 @@ public class Main {
     	Score score =new Score();
     	Comment comment =new Comment();
     	
-    //  SlopeOneFilter psql test
-    	SlopeOneFilter slopeOneFilter = new SlopeOneFilter();
-    	System.out.println(slopeOneFilter.data);
+//    	SlopeOneFilter psql test
+//    	SlopeOneFilter slopeOneFilter = new SlopeOneFilter();
+//    	System.out.println(slopeOneFilter.data);
 
     	// SQLite default is to auto-commit (1 transaction / statement execution)
     	// Set it to false to improve performance
