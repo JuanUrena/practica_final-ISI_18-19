@@ -114,8 +114,8 @@ public class Main {
     
     public static void insertFilm(Connection conn, String data1, String data2, String data3){
     	String sql="";
-		//Comprobar que todos los elementos son distintos que null
-    	if(data1 == null){
+		//Comprobar elementos que son distintos que null
+    	if(data1 == null || data2 == null){
     		throw new NullPointerException();
     	}
     		sql = "INSERT INTO movies (title, year, genres) VALUES(?,?,?)";
@@ -132,7 +132,7 @@ public class Main {
 
     public static void insertActor(Connection conn, String data1){
     	String sql="";
-		//Comprobar que todos los elementos son distintos que null
+		//Comprobar elementos que son distintos que null
     	if(data1 == null){
     		throw new NullPointerException();
     	}
@@ -147,7 +147,7 @@ public class Main {
 }
     public static void insertWorks_In(Connection conn, String data1, String data2){
     	String sql="";
-		//Comprobar que todos los elementos son distintos que null
+		//Comprobar elementos que son distintos que null
     	if(data1 == null || data2 == null){
     		throw new NullPointerException();
     	}
