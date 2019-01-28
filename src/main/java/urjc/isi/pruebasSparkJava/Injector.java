@@ -28,7 +28,7 @@ public class Injector {
     		if(data1 == null || data2 == null){
     			throw new NullPointerException();
     		}
-    			sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?)";
+    			sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {       		
 			pstmt.setInt(1, 9999999);			
