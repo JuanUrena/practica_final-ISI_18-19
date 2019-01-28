@@ -217,6 +217,21 @@ public class Main {
 					"<li><a href= '/graph_info'>Información sobre el grafo<a/></li>" +
 					"<li><a href= '/graph_filter'>Uso de grafos para filtrado<a/></li>" +
 				"</ul>" + 
+				
+				"<form action='/relatedMovies' method='get'>" +
+				"<div class='button'>" +
+					"Búsqueda de películas relacionadas: <br/>" +
+					"<button type='submit'>Related Movies</button>" +
+				"</div>" +
+				"</form>" +
+				
+				"<form action='/relatedActors' method='get'>" +
+				"<div class='button'>" +
+					"Búsqueda de actores relacionados: <br/>" +
+				"<button type='submit'>Related Actors</button>" +
+				"</div>" +
+				"</form>" +	
+    		
     		"</body></html>";
 
         // spark server
@@ -506,6 +521,120 @@ public class Main {
         			result + 
         			"<br><a href='/'>Volver</a>";
         });
+        
+        
+        get("/relatedMovies", (req, res) -> {
+        	String page =
+        			"<h3>Funcionalidad 'Relacionados (PELÍCULAS)' </h3> " +
+        	        		"<form action='/relatedMovies_show' method='post'>" +
+        	    				"<div>" + 
+        	    					"<label for='name'>Nombre de la película: </label>" +
+        	    					"<input type='text' name='name1'/><br>" +
+        	    					"<button type='submit'>Enviar</button>" +
+        	    				"</div>" +
+        	    			"</form>" +
+        	        		"<br><p><u>--Uso--</u></p>" + 
+        	        		"<ul>" + 
+        	    			  "<li>Nombre de la película: 'The Great Gatsby''" +
+        	    			  "<br>" +
+        	    			"</ul>" +
+        	        		"<p>*Nota* Si no conoces el nombre exacto, escribe al menos una palabra (p.e. 'Spider'). " +
+        	    			"Te ofreceremos las coincidencias de esa palabra.</p>" + 
+                			"<br><a href='/'>Volver</a>";
+        	
+        	return page;
+        });
+        
+        
+        get("/relatedActors", (req, res) -> {
+        	String page =
+        			"<h3>Funcionalidad 'Relacionados (ACTORES)' </h3> " +
+        	        		"<form action='/relatedActors_show' method='post'>" +
+        	    				"<div>" + 
+        	    					"<label for='name'>Nombre del actor/actriz: </label>" +
+        	    					"<input type='text' name='name1'/><br>" +
+        	    					"<button type='submit'>Enviar</button>" +
+        	    				"</div>" +
+        	    			"</form>" +
+        	        		"<br><p><u>--Uso--</u></p>" + 
+        	        		"<ul>" + 
+        	    			  "<li>Nombre del actor/actriz: 'Angelina Jolie''" +
+        	    			  "<br>" +
+        	    			"</ul>" +
+        	        		"<p>*Nota* Si no conoces el nombre exacto, escribe al menos una palabra (p.e. 'Angelina'). " +
+        	    			"Te ofreceremos las coincidencias de esa palabra.</p>" + 
+                			"<br><a href='/'>Volver</a>";
+        	
+        	return page;
+        });
+        
+ 
+        post("/relatedMovies_show", (req, res) -> {
+        	Graph graph = new Graph("Database/film_actors.txt", "/");
+    		String name = req.queryParams("name1"); //name es el nombre introducido en el formulario.
+    		
+    		//Compruebo si se ha enviado formulario vacío.
+    		if (name.equals("")) {
+				return "<p>Error. No puedo ayudarte si no introduces nada.</p>" + 
+    			"<br><a href='/relatedMovies'>Prueba otra vez</a>";
+			}
+    		
+    		if (graph.hasVertex(name)) {	//Si name es vértice del grafo
+        		if (graph.type(name) == 1) {	//Si name es película.
+        			String page_rel_movies = GraphFuncionality.relatedMovies2(graph, name);
+        		
+        			return "<p>Películas cercanas en el grafo a '" + name + "' son: " + "</p>" +
+        			page_rel_movies + 
+            		"<br><a href='/'>Volver</a>";
+
+        		} else {	//Si name no es película.
+        			return "<p>Error. Lo que has introducido no es una película.</p>" + 
+        			"<br><a href='/relatedMovies'>Prueba otra vez</a>";
+        		}
+    		} else {	//Si name NO es vértice del grafo.
+    			String page_rel_movies = GraphFuncionality.relatedMovies2(graph, name);
+    			
+    			return "<p>Quizás con '" + name + "' quisiste decir: " + "</p>" +
+    			page_rel_movies + 
+        		"<br><a href='/relatedMovies'>Prueba otra vez</a>";
+    		}
+        	
+        });        
+        
+        
+        post("/relatedActors_show", (req, res) -> {
+        	Graph graph = new Graph("Database/film_actors.txt", "/");
+    		String name = req.queryParams("name1"); //name es el nombre introducido en el formulario.
+    		
+    		//Compruebo si se ha enviado formulario vacío.
+    		if (name.equals("")) {
+				return "<p>Error. No puedo ayudarte si no introduces nada.</p>" + 
+    			"<br><a href='/relatedActors'>Prueba otra vez</a>";
+			}
+    		
+    		if (graph.hasVertex(name)) {	//Si name es vértice del grafo
+        		if (graph.type(name) == 0) {	//Si name es actor o actriz.
+        			String page_rel_actors = GraphFuncionality.relatedActors(graph, name);
+        		
+        			return "<p>Actrices y actores cercanos en el grafo a '" + name + "' (con los que ha trabajado) son: " + "</p>" +
+        			page_rel_actors + 
+            		"<br><a href='/'>Volver</a>";
+
+        		} else {	//Si name no es actor ni actriz.
+        			return "<p>Error. Lo que has introducido no es un nombre de actriz ni de actor.</p>" + 
+        			"<br><a href='/relatedActors'>Prueba otra vez</a>";
+        		}
+    		} else {	//Si name NO es vértice del grafo.
+    			String page_rel_actors = GraphFuncionality.relatedActors(graph, name);
+    			
+    			return "<p>Quizás con '" + name + "' quisiste decir: " + "</p>" +
+    			page_rel_actors + 
+        		"<br><a href='/relatedActors'>Prueba otra vez</a>";
+    		}
+    
+        	
+        });
+        
     }
 }
 
