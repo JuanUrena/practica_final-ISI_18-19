@@ -25,6 +25,7 @@ public class Injector {
 
 	public static void insertFilm(String data1, String data2, String data3){
     		String sql="";
+		Integer lastId;
 		//Comprobar elementos que son distintos que null
     		if(data1 == null || data2 == null){
     			throw new NullPointerException();
@@ -33,7 +34,7 @@ public class Injector {
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
-				Integer lastId = rs.getInt("titleid");
+				lastId = rs.getInt("titleid");
 			}
 		} catch (SQLException e) {
         		System.out.println(e.getMessage());
