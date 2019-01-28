@@ -54,7 +54,8 @@ public class Filter {
     				+ "con nombre " + "'" + req.queryParams("film") + "'" + " en la "
     				+ "base de datos.</p>";
     	} else {
-        	result = "<table border=2" +
+    		// Sustituir 'response' por 'result' cuando se añadan comentarios y scores.
+        	response = "<table border=2" +
 						"<tr>" +
 							"<th>Título</th>" +
 							"<th>Año</th>" +
@@ -72,8 +73,8 @@ public class Filter {
 							"<td>" + movieFields.get(5) + "</td>" +
 						"</tr>" +
 					"</table>";
-        	response = result+ f.formulary;
-        	response=response+c.commentsFilm("titulo");
+//        	response = result+ f.formulary;
+//        	response=response+c.commentsFilm("titulo");
     	}
     	return response;
 	}
