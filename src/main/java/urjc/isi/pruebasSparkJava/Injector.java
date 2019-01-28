@@ -32,7 +32,7 @@ public class Injector {
 
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     			pstmt.setString(1, data1);
-    			pstmt.setString(2, data2);
+    			pstmt.setInt(2, Integer.valueOf(data2));
     			pstmt.setString(3, data3);
     			pstmt.executeUpdate();
     		} catch (SQLException e) {
