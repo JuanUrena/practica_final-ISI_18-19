@@ -5,34 +5,34 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 
-public class ScoreTest {
+class ScoreTest {
 
 	private Injector I = new Injector("JDBC_DATABASE_URL");
 	
 	@Test
-	public void newScore_test() {
+	void newScore_test() {
 		
-		Score score = new Score(); 
+		Score score1 = new Score(); 
 		
-		assertEquals("Puntuacion invalida",score.newScore(-1,1,"Titanic",I));
+		assertEquals("Puntuacion invalida",score1.newScore(-1,1,"Titanic",I));
 
 	}
 
 	@Test
-	public void newScore_test2() {
+	void newScore_test2() {
 		
-		Score score = new Score(); 
+		Score score2 = new Score(); 
 		
-		assertEquals("Usuario invalido",score.newScore(1,-1,"Titanic",I));
+		assertEquals("Usuario invalido",score2.newScore(1,-1,"Titanic",I));
 
 	}
 	
 	@Test
-	public void newScore_test3() {
+	void newScore_test3() {
 		
-		Score score = new Score(); 
+		Score score3 = new Score(); 
 		
-		assertEquals("Pelicula invalida",score.newScore(1,1,null,I));
+		assertEquals("Pelicula invalida",score3.newScore(1,1,null,I));
 
 	}
 	
@@ -51,22 +51,12 @@ public class ScoreTest {
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
 	@Test 
-	public void changeScore_test() {
+	void changeScore_test() {
 		
 		Score score5 = new Score(); 
 	
 		score5.changeScore(1.0f,"Pelicula cualquiera",I);
 
 	}
-	
-	@Test (expected = NullPointerException.class)
-	public void changeScore_test2() {
-		
-		Score score6 = new Score(); 
-	
-		score6.changeScore(1.0f,null,I);
-
-	}
-
 	
 }
