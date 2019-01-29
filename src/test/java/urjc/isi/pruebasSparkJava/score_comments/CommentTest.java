@@ -72,14 +72,14 @@ public class CommentTest {
 	@Test
 	public void newCommentTest(){
 		Comment comment = new Comment();
-		assertEquals ("Comentario almacenado", comment.newComment("comentario", 4, "Kill Bill: Volumen 3", I));
+		assertEquals ("Comentario almacenado", comment.newComment("comentario", 4, "Titanic", I));
 	}
 		
 	@Test
 	public void commentsFilmTest(){
 		Comment comment = new Comment();
 		String resultc;
-		resultc = comment.commentsFilm("Kill Bill: Volumen 3", I);
+		resultc = comment.commentsFilm("Titanic", I);
 		assertNotNull("Comments cant be null", resultc);
 		
 	}
