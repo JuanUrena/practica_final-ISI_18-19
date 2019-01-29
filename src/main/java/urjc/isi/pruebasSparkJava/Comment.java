@@ -29,6 +29,9 @@ public class Comment {
 	
 	//COMPLETO!!!
 	public String commentsFilm(String film, Injector I){
+		if (film == null){
+			return ("Pelicula invalida");
+		}
 		String text = "<u><b>Comentarios:</b></u><br>";
 		List<String> info_film=I.filterByName(film);
 		int id_film=Integer.parseInt(info_film.get(6));
