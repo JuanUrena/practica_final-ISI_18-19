@@ -26,25 +26,8 @@ public class insertTest {
 		boolean resultado = false;
 
 		connection.insertFilm("Kill Bill: Volumen 3", "2020", "Accion");
-		String sql = "SELECT title FROM movies WHERE title = Kill Bill: Volumen 3";
-		try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-			ResultSet rs= pstmt.executeQuery();
-			rs.next();
-			rs.getInt("title");
-			name = true;
-		}catch (SQLException e) {
-			name = false;
-		}
-
-		sql = "SELECT year FROM movies WHERE year = 2020";
-		try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-			ResultSet rs= pstmt.executeQuery();
-			rs.next();
-			rs.getInt("year");
-			year = true;
-		}catch (SQLException e) {
-			year = false;
-		}
+		name = connection.searchFilm("Kill Bill: Volumen 3");
+		year = connection.searchYear("2020");
 		resultado = name & year;
 		assertTrue("No se ha añadido a la base de datos", resultado);
 	}
