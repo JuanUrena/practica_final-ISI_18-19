@@ -317,9 +317,10 @@ public class SlopeOneFilter {
 
 	public void updateData(Integer score, Integer user, Integer film_id) {
 
-		Double double_score = score.doubleValue();
 		try {
+			Double double_score = score.doubleValue();
 			Map<Integer,Double> film_score = new HashMap<>();
+			if(double_score < 0 || double_score > 10) throw new RuntimeException();
 			if(!data.containsKey(user)) {
 				film_score.put(film_id, double_score);
 				data.put(user, film_score);
@@ -332,8 +333,8 @@ public class SlopeOneFilter {
 			for (int data_user : data.keySet()){
 				predict(data_user);
 			}
-		}catch(IllegalArgumentException e) {
-			System.err.println(e);
+		}catch(RuntimeException runTime) {
+			System.err.println(runTime);
 		}
 	}
 
