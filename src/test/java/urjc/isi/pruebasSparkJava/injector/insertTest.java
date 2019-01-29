@@ -17,19 +17,36 @@ public class insertTest {
 	
 	Injector connection = new Injector("JDBC_DATABASE_URL");
 
-
 	//Test1: insertFilm
 	@Test 
 	public void testInsertFullFieldsMovie()
 	{
-		connection.insertFilm("Kill Bill: Volumen 3", "2020", "Accion");
-	}
+		Boolean name = False;	
+		Boolean year = False;	
+		Boolean resultado = False;
 
-	//Test2: insertFilm
-	@Test 
-	public void testInsertNullGenre()
-	{
-		connection.insertFilm("Interstellar 2", "2022", null);
+		connection.insertFilm("Kill Bill: Volumen 3", "2020", "Accion");
+		String sql = "SELECT title FROM movies WHERE title = Kill Bill: Volumen 3";
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("title");
+			name = True;
+		}catch (SQLException e) {
+			name = False;
+		}
+
+		String sql = "SELECT year FROM movies WHERE year = 2020";
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("year");
+			year = True;
+		}catch (SQLException e) {
+			year = False;
+		}
+		resultado = name & year;
+		assertTrue("No se ha añadido a la base de datos", resultado);
 	}
 
 	//Test3: insertFilm
@@ -45,7 +62,6 @@ public class insertTest {
 	{
 		connection.insertFilm(null, null, null);
 	}
-
 
 	//Test1: insertActor
 	@Test (expected = NullPointerException.class)
