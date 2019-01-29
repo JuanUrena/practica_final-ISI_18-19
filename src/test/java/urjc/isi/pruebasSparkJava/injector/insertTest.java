@@ -21,9 +21,9 @@ public class insertTest {
 	@Test 
 	public void testInsertFullFieldsMovie()
 	{
-		boolean name = False;	
-		boolean year = False;	
-		boolean resultado = False;
+		boolean name = false;	
+		boolean year = false;	
+		boolean resultado = false;
 
 		connection.insertFilm("Kill Bill: Volumen 3", "2020", "Accion");
 		String sql = "SELECT title FROM movies WHERE title = Kill Bill: Volumen 3";
@@ -31,9 +31,9 @@ public class insertTest {
 			ResultSet rs= pstmt.executeQuery();
 			rs.next();
 			rs.getInt("title");
-			name = True;
+			name = true;
 		}catch (SQLException e) {
-			name = False;
+			name = false;
 		}
 
 		sql = "SELECT year FROM movies WHERE year = 2020";
@@ -43,7 +43,7 @@ public class insertTest {
 			rs.getInt("year");
 			year = True;
 		}catch (SQLException e) {
-			year = False;
+			year = false;
 		}
 		resultado = name & year;
 		assertTrue("No se ha añadido a la base de datos", resultado);
