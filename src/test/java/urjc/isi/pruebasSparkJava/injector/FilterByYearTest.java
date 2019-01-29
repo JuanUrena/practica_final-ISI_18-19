@@ -39,7 +39,7 @@ public class FilterByYearTest {
 	
 	// Test 2: A2 = F => no hay películas de ese año en la BD.
 	// Lo comprobamos con "1937"
-	// Recorre el camino de prueba ii = = [1, 2, 4, 5, 6, 9] 
+	// Recorre el camino de prueba ii = [1, 2, 4, 5, 6, 9] 
 	@Test
 	public void test2() {
 		year = "1937";

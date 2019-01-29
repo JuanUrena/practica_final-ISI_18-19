@@ -14,6 +14,7 @@ public class FilterByActorActressTest {
 	
 	// Test 1: A1 = T => hay películas con ese/a actor/actriz en la BD.
 	// Lo comprobamos con "Jennifer Lawrence"
+	// Recorre el camino de prueba i = [1, 2, 4, 5, 6, 7, 8, 6, 7, 8, 6, 9]
 	@Test
 	public void test1() {
 		List<String> expected = new ArrayList<String>();
@@ -35,6 +36,7 @@ public class FilterByActorActressTest {
 	
 	// Test 2: A2 = F => no hay películas con ese/a actor/actriz en la BD.
 	// Lo comprobamos con "Lady Gaga"
+	// Recorre el camino de prueba ii = [1, 2, 4, 5, 6, 9] 
 	@Test
 	public void test2() {
 		name = "Lady Gaga";
