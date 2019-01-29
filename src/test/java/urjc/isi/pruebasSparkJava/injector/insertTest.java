@@ -1,8 +1,9 @@
-package urjc.isi.pruebasSparkJava;
+package urjc.isi.pruebasSparkJava.injector;;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import urjc.isi.pruebasSparkJava.Injector;
 import org.junit.*;
 import java.util.*;
 
@@ -53,10 +54,27 @@ public class insertTest {
 		connection.insertActor(null);
 	}
 
+
 	//Test1: insertWorks_In
 	//@Test (expected = NullPointerException.class)
   	//public void testInsertNullWorks() throws SQLException
 	//{
     //		Main.insertWorks_In(connection, null, null);
 	//}	
+
+	//Test1: searchTitleId
+	@Test
+	public void testTitleIdFound() 
+	{
+		//titleid de entrada presente en BD
+		assertTrue(connection.searchTitleId(27977));
+	}
+	
+	//Test1: searchNameId
+	@Test
+	public void testNameIdFound() 
+	{
+		//nameid de entrada presente en BD
+		assertTrue(connection.searchNameId(1410815));
+	}
 }
