@@ -1,10 +1,9 @@
 package urjc.isi.pruebasSparkJava;
 
-import java.util.List;
-
-// Clase encargada de todo lo relacionado con el filtrado.
+//Clase encargada de todo lo relacionado con el filtrado.
 
 import spark.Request;
+import java.util.List;
 
 public class Filter {
 
@@ -37,7 +36,7 @@ public class Filter {
 						"<hr>" +
 						"<h4>4. Filtrar por duración máxima de las películas (minutos).</h4>" +
 						"<form action='/filter_duration' method='post'>" +
-							"<label for='duration'>duración máxima en minutos : </label>" + 
+							"<label for='duration'>Duración máxima en minutos : </label>" + 
 							"<input type='text' name='duration' id='duration'> " +
 							"<input type='submit' value='Buscar'>" +
 						"</form>" +
@@ -65,6 +64,7 @@ public class Filter {
 	public static String showFilmByName(Injector conn, Request req) {
 		List<String> movieFields;
 		String response;
+		
 		Formulario f=new Formulario();
 		Comment c=new Comment();
 		
@@ -75,8 +75,6 @@ public class Filter {
     				+ "con nombre " + "'" + req.queryParams("film") + "'" + " en la "
     				+ "base de datos.</p>";
     	} else {
-    		// Sustituir 'response' por 'result' cuando se descomenten
-    		// las líneas de abajo
         	response = "<table border=2" +
 						"<tr>" +
 							"<th>Título</th>" +
