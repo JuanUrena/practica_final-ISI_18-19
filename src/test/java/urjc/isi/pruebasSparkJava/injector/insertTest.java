@@ -41,7 +41,7 @@ public class MainTest {
 
 	//Test4: insertFilm
 	@Test (expected = NullPointerException.class)
-	public void testInsertNullMovie&Year()
+	public void testInsertNullMovieandYear()
 	{
 		connection.insertFilm(null, null, null);
 	}
