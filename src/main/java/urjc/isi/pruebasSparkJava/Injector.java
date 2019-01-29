@@ -23,68 +23,78 @@ public class Injector {
 	}
 
 
+	public static Boolean searchTitleId(Integer titleID) {
+		String sql = "SELECT titleid FROM movies WHERE titleid = "+ titleID;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("titleid");
+			return true;
+		}catch (SQLException e) {
+			return false;
+		}
+	}
+	
+	public static Boolean searchNameId(Integer NameID) {
+		String sql = "SELECT nameid FROM workers WHERE nameid = "+ NameID;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("nameid");
+			return true;
+		}catch (SQLException e) {
+			return false;
+		}
+	}
+
+
 	public static void insertFilm(String data1, String data2, String data3){
-    		String sql="";
-		Integer lastId = 0;
+    	String sql="";
+		int random = 0;
 		//Comprobar elementos que son distintos que null
-    		if(data1 == null || data2 == null){
-    			throw new NullPointerException();
-    		}
-		sql = "SELECT MAX(titleid) FROM movies";
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()){
-				lastId = rs.getInt("titleid");
-				System.out.println(lastId);
-			}
-		} catch (SQLException e) {
-        		System.out.println(e.getMessage());
-        	}
-    		sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
-
-    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {       		
-			pstmt.setInt(1, lastId+1);			
-			pstmt.setString(2, data1);
-        		pstmt.setInt(3, Integer.valueOf(data2));
-        		pstmt.setString(4, data3);
-        		pstmt.executeUpdate();
-        		c.commit();
-        	} catch (SQLException e) {
-        		System.out.println(e.getMessage());
-        	}
-
+    	if(data1 == null || data2 == null){
+    		throw new NullPointerException();
     	}
+    	random = (int) (Math.random() * 1000)+1; //Ponemos más 1 para que no pueda haber titleid 0
+    	while(searchTitleId(random)) {
+    		random = (int) (Math.random() * 1000)+1;
+    	}
+    	sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {       		
+			pstmt.setInt(1, random);		
+			pstmt.setString(2, data1);
+        	pstmt.setInt(3, Integer.valueOf(data2));
+        	pstmt.setString(4, data3);
+        	pstmt.executeUpdate();
+        	c.commit();
+        } catch (SQLException e) {
+        	System.out.println(e.getMessage());
+        }
+
+    }
 
 	public static void insertActor(String data1){
-    		String sql="";
-		Integer lastId = 0;
+    	String sql="";
+		Integer random = 0;
 		//Comprobar elementos que son distintos que null
-    		if(data1 == null){
-    			throw new NullPointerException();
-    		}
-		sql = "SELECT MAX(nameid) FROM workers";
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()){
-				lastId = rs.getInt("nameid");
-				System.out.println(lastId);
-			}
-		} catch (SQLException e) {
-        		System.out.println(e.getMessage());
-        	}
-    		sql = "INSERT INTO workers(nameid, primary_name) VALUES(?,?)";
-
-    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {  
-			pstmt.setInt(1, lastId+1);
-			pstmt.setString(2, data1);
-        		pstmt.executeUpdate();
-        		c.commit();
-    		} catch (SQLException e) {
-    	   	 	System.out.println(e.getMessage());
-    		}
+    	if(data1 == null){
+    		throw new NullPointerException();
     	}
-	
+    	random = (int) (Math.random() * 1000)+1; //Ponemos más 1 para que no pueda haber titleid 0
+    	while(searchNameId(random)) {
+    		random = (int) (Math.random() * 1000)+1;
+    	}
+    	sql = "INSERT INTO workers(nameid, primary_name) VALUES(?,?)";
 
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {  
+    		pstmt.setInt(1, random);
+			pstmt.setString(2, data1);
+        	pstmt.executeUpdate();
+        	c.commit();
+    	} catch (SQLException e) {
+    	   	 System.out.println(e.getMessage());
+    	}
+    }
 	
 
 	public List<String> filterByName(String film) {
