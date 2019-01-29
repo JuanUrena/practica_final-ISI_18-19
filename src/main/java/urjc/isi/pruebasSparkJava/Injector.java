@@ -288,7 +288,7 @@ public class Injector {
 	}
 
 	public List<String> filterByGenre(String genre) {
-		String sql = "SELECT title FROM movies WHERE genres LIKE "+'"'+"%"+genre+"%"+'"';
+		String sql = "SELECT title FROM movies WHERE genres LIKE '%"+genre+"%'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
