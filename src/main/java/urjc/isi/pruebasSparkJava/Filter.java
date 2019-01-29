@@ -156,7 +156,7 @@ public class Filter {
 		List<String> movies;
 		String response;
     	
-    	movies = conn.filterByDuration(Integer.parseInt(req.queryParams("duration")));
+    	movies = conn.filterByDuration(req.queryParams("duration"));
 		
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
@@ -206,7 +206,7 @@ public class Filter {
 		List<String> movies;
 		String response;
     	
-    	movies = conn.filterByRating(Float.parseFloat(req.queryParams("rating")));
+    	movies = conn.filterByRating(req.queryParams("rating"));
 		
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
