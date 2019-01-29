@@ -9,7 +9,13 @@
 3. Caracterización:
 
 	C1: Integer válido / no válido
-	C2: null / no null
+	C2: no null / null
 	C3: usario existente / no existente
 
 4. Requisitos:
+	Vamos a utilizar el criterio de Best Choice Coverage (BCC) cogiendo como base el happy path de que es integer válido, no null y usuario existente.
+
+	TTT.  2            [Integer válido| no null | sí existe]
+	FTT.  50147483647  [Integer demasido grande | no null | ()]  ---> No se puede realizar ya que no hay tantos usuarios
+	TFT.  null         [Integer válido | null | ()]              ---> No existiría el usuario null
+	TTF.  -5           [ |  | ]
