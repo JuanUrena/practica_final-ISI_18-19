@@ -14,7 +14,7 @@ public class Score {
 				return("Puntuación invalido");
 			}else if (user<0) {
 				return("Usuario invalido");
-			}else if (film.equals(null)) {
+			}else if (film == null) {
 				return("Pelicula invalida");
 			}else {			
 				I.insertUser(user);

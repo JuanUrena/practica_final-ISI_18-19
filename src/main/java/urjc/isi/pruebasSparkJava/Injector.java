@@ -12,7 +12,11 @@ public class Injector {
 	private static Connection c;
 
 	public Injector(String name) {
-		try {		    
+		try {
+//			if(sqlite){
+//				c = DriverManager.getConnection("jdbc:sqlite:IMDb.db");
+//				c = setAutoCommit(false);
+//			}		    
 		    String dbUrl = System.getenv(name);
 		    c = DriverManager.getConnection(dbUrl);
 
@@ -23,6 +27,30 @@ public class Injector {
 	}
 
 
+//	public static Boolean searchFilm(String title) {
+//		String sql = "SELECT title FROM movies WHERE title = "+ title;
+//		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+//			ResultSet rs= pstmt.executeQuery();
+//			rs.next();
+//			rs.getString("title");
+//			return true;
+//		}catch (SQLException e) {
+//			return false;
+//		}
+//	}
+
+//	public static Boolean searchYear(String year) {
+//		String sql = "SELECT year FROM movies WHERE year = "+ year;
+//		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+//			ResultSet rs= pstmt.executeQuery();
+//			rs.next();
+//			rs.getInt("year");
+//			return true;
+//		}catch (SQLException e) {
+//			return false;
+//		}
+//	}
+	
 	public static Boolean searchTitleId(Integer titleID) {
 		String sql = "SELECT titleid FROM movies WHERE titleid = "+ titleID;
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -144,7 +172,7 @@ public class Injector {
 	}
 
 	public List<String> filterByDuration(String minutes) {
-		String sql = "SELECT * FROM movies WHERE runtimeMinutes <= "+"'"+minutes+"'";
+		String sql = "SELECT * FROM movies WHERE runtime_minutes <= "+"'"+minutes+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -161,7 +189,7 @@ public class Injector {
 	}
 
 	public List<String> filterByRating(String rating) {
-		String sql = "SELECT * FROM movies WHERE averageRating >= "+"'"+rating+"'";
+		String sql = "SELECT * FROM movies WHERE average_rating >= "+"'"+rating+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -194,7 +222,7 @@ public class Injector {
     	return result;
 	}
 	
-		public String[][] userandcomments(String film){
+	public String[][] userandcomments(String film){
 		String sql = "SELECT comment,clientID FROM Comments JOIN movies ON movies.titleID = Comments.titleID JOIN clients ON clients.clientID=movies.clientID WHERE movies.title LIKE "+"+film+"+" GROUP BY clientID";
 		
 		String name_col= "clientID";
@@ -264,7 +292,7 @@ public class Injector {
 	}
 
 	public List<String> filterByGenre(String genre) {
-		String sql = "SELECT title FROM movies WHERE genres LIKE "+'"'+"%"+genre+"%"+'"';
+		String sql = "SELECT title FROM movies WHERE genres LIKE '%"+genre+"%'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
