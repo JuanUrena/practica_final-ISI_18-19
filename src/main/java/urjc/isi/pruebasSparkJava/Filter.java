@@ -211,7 +211,7 @@ public class Filter {
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
     				+ "con una valoración mayor a " + "'" + req.queryParams("rating") + "'" +
-    				"minutos en la base de datos.</p>";
+    				"en la base de datos.</p>";
     	} else {
     		response = "<table border=2" +
     						"<tr>" +
