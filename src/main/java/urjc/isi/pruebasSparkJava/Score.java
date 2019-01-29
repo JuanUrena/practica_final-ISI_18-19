@@ -10,41 +10,38 @@ public class Score {
 	
 		//Guardo la nueva puntuacion    COMPLETO!!!
 		public String newScore(int score, int user, String film, Injector I) {
-			if (score<0 || score>10) {
-				throw new IllegalArgumentException("Puntuacion invalida");
+			if (score<0 ||score>10) {
+				return("Puntuación invalido");
 			}else if (user<0) {
-				throw new IllegalArgumentException("Usuario invalido");
+				return("Usuario invalido");
 			}else if (film.equals(null)) {
-				throw new IllegalArgumentException("Pelicula invalida");
-			}else {
+				return("Pelicula invalida");
+			}else {			
 				I.insertUser(user);
 				List<String> info_film=I.filterByName(film);
 				int id_film=Integer.parseInt(info_film.get(6));
+        		System.out.println(id_film);
+        		System.out.println(user);
+        		System.out.println(score);
+
 				I.insertRating(id_film, user, score);
 			}			
 			return ("Puntuacion añadida");
 		}
 		
 		//Obtengo la nueva media    COMPLETO!!!
-		public int getScore(String film, Injector I) {
-			if (film.equals(null)) {
-				throw new IllegalArgumentException("Pelicula invalida");
-			}else {
-				int media =I.meanScores(film);
-				return media;
-			}
+		public float getScore(String film, Injector I) {
+			float media =I.meanScores(film);
+			return media;
 		}
 		
 		//Actualizo la media   INCOMPLETO, FALTA LA FUNCION DE BBDD
-		public void changeScore(int score, String film, Injector I) {
-			if (score<0 || score>10) {
-				throw new IllegalArgumentException("Puntuacion invalida");
-			}else if (film.equals(null)) {
-				throw new IllegalArgumentException("Pelicula invalida");
-			}else {
-			//Llamar a la función para cambiar la puntuacion de la pelicula, pedir. 
-			//Parace no estar hecha
-			}
+		public void changeScore(float score, String film, Injector I) {
+			List<String> info_film=I.filterByName(film);
+			int id_film=Integer.parseInt(info_film.get(6));
+			I.updateAverageRating(id_film, score);
+    		System.out.println(score);
+    		System.out.println(id_film);
 		}
 		
 		
@@ -62,8 +59,9 @@ public class Score {
 			
 			try {
 				String result=newScore(score, user, film, I);
-				score=getScore(film, I);
-				changeScore(score, film, I);
+				float mean=getScore(film, I);
+        		System.out.println(mean);
+				changeScore(mean, film, I);
 				return result;
 			}catch(IllegalArgumentException e) {
 				return e.getMessage();
