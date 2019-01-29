@@ -16,7 +16,7 @@ public class PredictTest {
 
 	@Test
 	public void happyPath(){
-		slopeOneFilter.predict(-4);
+		slopeOneFilter.predict(3);
 	}
 
 
