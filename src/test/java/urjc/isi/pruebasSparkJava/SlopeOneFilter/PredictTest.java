@@ -8,14 +8,18 @@ import urjc.isi.pruebasSparkJava.SlopeOneFilter;
 public class PredictTest {
 
 	private String s;
+	Injector connector = new Injector("JDBC_DATABASE_URL");
+	SlopeOneFilter slopeOneFilter = new SlopeOneFilter(connector);
 
 
 // BLACK BOX TESTS
 
 	@Test
 	public void happyPath(){
-		System.out.println("...");
+		slopeOneFilter.predict(-4);
 	}
+
+
 
 // WHITE BOX TESTS
 
