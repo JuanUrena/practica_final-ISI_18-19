@@ -29,12 +29,12 @@ public class Score {
 		}
 		
 		//Obtengo la nueva media    COMPLETO!!!
-		/*
-		public float getScore(String film) { //injectorI
+		
+		public float getScore(String film, Injector I) {
 			float media = I.meanScores(film);
 			return media;
 		}
-		*/
+		
 		
 		//Actualizo la media COMPLETO!!!
 		public void changeScore(float score, String film,Injector I) { //injector {
@@ -50,12 +50,18 @@ public class Score {
 			
 			//Saco la puntuacion a int
 			String score_string=request.queryParams("score");
-			int score=Integer.parseInt(score_string);
 			//Saco el usuario a int
 			String user_string=request.queryParams("user");
-			int user=Integer.parseInt(user_string);
 			//Saco la pelicula.
 			String film=request.queryParams("film");
+			
+			List<String> info_film=I.filterByName(film);
+			
+			int id_film=Integer.parseInt(info_film.get(6));
+			int user=Integer.parseInt(user_string);
+			int score=Integer.parseInt(score_string);
+			
+			
 			//Linea  de código para actualizar el map data de SlopeOneFilter
 			sof.updateData(request, I);
 			
