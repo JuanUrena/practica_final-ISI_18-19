@@ -165,7 +165,7 @@ public class Filter {
     	} else {
     		response = "<table border=2" +
     						"<tr>" +
-    							"<th>Duration: " + req.queryParams("duration") + "</th>";
+    							"<th>Duración máxima: " + req.queryParams("duration") + " min</th>";
     		for (int i = 0; i < movies.size(); i++) {
     			response += "<tr align='center'>" +
     							"<td>" + movies.get(i) + "</td>" +
