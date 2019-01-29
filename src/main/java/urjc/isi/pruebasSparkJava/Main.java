@@ -31,35 +31,7 @@ public class Main {
     	return 4707; //return default port if heroku-port isn't set (i.e. on localhost)
     }
     
-    // Used to illustrate how to route requests to methods instead of
-    // using lambda expressions
-    public static String doSelect(Request request, Response response) {
-    	return select (connection, request.params(":table"), request.params(":film"));
-    }
-    
-    public static String select(Connection conn, String table, String film) {
-    	String sql = "SELECT * FROM " + table + " WHERE film=?";
-    	String result = new String();
-	
-    	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    		pstmt.setString(1, film);
-    		ResultSet rs = pstmt.executeQuery();
-    		// Commit after query is executed
-    		connection.commit();
 
-    		while (rs.next()) {
-    			// read the result set
-    			result += "film = " + rs.getString("film") + "\n";
-    			System.out.println("film = "+rs.getString("film") + "\n");
-
-    			result += "actor = " + rs.getString("actor") + "\n";
-    			System.out.println("actor = "+rs.getString("actor")+"\n");
-    		}
-    	} catch (SQLException e) {
-    		System.out.println(e.getMessage());
-    	}
-    	return result;
-    }
     /*
     public static String selectTitle_ID(Connection conn, String table, String data1, String data2, String data3) {
 		String sql="";
@@ -129,26 +101,6 @@ public class Main {
     	}
     }
     
-    public static String infoPost(Request request, Response response) throws 
-    		ClassNotFoundException, URISyntaxException {
-    	String result = new String("TODA LA INFORMACIÓN QUE QUIERAS SOBRE PELÍCULAS"
-        							+ " A TRAVÉS DE UN POST");
-    	return result;
-    }
-
-    public static String infoGet(Request request, Response response) throws
-    		ClassNotFoundException, URISyntaxException {
-    	String result = new String("TODA LA INFORMACIÓN QUE QUIERAS SOBRE PELÍCULAS"
-        							+ " A TRAVÉS DE UN GET");
-    	return result;
-    }
-
-    public static String doWork(Request request, Response response) throws
-    		ClassNotFoundException, URISyntaxException {
-    	String result = new String("Hello World");
-    	return result;
-    }
-    
     
     //getter para connection (utilizado en GraphFuncionality.namechecker(connection,name) en mi caso
     public static Connection getConnection() { 
@@ -176,24 +128,6 @@ public class Main {
 
     	String home = "<html><body>" +
     		"<h1>Bienvenidos a la web de películas</h1>" +
-    			"<form action='/info' method='post'>" +
-    				"<div class='button'>" +
-    					"Ir a info: <br/>" +
-    					"<button type='submit'>Información</button>" +
-    				"</div>" +
-    			"</form></br>"+
-    			"<form action='/hello' method='get'>" +
-    				"<div class='button'>" +
-    					"Ir a helloWorld: <br/>" +
-    					"<button type='submit'>Hello</button>" +
-    				"</div>" +
-    			"</form>" +
-    			"<form action='/upload_films' method='get'>" +
-    				"<div class='button'>" +
-    					"Subir fichero con películas: <br/>" +
-    					"<button type='submit'>Upload Films</button>" +
-    				"</div>" +
-    			"</form>" +
     			"<form action='/addfilms' method='get'>" +
     				"<div class='button'>" +
     					"Añade película: <br/>" +
@@ -235,70 +169,8 @@ public class Main {
 
         // spark server
         get("/", (req, res) -> home);
-        get("/info", Main::infoGet);
-        post("/info", Main::infoPost);
-        get("/hello", Main::doWork);
         post("/score",(req, res)-> score.postScore(req, connector,slopeOneFilter));
         post("/comment",(req, res)-> comment.postComment(req, connector));
-
-
-        // In this case we use a Java 8 method reference to specify
-        // the method to be called when a GET /:table/:film HTTP request
-        // Main::doWork will return the result of the SQL select
-        // query. It could've been programmed using a lambda
-        // expression instead, as illustrated in the next sentence.
-        get("/:table/:film", Main::doSelect);
-
-        // In this case we use a Java 8 Lambda function to process the
-        // GET /upload_films HTTP request, and we return a form
-        get("/upload_films", (req, res) -> 
-        	"<form action='/upload' method='post' enctype='multipart/form-data'>" 
-        	+ "    <input type='file' name='uploaded_films_file' accept='.txt'>"
-        	+ "    <button>Upload file</button>" + "</form>");
-        // You must use the name "uploaded_films_file" in the call to
-        // getPart to retrieve the uploaded file. See next call:
-
-        // Retrieves the file uploaded through the /upload_films HTML form
-        // Creates table and stores uploaded file in a two-columns table
-        post("/upload", (req, res) -> {
-        	req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/tmp"));
-        	String result = "File uploaded!";
-        	
-        	try (InputStream input = req.raw().getPart("uploaded_films_file").getInputStream()) { 
-        		// getPart needs to use the same name "uploaded_films_file" used in the form
-
-        		// Prepare SQL to create table
-        		Statement statement = connection.createStatement();
-        		statement.setQueryTimeout(30); // set timeout to 30 sec.
-        		statement.executeUpdate("drop table if exists films");
-        		statement.executeUpdate("create table films (film string, actor string)");
-
-        		// Read contents of input stream that holds the uploaded file
-        		InputStreamReader isr = new InputStreamReader(input);
-        		BufferedReader br = new BufferedReader(isr);
-        		String s;
-        		
-        		while ((s = br.readLine()) != null) {
-        			System.out.println(s);
-
-        			// Tokenize the film name and then the actors, separated by "/"
-        			StringTokenizer tokenizer = new StringTokenizer(s, "/");
-
-        			// First token is the film name(year)
-        			String film = tokenizer.nextToken();
-
-        			// Now get actors and insert them
-        			while (tokenizer.hasMoreTokens()) {
-        				insert(connection, film, tokenizer.nextToken());
-        			}
-        			// Commit only once, after all the inserts are done
-        			// If done after each statement performance degrades
-        			connection.commit();
-        		}
-        		input.close();
-        	}
-        	return result;
-        });
 
         get("/addfilms", (req, res) ->
     		"<div style='color:#1A318C'><b>PÁGINA PARA AÑADIR PELÍCULA A LA BASE DE DATOS:</b>"
