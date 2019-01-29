@@ -55,25 +55,25 @@ public class ScoreTest {
 	*/
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
-	@Test 
-	public void changeScore_test() {
+	//@Test 
+	//public void changeScore_test() {
 		
-		Score score = new Score(); 
-		List<String> movieFields = I.filterByName("Titanic");
+		//Score score = new Score(); 
+		//List<String> movieFields = I.filterByName("Titanic");
 		
 		//Media real
-		float mean = Float.parseFloat(movieFields.get(3));
+		//float mean = Float.parseFloat(movieFields.get(3));
 		
 		//Pongo la media a uno y compruebo el cambio.
-		score.changeScore(1,120338,I);
-		movieFields = I.filterByName("Titanic");
-		int mean_test=Integer.parseInt(movieFields.get(3));
+		//score.changeScore(1,120338,I);
+		//movieFields = I.filterByName("Titanic");
+		//int mean_test=Integer.parseInt(movieFields.get(3));
 		
 		//Vuelvo a poner media real
-		score.changeScore(mean,120338,I);
+		//score.changeScore(mean,120338,I);
 		
-		assertEquals(1,mean_test);
+		//assertEquals(1,mean_test);
 
-	}
+	//}
 	
 }
