@@ -11,7 +11,7 @@ public class Score {
 		//Guardo la nueva puntuacion    COMPLETO!!!
 		public String newScore(int score, int user, String film, Injector I) {
 			if (score<0 ||score>10) {
-				return("Puntuación invalida");
+				return("Puntuacion invalida");
 			}else if (user<0) {
 				return("Usuario invalido");
 			}else if (film == null) {
@@ -45,8 +45,7 @@ public class Score {
     		System.out.println(id_film);
 		}
 		
-		
-		/*
+	
 		public String postScore(Request request, Injector I, SlopeOneFilter sof) {
 			
 			//Saco la puntuacion a int
@@ -70,5 +69,4 @@ public class Score {
 				return e.getMessage();
 			}
 		}
-		*/
 }
