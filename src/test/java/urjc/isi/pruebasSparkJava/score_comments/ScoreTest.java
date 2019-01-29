@@ -55,7 +55,7 @@ public class ScoreTest {
 		
 		Score score5 = new Score(); 
 	
-		score5.changeScore(1.0f,"Pelicula cualquiera",I);
+		score5.changeScore(1.0f,"Titanic",I);
 
 	}
 	
