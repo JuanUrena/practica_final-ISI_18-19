@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MainTest {
+public class insertTest {
 	
 	Injector connection = new Injector("JDBC_DATABASE_URL");
 
