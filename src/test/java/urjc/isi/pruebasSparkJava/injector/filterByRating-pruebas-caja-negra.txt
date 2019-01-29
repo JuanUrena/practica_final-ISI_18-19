@@ -17,5 +17,4 @@ Paso 4: aplicar criterios de cobertura.
 		Test 2: A2 = F => no hay películas con una valoración mayor en la BD.
 
 Paso 5: traducir las combinaciones elegidas en valores que pasar a los tests.
-	- Test 1 => 5.02 (por ejemplo)
-	- Test 2 => 10.01 (por ejemplo).
+	en este caso no se pueden hacer test ya que las valoraciones varían dinámicamente
