@@ -12,7 +12,11 @@ public class Injector {
 	private static Connection c;
 
 	public Injector(String name) {
-		try {		    
+		try {
+//			if(sqlite){
+//				c = DriverManager.getConnection("jdbc:sqlite:IMDb.db");
+//				c = setAutoCommit(false);
+//			}		    
 		    String dbUrl = System.getenv(name);
 		    c = DriverManager.getConnection(dbUrl);
 
