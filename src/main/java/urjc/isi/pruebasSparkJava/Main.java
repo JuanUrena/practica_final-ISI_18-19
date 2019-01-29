@@ -238,7 +238,7 @@ public class Main {
         get("/info", Main::infoGet);
         post("/info", Main::infoPost);
         get("/hello", Main::doWork);
-        post("/score",(req, res)-> score.postScore(req, connector));
+        post("/score",(req, res)-> score.postScore(req, connector,slopeOneFilter));
         post("/comment",(req, res)-> comment.postComment(req, connector));
 
 

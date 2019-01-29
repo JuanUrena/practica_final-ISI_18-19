@@ -20,7 +20,6 @@ public class Score {
 				I.insertUser(user);
 				List<String> info_film=I.filterByName(film);
 				int id_film=Integer.parseInt(info_film.get(6));
-        		System.out.println(id_film);
         		System.out.println(user);
         		System.out.println(score);
 
@@ -46,7 +45,7 @@ public class Score {
 		
 		
 		
-		public String postScore(Request request, Injector I) {
+		public String postScore(Request request, Injector I, SlopeOneFilter sof) {
 			
 			//Saco la puntuacion a int
 			String score_string=request.queryParams("score");
@@ -56,6 +55,8 @@ public class Score {
 			int user=Integer.parseInt(user_string);
 			//Saco la pelicula.
 			String film=request.queryParams("film");
+			//Linea  de código para actualizar el map data de SlopeOneFilter
+			sof.updateData(request, I);
 			
 			try {
 				String result=newScore(score, user, film, I);

@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import spark.Request;
@@ -286,6 +287,31 @@ public class SlopeOneFilter {
 			response += "<h4>El usuario no existe.</h4><hr>";
 		}
 		return response;
+	}
+
+	public void updateData(Request request, Injector I) {
+		Double score = Double.parseDouble(request.queryParams("score"));
+		Integer user = Integer.parseInt(request.queryParams("user"));
+		String film = request.queryParams("film");
+
+		try {
+			List<String> filmFields = I.filterByName(film);
+			Integer film_id = Integer.parseInt(filmFields.get(6));
+			System.out.println(film_id);
+			System.out.println(score);
+			Map<Integer,Double> film_score = new HashMap<>();
+			if(!data.containsKey(user)) {
+				film_score.put(film_id, score);
+				data.put(user, film_score);
+			}else {
+				film_score = data.get(user);
+				film_score.computeIfPresent(film_id, (k, v) -> score);
+				film_score.put(film_id,score);
+			}
+
+		}catch(IllegalArgumentException e) {
+			System.err.println(e);
+		}
 	}
 
 //	public static void main(String args[]){
