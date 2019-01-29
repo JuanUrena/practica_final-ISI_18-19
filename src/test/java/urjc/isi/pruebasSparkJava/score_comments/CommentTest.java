@@ -35,12 +35,6 @@ public class CommentTest {
 		assertEquals ("Pelicula invalida", comment.newComment("comentario", 4, null, I));
 	}
 	
-	//test for null injector
-	/*@Test (expected = NullPointerException.class)
-	public void testforNullInjector(){
-		Comment comment = new Comment();
-		comment.newComment("comentario", 4, "Kill Bill: Volumen 3", null);
-	}*/
 	
 	//test for commentsFilm(String film)
 	
@@ -51,7 +45,7 @@ public class CommentTest {
 		assertEquals ("Pelicula invalida", comment.commentsFilm(null, I));
 	}
 	
-	//test for commentToString
+	//test for commentToString (String matrix_coment[][])
 	
 	@Test 
 	public void testforNullComments(){
@@ -59,14 +53,6 @@ public class CommentTest {
 		assertEquals("Comentario invalido", comment.commentToString(null));
 	}
 	
-	/*
-	//test for postComment with invalid injector
-	@Test (expected = NullPointerException.class)
-	public void testforNullInjectorinPostC(){
-		Comment comment = new Comment();
-		comment.postComment(null);
-	}
-	*/
 	//happy path tests
 	
 	@Test
@@ -92,13 +78,14 @@ public class CommentTest {
 		resultc = comment.commentToString(comments);
 		assertNotNull("Comments cant be null", resultc);
 	}
-		
+	/*	
 	@Test
 	public void postCommentTest(){
+		Request req;
 		Comment comment = new Comment();
 		String resultc;
-		resultc = comment.postComment(I);
+		resultc = comment.postComment(req, I);
 		assertNotNull("comments cant be null", resultc);
-	}
+	}*/
 
 }
