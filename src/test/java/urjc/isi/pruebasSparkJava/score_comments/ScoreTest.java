@@ -1,61 +1,86 @@
-package urjc.isi.pruebasSparkJava;
+package urjc.isi.pruebasSparkJava.score_comments;
 
 //import static org.junit.jupiter.api.Assertions.*;
 import org.junit.*;
+
+import urjc.isi.pruebasSparkJava.Injector;
+import urjc.isi.pruebasSparkJava.Score;
+
 import static org.junit.Assert.*;
+
+import java.util.List;
 
 
 public class ScoreTest {
 
-	private Injector I = new Injector("JDBC_DATABASE_URL");
+	Injector I = new Injector("JDBC_DATABASE_URL");
 	
 	@Test
 	public void newScore_test() {
 		
-		Score score1 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Puntuacion invalida",score1.newScore(-1,1,"Titanic",I));
+		assertEquals("Puntuacion invalida",score.newScore(-1,1,120338,I));
 
 	}
 
 	@Test
 	public void newScore_test2() {
 		
-		Score score2 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Usuario invalido",score2.newScore(1,-1,"Titanic",I));
+		assertEquals("Usuario invalido",score.newScore(1,-1,120338,I));
 
 	}
 	
 	@Test
 	public void newScore_test3() {
 		
-		Score score3 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Pelicula invalida",score3.newScore(1,1,null,I));
+		assertEquals("Pelicula invalida",score.newScore(1,1,-1,I));
+
+	}
+
+	@Test
+	public void newScore_test4() {
+		
+		Score score = new Score(); 
+		
+		assertEquals("Pelicula invalida",score.newScore(1,1,1,I));
 
 	}
 	
 	
 	//Suponemos que el injector funciona correctamente y no falla, por eso no hacemos test de injector
-	/*
+
 	@Test //(expected = NullPointerException.class)
 	void getScore_test() {
 		
-		Score score4 = new Score(); 
+		Score score = new Score(); 
 		
-		assertNotNull(score4.getScore("Titanic"));
-
+		assertNotNull(score.getScore("Titanic"));
 	}
-	*/
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
 	@Test 
 	public void changeScore_test() {
 		
-		Score score5 = new Score(); 
-	
-		score5.changeScore(1.0f,"Titanic",I);
+		Score score = new Score(); 
+		List<String> movieFields = I.filterByName("Titanic");
+		
+		//Media real
+		float mean = Float.parseFloat(movieFields.get(3));
+		
+		//Pongo la media a uno y compruebo el cambio.
+		score.changeScore(1,120338,I);
+		movieFields = I.filterByName("Titanic");
+		int mean_test=Integer.parseInt(movieFields.get(3));
+		
+		//Vuelvo a poner media real
+		score.changeScore(mean,120338,I);
+		
+		assertEquals(1,mean_test);
 
 	}
 	
