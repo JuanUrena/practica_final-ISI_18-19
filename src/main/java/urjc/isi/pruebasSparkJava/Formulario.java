@@ -4,7 +4,7 @@ package urjc.isi.pruebasSparkJava;
 public class Formulario {
 	public String formulary(String film) {
 			return "<form action='/comment' method='post'> "
-				+ "Comment:<br> <input type='text' name='comment'> "
+				+ "Comment:<br> <input type='text' name='comment' required/> "
 				+ "User: <input type='number' name='user' required/><br> "
 				+"<input type='hidden' name='film' value='"+ film +"'>"
 				+ "<input type='submit' value='Comentar'> "

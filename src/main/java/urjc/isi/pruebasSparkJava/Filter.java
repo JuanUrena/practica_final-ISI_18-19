@@ -94,7 +94,7 @@ public class Filter {
 						"</tr>" +
 					"</table>";
         	response = response+ f.formulary(movieFields.get(0));
-        	response=response+c.commentsFilm(movieFields.get(0), conn);
+        	response=response+c.commentsFilm(Integer.parseInt(movieFields.get(6)), conn);
     	}
     	return response;
 	}
