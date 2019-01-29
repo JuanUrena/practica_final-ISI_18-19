@@ -11,7 +11,7 @@ public class Score {
 		//Guardo la nueva puntuacion    COMPLETO!!!
 		public String newScore(int score, int user, String film, Injector I) {
 			if (score<0 ||score>10) {
-				return("Puntuación invalido");
+				return("Puntuación invalida");
 			}else if (user<0) {
 				return("Usuario invalido");
 			}else if (film == null) {
@@ -29,13 +29,15 @@ public class Score {
 		}
 		
 		//Obtengo la nueva media    COMPLETO!!!
-		public float getScore(String film, Injector I) {
-			float media =I.meanScores(film);
+		/*
+		public float getScore(String film) { //injectorI
+			float media = I.meanScores(film);
 			return media;
 		}
+		*/
 		
-		//Actualizo la media   COMPLETO!!! 
-		public void changeScore(float score, String film, Injector I) {
+		//Actualizo la media COMPLETO!!!
+		public void changeScore(float score, String film,Injector I) { //injector {
 			List<String> info_film=I.filterByName(film);
 			int id_film=Integer.parseInt(info_film.get(6));
 			I.updateAverageRating(id_film, score);
@@ -44,7 +46,7 @@ public class Score {
 		}
 		
 		
-		
+		/*
 		public String postScore(Request request, Injector I, SlopeOneFilter sof) {
 			
 			//Saco la puntuacion a int
@@ -68,4 +70,5 @@ public class Score {
 				return e.getMessage();
 			}
 		}
+		*/
 }
