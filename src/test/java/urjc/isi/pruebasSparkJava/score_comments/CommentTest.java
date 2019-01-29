@@ -36,11 +36,11 @@ public class CommentTest {
 	}
 	
 	//test for null injector
-	@Test (expected = NullPointerException.class)
+	/*@Test (expected = NullPointerException.class)
 	public void testforNullInjector(){
 		Comment comment = new Comment();
 		comment.newComment("comentario", 4, "Kill Bill: Volumen 3", null);
-	}
+	}*/
 	
 	//test for commentsFilm(String film)
 	
@@ -59,14 +59,14 @@ public class CommentTest {
 		assertEquals("Comentario invalido", comment.commentToString(null));
 	}
 	
-	
+	/*
 	//test for postComment with invalid injector
 	@Test (expected = NullPointerException.class)
 	public void testforNullInjectorinPostC(){
 		Comment comment = new Comment();
 		comment.postComment(null);
 	}
-	
+	*/
 	//happy path tests
 	
 	@Test
