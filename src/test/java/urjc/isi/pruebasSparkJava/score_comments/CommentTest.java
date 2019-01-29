@@ -93,12 +93,12 @@ public class CommentTest {
 		assertNotNull("Comments cant be null", resultc);
 	}
 		
-	/*@Test
+	@Test
 	public void postCommentTest(){
 		Comment comment = new Comment();
 		String resultc;
 		resultc = comment.postComment(I);
 		assertNotNull("comments cant be null", resultc);
-	}*/
+	}
 
 }
