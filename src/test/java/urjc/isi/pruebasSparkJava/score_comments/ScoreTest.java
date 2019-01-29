@@ -5,12 +5,12 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 
-class ScoreTest {
+public class ScoreTest {
 
 	private Injector I = new Injector("JDBC_DATABASE_URL");
 	
 	@Test
-	void newScore_test() {
+	public void newScore_test() {
 		
 		Score score1 = new Score(); 
 		
@@ -19,7 +19,7 @@ class ScoreTest {
 	}
 
 	@Test
-	void newScore_test2() {
+	public void newScore_test2() {
 		
 		Score score2 = new Score(); 
 		
@@ -28,7 +28,7 @@ class ScoreTest {
 	}
 	
 	@Test
-	void newScore_test3() {
+	public void newScore_test3() {
 		
 		Score score3 = new Score(); 
 		
@@ -51,7 +51,7 @@ class ScoreTest {
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
 	@Test 
-	void changeScore_test() {
+	public void changeScore_test() {
 		
 		Score score5 = new Score(); 
 	
