@@ -1,7 +1,11 @@
-package urjc.isi.pruebasSparkJava;
+package urjc.isi.pruebasSparkJava.score_comments;
 
 import static org.junit.Assert.*;
 import org.junit.*;
+
+import urjc.isi.pruebasSparkJava.Comment;
+import urjc.isi.pruebasSparkJava.Injector;
+
 import java.util.*;
 
 
@@ -9,7 +13,7 @@ import java.util.*;
 public class CommentTest {
 	
 	
-	private Injector I = new Injector("JDBC_DATABASE_URL");
+	Injector I = new Injector("JDBC_DATABASE_URL");
 
 	
 	//tests for newComment(String text, int user, String film) 
@@ -42,7 +46,7 @@ public class CommentTest {
 	@Test 
 	public void testforInvalidFilm(){
 		Comment comment = new Comment();
-		assertEquals ("Pelicula invalida", comment.commentsFilm(null, I));
+		assertEquals ("Pelicula invalida", comment.commentsFilm(-1, I));
 	}
 	
 	//test for commentToString (String matrix_coment[][])
@@ -65,7 +69,7 @@ public class CommentTest {
 	public void commentsFilmTest(){
 		Comment comment = new Comment();
 		String resultc;
-		resultc = comment.commentsFilm("Titanic", I);
+		resultc = comment.commentsFilm(332452, I);
 		assertNotNull("Comments cant be null", resultc);
 		
 	}
