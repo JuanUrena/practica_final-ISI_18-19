@@ -8,6 +8,8 @@ import urjc.isi.pruebasSparkJava.Score;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 
 public class ScoreTest {
 
@@ -57,8 +59,20 @@ public class ScoreTest {
 	public void changeScore_test() {
 		
 		Score score = new Score(); 
-	
-		score.changeScore(1.0f,120338,I);
+		List<String> movieFields = I.filterByName("Titanic");
+		
+		//Media real
+		float mean = Float.parseFloat(movieFields.get(3));
+		
+		//Pongo la media a uno y compruebo el cambio.
+		score.changeScore(1,120338,I);
+		movieFields = I.filterByName("Titanic");
+		int mean_test=Integer.parseInt(movieFields.get(3));
+		
+		//Vuelvo a poner media real
+		score.changeScore(mean,120338,I);
+		
+		assertEquals(1,mean_test);
 
 	}
 	
