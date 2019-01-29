@@ -252,7 +252,7 @@ public class SlopeOneFilter {
 	}
 
 	public String menu() {
-		String menu = 	"<h1>Recomendar peliculas a un usuario</h1><hr>" +
+		String menu = 	"<h1>Recomendar películas a un usuario</h1><hr>" +
 				"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
 				"<hr><form action='/recommend' method='post'>" +
 				"<label for='user'>Usuario: </label>" + 
@@ -278,32 +278,44 @@ public class SlopeOneFilter {
 		response += backHome();
 		return response;
 	}
+	
+	public String getNPredicted(int user, int nItems) {
 
-	public String recommend(Request request) {
-		// Mostrar nItems predicciones con mayor puntuación.
-		String response = menu();
-		
-		int user = Integer.parseInt(request.queryParams("user"));
-		int nItems = Integer.parseInt(request.queryParams("n_items"));
+		String predString = "";
 
-		if(predictions.containsKey(user)) {
-			response += "<h4>Recomendaciones:</h4><hr><table>";
-			LinkedList<Node> predictionList = predictions.get(user);
+		ListIterator<Node> itrator = predictions.get(user).listIterator();
 
-			ListIterator<Node> itrator = predictionList.listIterator();
-
-			for (int i=0; (i < nItems && itrator.hasNext()); i++) {
-				response += ("<tr><td>" + itrator.next().toString() + "</td></tr>");
-			}
-			response += "</table><hr>";
-		} else {
-			response += "<h4>El usuario no existe.</h4><hr>";
+		for (int i=0; (i < nItems && itrator.hasNext()); i++) {
+			predString += ("<tr><td>" + itrator.next().toString() + "</td></tr>");
 		}
-		response += backHome();
-		return response;
+		
+		return predString;
 	}
 
-	public void updateData(Integer score,Integer user, Integer film_id) {
+	public String recommend(Request request) {
+
+		String response = menu();
+		
+		try {
+			int user = Integer.parseInt(request.queryParams("user"));
+			int nItems = Integer.parseInt(request.queryParams("n_items"));
+			
+			if(predictions.containsKey(user)) {
+				response += "<h4>Recomendaciones:</h4><hr><table>";
+				response += getNPredicted(user, nItems);
+				response += "</table><hr>";
+			} else {
+				response += "<h4>El usuario no existe.</h4><hr>";
+			}
+			return (response + backHome());	
+		} catch (NumberFormatException e) {
+			return "NumberFormatException";
+		} catch (NullPointerException e) {
+			return "NullPointerException";
+		}
+	}
+
+	public void updateData(Integer score, Integer user, Integer film_id) {
 
 		Double double_score = score.doubleValue();
 		try {

@@ -142,7 +142,7 @@ public class Main {
 			"</form>" +
     			"<a href='/filter'>Búsqueda de películas</a>" +
     			"<br><br>" +
-    			"<a href='/recommend'>Recomendar peliculas a un usuario</a>" +
+    			"<a href='/recommend'>Recomendar películas a un usuario</a>" +
     			"<br><br>" +
     			"<p>Grafos:</p>" +
     			"<ul>" + 
