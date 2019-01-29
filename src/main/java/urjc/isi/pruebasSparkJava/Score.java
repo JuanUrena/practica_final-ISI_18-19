@@ -29,7 +29,7 @@ public class Score {
 		}
 		
 		//Obtengo la nueva media    COMPLETO!!!
-		public float getScore(String film) { //injectorI
+		public float getScore(String film, Injector I) {
 			float media = I.meanScores(film);
 			return media;
 		}
