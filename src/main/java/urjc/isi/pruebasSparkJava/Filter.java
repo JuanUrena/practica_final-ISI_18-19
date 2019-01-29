@@ -187,7 +187,7 @@ public class Filter {
 		
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
-    				+ "con un género  " + "'" + req.queryParams("duration") + "'" +
+    				+ "con un género  " + "'" + req.queryParams("genre") + "'" +
     				" en la base de datos.</p>";
     	} else {
     		response = "<table border=2" +
@@ -208,7 +208,7 @@ public class Filter {
 		List<String> movies;
 		String response;
     	
-    	movies = conn.filterByRating(Float.parseFloat(req.queryParams("duration")));
+    	movies = conn.filterByRating(Float.parseFloat(req.queryParams("rating")));
 		
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
