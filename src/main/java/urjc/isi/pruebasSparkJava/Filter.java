@@ -65,7 +65,6 @@ public class Filter {
 	public static String showFilmByName(Injector conn, Request req) {
 		List<String> movieFields;
 		String response;
-		
 		Formulario f=new Formulario();
 		Comment c=new Comment();
 		

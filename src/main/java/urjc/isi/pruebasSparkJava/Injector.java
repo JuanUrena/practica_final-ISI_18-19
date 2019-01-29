@@ -167,14 +167,17 @@ public class Injector {
     	return result;
 	}
 
-	public Integer meanScores(String film) {
-		String sql = "SELECT avg(score) FROM ratings JOIN movies ON movies.titleID = ratings.titleID WHERE movies.title LIKE "+'"'+film+'"' + " GROUP BY ratings.titleID";
-    	Integer result = 0;
+	public float meanScores(String film) {
+		String sql = "SELECT avg(score) FROM ratings JOIN movies ON movies.titleid = ratings.titleid WHERE movies.title LIKE '"+film +"' GROUP BY ratings.titleid";
+    	float result = 0;
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		
     		ResultSet rs = pstmt.executeQuery();
     		c.commit();
-    		result = rs.getInt("avg(score)");
+    		if (rs.next()) {
+    			result = rs.getFloat("avg");
+    		}
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
     	}
@@ -391,7 +394,7 @@ public class Injector {
    	}
 
     public void updateAverageRating(Integer titleID, Float averageRating) {
-		String sql = "UPDATE movies SET averageRating = " + averageRating; 
+		String sql = "UPDATE movies SET average_rating = " + averageRating; 
 		sql += " WHERE titleid = " + titleID;
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
     		pstmt.executeUpdate();
