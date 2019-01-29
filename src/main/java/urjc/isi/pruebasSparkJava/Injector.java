@@ -133,8 +133,8 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByDuration(Integer minutes) {
-		String sql = "SELECT * FROM movies WHERE runtimeMinutes <= "+minutes;
+	public List<String> filterByDuration(String minutes) {
+		String sql = "SELECT * FROM movies WHERE runtimeMinutes <= "+"'"+minutes+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
