@@ -26,6 +26,18 @@ public class Injector {
         }
 	}
 
+	public static Boolean filmExists(String title, String year) {
+		String sql = "SELECT titleid FROM movies WHERE title = "+ title +"AND year = "+ year;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("titleid");
+			return true;
+		}catch (SQLException e) {
+			return false;
+		}
+	}
+
 
 //	public static Boolean searchFilm(String title) {
 //		String sql = "SELECT title FROM movies WHERE title = "+ title;

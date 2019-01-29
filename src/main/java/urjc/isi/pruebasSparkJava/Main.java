@@ -195,22 +195,28 @@ public class Main {
     		"pattern=[A-Za-z ]{0,}>" +
     		"<p><input type='submit' value='Enviar'></p>" +
     		"</form>"
-    		+ "<p>Implementada funcionalidad a espera de solucionar problemas con la base de datos</p>");
+    		);
         //Incluido formulario para añadir películas
         
         post("/add_films", (req, res) -> {
-        	last_added = "</p>pelicula: " + req.queryParams("film")
+        	String result = "";
+        	if(Injector.filmExists(req.queryParams("film"), req.queryParams("year"))) {
+        		result = "<p>La película que se desea introducir ya se encuentra en la "
+        				+ "base de datos.</p>";
+        	}else {
+        		last_added = "</p>pelicula: " + req.queryParams("film")
         		+ "</p>year: " + req.queryParams("year") 
         		+ "</p>Género: " + req.queryParams("genres")
         		+ "</p>Actor: " + req.queryParams("actor");
-        	String result = "Has añadido ->" + last_added;
-        	Injector.insertFilm(req.queryParams("film")
+        		result = "Has añadido ->" + last_added;
+        		Injector.insertFilm(req.queryParams("film")
         			,req.queryParams("year"), req.queryParams("genres"));
-        	//String title_ID = selectTitle_ID(connection, "movies", req.queryParams("film"), req.queryParams("year"), req.queryParams("genres"));
-        	Injector.insertActor(req.queryParams("actor"));
-        	//String name_ID = selectName_ID(connection, "workers", req.queryParams("actor"));
-        	//insertWorks_In(connection, title_ID, name_ID);
-        	return result;	
+        		//String title_ID = selectTitle_ID(connection, "movies", req.queryParams("film"), req.queryParams("year"), req.queryParams("genres"));
+        		Injector.insertActor(req.queryParams("actor"));
+        		//String name_ID = selectName_ID(connection, "workers", req.queryParams("actor"));
+        		//insertWorks_In(connection, title_ID, name_ID);
+        	}
+			return result;	
         });
 
         get("/showlastadded", (req, res) -> {
