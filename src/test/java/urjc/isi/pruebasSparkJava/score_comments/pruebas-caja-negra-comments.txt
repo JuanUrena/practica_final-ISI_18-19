@@ -73,7 +73,7 @@
 	Método 2:
 		Test 1: (null, I)
 		Test 2: ("Kill Bill: Volumen 3", null)
-		Test 2: ("Kill Bill: Volumen 3", I)
+		Test 3: ("Kill Bill: Volumen 3", I)
 
 	Método 3:
 		Test 1: (null)
