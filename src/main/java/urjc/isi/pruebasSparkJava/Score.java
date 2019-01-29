@@ -9,17 +9,14 @@ public class Score {
 	
 	
 		//Guardo la nueva puntuacion    COMPLETO!!!
-		public String newScore(int score, int user, String film, Injector I) {
+		public String newScore(int score, int user, int id_film, Injector I) {
 			if (score<0 ||score>10) {
 				return("Puntuacion invalida");
 			}else if (user<0) {
 				return("Usuario invalido");
-			}else if (film == null) {
+			}else if (id_film< 0) {
 				return("Pelicula invalida");
 			}else {			
-				I.insertUser(user);
-				List<String> info_film=I.filterByName(film);
-				int id_film=Integer.parseInt(info_film.get(6));
         		System.out.println(user);
         		System.out.println(score);
 
@@ -30,16 +27,14 @@ public class Score {
 		
 		//Obtengo la nueva media    COMPLETO!!!
 		
-		public float getScore(String film, Injector I) {
-			float media = I.meanScores(film);
+		public float getScore(int id_film, Injector I) {
+			float media = I.meanScores(id_film);
 			return media;
 		}
 		
 		
 		//Actualizo la media COMPLETO!!!
-		public void changeScore(float score, String film,Injector I) { //injector {
-			List<String> info_film=I.filterByName(film);
-			int id_film=Integer.parseInt(info_film.get(6));
+		public void changeScore(float score, int  id_film,Injector I) { //injector {
 			I.updateAverageRating(id_film, score);
     		System.out.println(score);
     		System.out.println(id_film);
@@ -66,10 +61,10 @@ public class Score {
 			sof.updateData(request, I);
 			
 			try {
-				String result=newScore(score, user, film, I);
-				float mean=getScore(film, I);
+				String result=newScore(score, user, id_film, I);
+				float mean=getScore(id_film, I);
         		System.out.println(mean);
-				changeScore(mean, film, I);
+				changeScore(mean, id_film, I);
 				return result;
 			}catch(IllegalArgumentException e) {
 				return e.getMessage();

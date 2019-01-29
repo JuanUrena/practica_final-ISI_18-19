@@ -205,8 +205,8 @@ public class Injector {
     	return result;
 	}
 
-	public float meanScores(String film) {
-		String sql = "SELECT avg(score) FROM ratings JOIN movies ON movies.titleid = ratings.titleid WHERE movies.title LIKE '"+film +"' GROUP BY ratings.titleid";
+	public float meanScores(int film) {
+		String sql = "SELECT avg(score) FROM ratings WHERE titleid ="+film;
     	float result = 0;
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
