@@ -27,7 +27,7 @@ public class insertTest {
 
 		connection.insertFilm("Kill Bill: Volumen 3", "2020", "Accion");
 		String sql = "SELECT title FROM movies WHERE title = Kill Bill: Volumen 3";
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+		try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 			ResultSet rs= pstmt.executeQuery();
 			rs.next();
 			rs.getInt("title");
@@ -37,11 +37,11 @@ public class insertTest {
 		}
 
 		sql = "SELECT year FROM movies WHERE year = 2020";
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+		try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 			ResultSet rs= pstmt.executeQuery();
 			rs.next();
 			rs.getInt("year");
-			year = True;
+			year = true;
 		}catch (SQLException e) {
 			year = false;
 		}
