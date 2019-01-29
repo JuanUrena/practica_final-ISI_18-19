@@ -10,7 +10,7 @@ public class ScoreTest {
 	private Injector I = new Injector("JDBC_DATABASE_URL");
 	
 	@Test
-	void newScore_test() {
+	public void newScore_test() {
 		
 		Score score = new Score(); 
 		
@@ -19,7 +19,7 @@ public class ScoreTest {
 	}
 
 	@Test
-	void newScore_test2() {
+	public void newScore_test2() {
 		
 		Score score = new Score(); 
 		
@@ -28,7 +28,7 @@ public class ScoreTest {
 	}
 	
 	@Test
-	void newScore_test3() {
+	public void newScore_test3() {
 		
 		Score score = new Score(); 
 		
@@ -51,7 +51,7 @@ public class ScoreTest {
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
 	@Test 
-	void changeScore_test() {
+	public void changeScore_test() {
 		
 		Score score5 = new Score(); 
 	
@@ -60,7 +60,7 @@ public class ScoreTest {
 	}
 	
 	@Test (expected = NullPointerException.class)
-	void changeScore_test2() {
+	public void changeScore_test2() {
 		
 		Score score6 = new Score(); 
 	
