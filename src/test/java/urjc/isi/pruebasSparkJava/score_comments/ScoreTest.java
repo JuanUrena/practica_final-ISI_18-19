@@ -5,7 +5,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 
-class ScoreTest {
+public class ScoreTest {
 
 	private Injector I = new Injector("JDBC_DATABASE_URL");
 	
