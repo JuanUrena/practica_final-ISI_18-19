@@ -12,27 +12,27 @@ class ScoreTest {
 	@Test
 	void newScore_test() {
 		
-		Score score1 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Puntuacion invalida",score1.newScore(-1,1,"Titanic",I));
+		assertEquals("Puntuacion invalida",score.newScore(-1,1,"Titanic",I));
 
 	}
 
 	@Test
 	void newScore_test2() {
 		
-		Score score2 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Usuario invalido",score2.newScore(1,-1,"Titanic",I));
+		assertEquals("Usuario invalido",score.newScore(1,-1,"Titanic",I));
 
 	}
 	
 	@Test
 	void newScore_test3() {
 		
-		Score score3 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Pelicula invalida",score3.newScore(1,1,null,I));
+		assertEquals("Pelicula invalida",score.newScore(1,1,null,I));
 
 	}
 	
