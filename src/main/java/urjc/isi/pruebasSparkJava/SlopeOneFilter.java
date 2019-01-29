@@ -252,23 +252,37 @@ public class SlopeOneFilter {
 		return pos;
 	}
 
-	
-	public String showSOMenu() {
+	public String menu() {
 		String menu = 	"<h1>Recomendar peliculas a un usuario</h1><hr>" +
-						"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
-						"<hr><form action='/recommend' method='post'>" +
-						"<label for='user'>Usuario: </label>" + 
-						"<input type='number' name='user' id='user' min='0' required> " +
-						"<label for='n_items'>Numero de recomendaciones: </label>" + 
-						"<input type='number' name='n_items' id='n_items' min='0' required> " +
-						"<input type='submit' value='Recomendar'>" +
-						"</form><hr>";
+				"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
+				"<hr><form action='/recommend' method='post'>" +
+				"<label for='user'>Usuario: </label>" + 
+				"<input type='number' name='user' id='user' min='0' required> " +
+				"<label for='n_items'>Numero de recomendaciones: </label>" + 
+				"<input type='number' name='n_items' id='n_items' min='0' required> " +
+				"<input type='submit' value='Recomendar'>"  +
+				"</form><hr>";
 		return menu;
+	}
+	
+	public String backHome() {
+		String home = "<form action='/' method='get'>" +
+				"<div class='button'>" +
+				"<button type='submit'>Volver a home</button>" +
+				"</div>" +
+				"</form>";
+		return home;
+	}
+
+	public String showSOMenu() {
+		String response = menu();
+		response += backHome();
+		return response;
 	}
 
 	public String recommend(Request request) {
 		// Mostrar nItems predicciones con mayor puntuación.
-		String response = showSOMenu();
+		String response = menu();
 		
 		int user = Integer.parseInt(request.queryParams("user"));
 		int nItems = Integer.parseInt(request.queryParams("n_items"));
@@ -286,6 +300,7 @@ public class SlopeOneFilter {
 		} else {
 			response += "<h4>El usuario no existe.</h4><hr>";
 		}
+		response += backHome();
 		return response;
 	}
 
@@ -308,9 +323,14 @@ public class SlopeOneFilter {
 				film_score.computeIfPresent(film_id, (k, v) -> score);
 				film_score.put(film_id,score);
 			}
-
+			System.out.println(data.get(user));
 		}catch(IllegalArgumentException e) {
 			System.err.println(e);
+		}
+		
+		//Una vez que esta actualizado data, se calculan de nuevo las predicciones
+		for (int data_user : data.keySet()){
+			predict(data_user);
 		}
 	}
 
