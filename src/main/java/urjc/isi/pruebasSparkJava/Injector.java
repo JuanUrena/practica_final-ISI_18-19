@@ -234,7 +234,7 @@ public class Injector {
 	}
 
 	public List<String> getFilmComments(int film){
-		String sql = "SELECT comment FROM comments WHERE titleid="+film;
+		String sql = "SELECT clientid, comment FROM comments WHERE titleid="+film;
 		
 		List<String> result = new ArrayList<String>();
 		
@@ -243,7 +243,7 @@ public class Injector {
     		c.commit();
 
     		while(rs.next()) {
-    			String title = rs.getString("comment");
+    			String title = Integer.toString(rs.getInt("clientid"))+" : "+rs.getString("comment");
                 result.add(title);
    		}
 		} catch (SQLException e) {
@@ -370,7 +370,7 @@ public class Injector {
 		String sql= new String();
 
     	if(!searchUser(clientid) ){
-    		sql = "INSERT INTO clients(clientID) VALUES(clientid)";
+    		sql = "INSERT INTO clients(clientID) VALUES("+clientid+")";
     		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
         		pstmt.executeUpdate();
         		c.commit();
@@ -380,16 +380,32 @@ public class Injector {
     	}
     }
 
+
 //titleid, clientID y comment
 //NOMBRE TABLA: comments(Hay que crearla)
-    public void insertComments(Integer titleid, Integer clientid, String comments) {
-   		String sql= "INSERT INTO comments(titleid, clientid, comment) VALUES("+titleid+","+clientid+","+comments+")";
-
-       	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-           	pstmt.executeUpdate();
-           	c.commit();
-           } catch (SQLException e) {
-          	System.out.println(e.getMessage());
+    public void insertComments(Integer titleid, Integer clientid, String comment) {
+    	String sql = "SELECT MAX(\"commentId\") FROM comments";
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
+    		ResultSet rs = pstmt.executeQuery();
+    		if(rs.next()){
+    			int lastId = rs.getInt("max");
+    			System.out.println(lastId);
+    	
+    			sql= "INSERT INTO comments(\"commentId\",titleid, clientid, comment) VALUES(?,?,?,?)";
+    			try (PreparedStatement pstmt2 = c.prepareStatement(sql)) {
+		   			pstmt2.setInt(1, lastId+1);			
+		   			pstmt2.setInt(2, titleid);
+		   	    	pstmt2.setInt(3, clientid);
+		   	    	pstmt2.setString(4, comment);
+		   	    	pstmt2.executeUpdate();
+		   	    	c.commit();
+    			} catch (SQLException e) {
+            		System.out.println(e.getMessage());
+            	}	
+		   	    
+    		}
+    	} catch (SQLException e) {
+        		System.out.println(e.getMessage());
         }
    	}
 

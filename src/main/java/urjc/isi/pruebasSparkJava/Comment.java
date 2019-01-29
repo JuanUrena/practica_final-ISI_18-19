@@ -35,7 +35,7 @@ public class Comment {
 		List<String> comments=I.getFilmComments(id_film);
 		if (comments.size()!=0) {
 			for  (String comment :comments) {
-				text=text+comment+"<br>";
+				text=text+comment+"<br><br>";
 			}
 		}
 		return text;
