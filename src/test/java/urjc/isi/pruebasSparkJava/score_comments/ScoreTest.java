@@ -5,9 +5,6 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 
-import org.junit.*;
-import java.util.*;
-
 class ScoreTest {
 
 	private Injector I = new Injector("JDBC_DATABASE_URL");
@@ -17,7 +14,7 @@ class ScoreTest {
 		
 		Score score1 = new Score(); 
 		
-		assertEquals("Puntuación invalida",score1.newScore(-1,1,"Titanic",I));
+		assertEquals("Puntuacion invalida",score1.newScore(-1,1,"Titanic",I));
 
 	}
 
