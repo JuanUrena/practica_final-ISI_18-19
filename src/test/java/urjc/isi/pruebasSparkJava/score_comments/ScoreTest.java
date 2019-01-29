@@ -1,38 +1,42 @@
-package urjc.isi.pruebasSparkJava;
+package urjc.isi.pruebasSparkJava.score_comments;
 
 //import static org.junit.jupiter.api.Assertions.*;
 import org.junit.*;
+
+import urjc.isi.pruebasSparkJava.Injector;
+import urjc.isi.pruebasSparkJava.Score;
+
 import static org.junit.Assert.*;
 
 
 public class ScoreTest {
 
-	private Injector I = new Injector("JDBC_DATABASE_URL");
+	Injector I = new Injector("JDBC_DATABASE_URL");
 	
 	@Test
 	public void newScore_test() {
 		
-		Score score1 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Puntuacion invalida",score1.newScore(-1,1,"Titanic",I));
+		assertEquals("Puntuacion invalida",score.newScore(-1,1,120338,I));
 
 	}
 
 	@Test
 	public void newScore_test2() {
 		
-		Score score2 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Usuario invalido",score2.newScore(1,-1,"Titanic",I));
+		assertEquals("Usuario invalido",score.newScore(1,-1,120338,I));
 
 	}
 	
 	@Test
 	public void newScore_test3() {
 		
-		Score score3 = new Score(); 
+		Score score = new Score(); 
 		
-		assertEquals("Pelicula invalida",score3.newScore(1,1,null,I));
+		assertEquals("Pelicula invalida",score.newScore(1,1,-1,I));
 
 	}
 	
@@ -52,9 +56,9 @@ public class ScoreTest {
 	@Test 
 	public void changeScore_test() {
 		
-		Score score5 = new Score(); 
+		Score score = new Score(); 
 	
-		score5.changeScore(1.0f,"Titanic",I);
+		score.changeScore(1.0f,120338,I);
 
 	}
 	
