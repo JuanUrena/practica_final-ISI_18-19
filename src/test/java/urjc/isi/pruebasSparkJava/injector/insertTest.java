@@ -21,9 +21,9 @@ public class insertTest {
 	@Test 
 	public void testInsertFullFieldsMovie()
 	{
-		Boolean name = False;	
-		Boolean year = False;	
-		Boolean resultado = False;
+		boolean name = False;	
+		boolean year = False;	
+		boolean resultado = False;
 
 		connection.insertFilm("Kill Bill: Volumen 3", "2020", "Accion");
 		String sql = "SELECT title FROM movies WHERE title = Kill Bill: Volumen 3";
@@ -36,7 +36,7 @@ public class insertTest {
 			name = False;
 		}
 
-		String sql = "SELECT year FROM movies WHERE year = 2020";
+		sql = "SELECT year FROM movies WHERE year = 2020";
 		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
 			ResultSet rs= pstmt.executeQuery();
 			rs.next();
