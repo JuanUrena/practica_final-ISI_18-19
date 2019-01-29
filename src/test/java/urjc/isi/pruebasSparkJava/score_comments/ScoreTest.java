@@ -61,15 +61,15 @@ public class ScoreTest {
 		Score score = new Score(); 
 		List<String> movieFields = I.filterByName("Titanic");
 		
-		Media real
+		//Media real
 		float mean = Float.parseFloat(movieFields.get(3));
 		
-		Pongo la media a uno y compruebo el cambio.
+		//Pongo la media a uno y compruebo el cambio.
 		score.changeScore(1,120338,I);
 		movieFields = I.filterByName("Titanic");
 		int mean_test=Integer.parseInt(movieFields.get(3));
 		
-		Vuelvo a poner media real
+		//Vuelvo a poner media real
 		score.changeScore(mean,120338,I);
 		
 		assertEquals(1,mean_test);
