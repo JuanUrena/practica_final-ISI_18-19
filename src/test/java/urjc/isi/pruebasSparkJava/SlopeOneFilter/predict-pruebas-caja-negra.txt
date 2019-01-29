@@ -1,0 +1,15 @@
+1. El Software Under Test (SUT):
+
+	Método: predict(Integer user);
+
+2. Parámetros:
+
+	[Integer user]
+
+3. Caracterización:
+
+	C1: Integer válido / no válido
+	C2: null / no null
+	C3: usario existente / no existente
+
+4. Requisitos:

@@ -1,0 +1,29 @@
+
+1. El Software Under Test (SUT):
+
+	Método: sumaWeights(Map<Integer, Map<Integer, Integer>> weights, int movieKey);
+
+2. Parámetros:
+
+	[ Map<Integer, Map<Integer, Integer>> user_movies]
+	[ int movieKey ]
+
+3. Caracterización:
+
+        C1.1: lista de películas vacía / con algún elemento
+        C1.2: Algún elemento null / ningún elemento null
+	C1.3: Todos los elementos null / alguno no null 
+        C1.4: Integer1 inválido / no inválido
+        C1.5: Integer2 inválido / no inválido
+        C1.6: Integer3 inválido / no inválido
+
+        C2.1: int válido / no válido
+        C2.2: int cero / no cero
+        C2.3: int negativo / no negativo
+        C2.4: movieKey existente / no existente
+
+
+4. Requisitos:
+
+
+

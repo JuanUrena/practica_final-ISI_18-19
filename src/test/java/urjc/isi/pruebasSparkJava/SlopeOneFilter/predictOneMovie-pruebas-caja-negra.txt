@@ -1,0 +1,31 @@
+
+1. El Software Under Test (SUT):
+
+        Método: predictOneMovie(int movieKey, Map<Integer, Double> user_movies);
+
+2. Parámetros:
+	
+	[ int movieKey ]
+	[ Map<Integer, Double> user_movies ]
+
+3. Caracterización:
+
+	C1.1: int válido / no válido
+	C1.2: int cero / no cero
+	C1.3: int negativo / no negativo
+	C1.4: movieKey existente / no existente
+
+	C2.1: lista de películas vacía / con algún elemento
+	C2.2: Integer null / no null
+	C2.3: Double null / no null
+	C2.4: Integer y Double null / no null
+	C2.5: Integer inválido / no inválido
+	C2.6: Double inválido / no inválido
+
+
+4. Requisitos:
+
+        Map<null, Double>
+        Map<Integer, null>
+        Mapp<null, null>
+
