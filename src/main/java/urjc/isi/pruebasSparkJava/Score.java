@@ -14,7 +14,7 @@ public class Score {
 				return("Puntuación invalido");
 			}else if (user<0) {
 				return("Usuario invalido");
-			}else if (film.equals(null)) {
+			}else if (film == null) {
 				return("Pelicula invalida");
 			}else {			
 				I.insertUser(user);
@@ -34,7 +34,7 @@ public class Score {
 			return media;
 		}
 		
-		//Actualizo la media   INCOMPLETO, FALTA LA FUNCION DE BBDD
+		//Actualizo la media   COMPLETO!!! 
 		public void changeScore(float score, String film, Injector I) {
 			List<String> info_film=I.filterByName(film);
 			int id_film=Integer.parseInt(info_film.get(6));
