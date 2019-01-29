@@ -6,8 +6,6 @@ import org.junit.*;
 import urjc.isi.pruebasSparkJava.Comment;
 import urjc.isi.pruebasSparkJava.Injector;
 
-import java.util.*;
-
 
 
 public class CommentTest {
