@@ -18,19 +18,19 @@ public class insertTest {
 	Injector connection = new Injector("JDBC_DATABASE_URL");
 
 	//Test1: insertFilm
-	@Test 
-	public void testInsertFullFieldsMovie()
-	{
-		boolean name = false;	
-		boolean year = false;	
-		boolean resultado = false;
+//	@Test 
+//	public void testInsertFullFieldsMovie()
+//	{
+//		boolean name = false;	
+//		boolean year = false;	
+//		boolean resultado = false;
 
-		connection.insertFilm("Kill Bill: Volumen 3", "2020", "Accion");
-		name = connection.searchFilm("Kill Bill: Volumen 3");
-		year = connection.searchYear("2020");
-		resultado = name & year;
-		assertTrue("No se ha añadido a la base de datos", resultado);
-	}
+//		connection.insertFilm("Kill Bill: Volumen 3", "2020", "Accion");
+//		name = connection.searchFilm("Kill Bill: Volumen 3");
+//		year = connection.searchYear("2020");
+//		resultado = name & year;
+//		assertTrue("No se ha añadido a la base de datos", resultado);
+//	}
 
 	//Test3: insertFilm
 	@Test (expected = NullPointerException.class)

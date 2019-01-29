@@ -23,29 +23,29 @@ public class Injector {
 	}
 
 
-	public static Boolean searchFilm(String title) {
-		String sql = "SELECT title FROM movies WHERE title = "+ title;
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-			ResultSet rs= pstmt.executeQuery();
-			rs.next();
-			rs.getString("title");
-			return true;
-		}catch (SQLException e) {
-			return false;
-		}
-	}
+//	public static Boolean searchFilm(String title) {
+//		String sql = "SELECT title FROM movies WHERE title = "+ title;
+//		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+//			ResultSet rs= pstmt.executeQuery();
+//			rs.next();
+//			rs.getString("title");
+//			return true;
+//		}catch (SQLException e) {
+//			return false;
+//		}
+//	}
 
-	public static Boolean searchYear(String year) {
-		String sql = "SELECT year FROM movies WHERE year = "+ year;
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-			ResultSet rs= pstmt.executeQuery();
-			rs.next();
-			rs.getInt("year");
-			return true;
-		}catch (SQLException e) {
-			return false;
-		}
-	}
+//	public static Boolean searchYear(String year) {
+//		String sql = "SELECT year FROM movies WHERE year = "+ year;
+//		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+//			ResultSet rs= pstmt.executeQuery();
+//			rs.next();
+//			rs.getInt("year");
+//			return true;
+//		}catch (SQLException e) {
+//			return false;
+//		}
+//	}
 	
 	public static Boolean searchTitleId(Integer titleID) {
 		String sql = "SELECT titleid FROM movies WHERE titleid = "+ titleID;
