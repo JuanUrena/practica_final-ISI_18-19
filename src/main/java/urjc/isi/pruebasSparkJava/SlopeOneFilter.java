@@ -60,12 +60,12 @@ public class SlopeOneFilter {
 		}
 	}
 
-	public SlopeOneFilter() {
+	public SlopeOneFilter(Injector connector) {
 		data  = new HashMap<>();
-//		JDBC call
-		Injector c = new Injector("JDBC_DATABASE_URL");
-		c.makeDataHashMap(data);
-//		c.close();
+		predictions = new HashMap<Integer, LinkedList<Node>>();
+
+		connector.makeDataHashMap(data);
+
 		buildMaps();
 		for (int user : data.keySet()){
 			predict(user);
@@ -212,21 +212,21 @@ public class SlopeOneFilter {
         }
 
 
-	public void predict(int user) {
+	public void predict(Integer user) {
 
 		double prediction;
-		predictions = new HashMap<Integer, LinkedList<Node>>();
 		
 		if(data.containsKey(user)) {
+
 			Map<Integer, Double> user_movies = data.get(user);
 			
 			predictions.put(user, new LinkedList<Node>());
+
 			LinkedList<Node> predList = predictions.get(user);
-			
+
 			for(Integer movieKey: diffMap.keySet()) {
-				if(!(user_movies.containsKey(movieKey))) {
+				if(!user_movies.containsKey(movieKey)) {
 					prediction = predictOneMovie(movieKey, user_movies);
-//					System.out.println("value: " + prediction);
 					predList.add(getIndex(user, prediction), new Node(movieKey , prediction));
 				}
 			}
@@ -262,22 +262,6 @@ public class SlopeOneFilter {
 						"</form><hr>";
 		return menu;
 	}
-	
-//	public String updateData(Request request) {
-//		
-//		Double score=Double.parseDouble(request.queryParams("score"));
-//		Integer user=Integer.parseInt(request.queryParams("user"));
-//		String film=request.queryParams("film");
-//		
-//		try {
-//			String result=newScore(score, user, film, I);
-//			score=getScore(film, I);
-//			changeScore(score, film, I);
-//			return result;
-//		}catch(IllegalArgumentException e) {
-//			return e.getMessage();
-//		}
-//	}
 
 	public String recommend(Request request) {
 		// Mostrar nItems predicciones con mayor puntuación.
@@ -299,62 +283,19 @@ public class SlopeOneFilter {
 		} else {
 			response += "<h4>El usuario no existe.</h4><hr>";
 		}
-		System.out.println("recommend\n" + response);
-		System.out.println("----");
 		return response;
 	}
 
 //	public static void main(String args[]){
 //		SlopeOneFilter so = new SlopeOneFilter();
+//		
+//		System.out.println("data\n" + so.data.keySet());
+//		System.out.println("----");
+//		System.out.println("diffMap\n" + so.diffMap.keySet());
+//		System.out.println("----");
+//		System.out.println("weightMap\n" + so.weightMap.keySet());
+//		System.out.println("----");
 //		System.out.println("predictions\n" + so.predictions.keySet());
 //		System.out.println("----");
-//
-//		so.data = new HashMap<>();
-//
-//		Integer item_A = 1;
-//		Integer item_B = 11;
-//		Integer item_C = 111;
-//
-//		HashMap<Integer, Double> user1 = new HashMap<>();
-//		HashMap<Integer, Double> user2 = new HashMap<>();
-//		HashMap<Integer, Double> user3 = new HashMap<>();
-//
-//		user1.put(item_A, 5.0);
-//		user1.put(item_B, 3.0);
-//		user1.put(item_C, 2.0);
-//		so.data.put(1, user1);
-//		user2.put(item_A, 3.0);
-//		user2.put(item_B, 4.0);
-//		so.data.put(2, user2);
-//		user3.put(item_B, 2.0);
-//		user3.put(item_C, 5.0);
-//		so.data.put(3, user3);
-//		System.out.println("data\n" + so.data);
-//		System.out.println("----");
-//		so.buildMaps();
-//
-//		System.out.println("diffMap\n" + so.diffMap);
-//		System.out.println("----");
-//		System.out.println("weightMap\n" + so.weightMap);
-//		System.out.println("----");
-//		int recUser = 3;
-//		so.predict(recUser);
-//		System.out.println("predictions\n" + so.predictions);
-//		System.out.println("----");
-
-//		so.predictions = new HashMap<>();
-//		so.predictions.put(1, new LinkedList<Node>());
-//
-//		so.predictions.get(1).add( so.new Node(1 , 8.0));
-//		so.predictions.get(1).add( so.new Node(2 , 1.0));
-//		so.predictions.get(1).add( so.new Node(3 , 10.0));
-//
-//		System.out.println(so.predictions);
-//		so.recommend(recUser, 2);
-//		System.out.println(so.predictions);
-//		so.predictions.get(1).add(so.getIndex(1, 5.0), so.new Node(4 , 5.0));
-//		so.predictions.get(1).add(so.getIndex(1, 4.0), so.new Node(5 , 4.0));
-//		so.predictions.get(1).add(so.getIndex(1, 6.0), so.new Node(6 , 6.0));
-//		System.out.println(so.predictions);
 //	}
 }
