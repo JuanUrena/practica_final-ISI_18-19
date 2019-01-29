@@ -150,8 +150,8 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByRating(Float rating) {
-		String sql = "SELECT * FROM movies WHERE averageRating >= "+rating;
+	public List<String> filterByRating(String rating) {
+		String sql = "SELECT * FROM movies WHERE averageRating >= "+"'"+rating+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
