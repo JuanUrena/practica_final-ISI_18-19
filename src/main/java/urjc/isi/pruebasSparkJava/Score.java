@@ -39,6 +39,8 @@ public class Score {
 		}
 		
 	
+
+	/*
 	public String postScore(Request request, Injector I, SlopeOneFilter sof) {
 			
 			//Saco la puntuacion a int
@@ -67,4 +69,5 @@ public class Score {
 			return e.getMessage();
 		}
 	}
+	*/
 }
