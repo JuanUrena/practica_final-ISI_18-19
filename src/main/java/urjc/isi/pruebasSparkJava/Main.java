@@ -1,19 +1,10 @@
 package urjc.isi.pruebasSparkJava;
 
 import static spark.Spark.*;
-import spark.Request;
-import spark.Response;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.util.StringTokenizer;
-import javax.servlet.MultipartConfigElement;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class Main {
 	
