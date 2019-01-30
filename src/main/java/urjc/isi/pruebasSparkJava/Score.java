@@ -61,8 +61,7 @@ public class Score {
 		
 		try {
 			String result=newScore(score, user, id_film, I);
-			String num = Integer.toString(id_film);
-			float mean=getMeanScore(num, I);
+			float mean=getMeanScore(id_film, I);
     		System.out.println(mean);
 			changeScore(mean, id_film, I);
 			return result;
