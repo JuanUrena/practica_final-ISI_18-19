@@ -8,13 +8,13 @@ import urjc.isi.pruebasSparkJava.SlopeOneFilter;
 
 public class GetIndexTest {
 	
-	Injector connector = new Injector("JDBC_DATABASE_URL");
-	SlopeOneFilter so = new SlopeOneFilter(connector);
-	
+
 	int user;
 	double value;
 	int retInt;
 	int expInt;
+	Injector connector;
+	SlopeOneFilter so;
 
 	@Before
 	public void setUp()
@@ -23,6 +23,8 @@ public class GetIndexTest {
 		value = 0;
 		retInt = 0;
 		expInt = 0;
+		connector = new Injector("JDBC_DATABASE_URL");
+		so = new SlopeOneFilter(connector);
 	}
 	
 	@After
@@ -32,6 +34,7 @@ public class GetIndexTest {
 		value = 0;
 		retInt = 0;
 		expInt = 0;
+		connector.close();
 	}
 
 	@Test
