@@ -8,8 +8,18 @@ import urjc.isi.pruebasSparkJava.Injector;
 public class FilterByRatingTest {
 
 	// Test fixture
-	Injector connector = new Injector("JDBC_DATABASE_URL");
+	Injector connector;
 	private String rating;
+	
+	@Before
+	public void setUp() {
+		connector = new Injector("JDBC_DATABASE_URL");
+	}
+	
+	@After
+	public void tearDown() {
+		connector.close();
+	}
 
 	
 	// Test 1: Para probar que funciona el método filterByRating, lo que voy a hacer es pasarle como argumento un 0.1
