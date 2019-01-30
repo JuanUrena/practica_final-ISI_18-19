@@ -211,11 +211,11 @@ public class Filter {
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
     				+ "con una valoración mayor a " + "'" + req.queryParams("rating") + "'" +
-    				"en la base de datos.</p>";
+    				" en la base de datos.</p>";
     	} else {
     		response = "<table border=2" +
     						"<tr>" +
-    							"<th>Valoración: " + req.queryParams("rating") + "</th>";
+    							"<th>Valoración mínima: " + req.queryParams("rating") + "</th>";
     		for (int i = 0; i < movies.size(); i++) {
     			response += "<tr align='center'>" +
     							"<td>" + movies.get(i) + "</td>" +
