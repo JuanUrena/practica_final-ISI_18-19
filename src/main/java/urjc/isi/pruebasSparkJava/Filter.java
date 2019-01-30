@@ -161,7 +161,7 @@ public class Filter {
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
     				+ "con una duración menor a " + "'" + req.queryParams("duration") + "'" +
-    				"minutos en la base de datos.</p>";
+    				" minutos en la base de datos.</p>";
     	} else {
     		response = "<table border=2" +
     						"<tr>" +
