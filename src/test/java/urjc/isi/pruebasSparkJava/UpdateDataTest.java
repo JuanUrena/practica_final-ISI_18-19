@@ -5,8 +5,14 @@ import urjc.isi.pruebasSparkJava.SlopeOneFilter;
 
 
 public class UpdateDataTest {
-	Injector connector = new Injector("JDBC_DATABASE_URL");
-	SlopeOneFilter sof = new SlopeOneFilter(connector);
+	Injector connector; 
+	SlopeOneFilter sof; 
+	
+	@Before
+	public void setUp() {
+		connector = new Injector("JDBC_DATABASE_URL");
+		sof = new SlopeOneFilter(connector);
+	}
 	
     @After
     public void tearDown() {
