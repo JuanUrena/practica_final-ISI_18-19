@@ -11,7 +11,7 @@ import java.util.*;
 
 public class GraphFuncionalityTests {
 
-        private String name1,name2;
+        private String name1,name2, name3, name4;
         private Graph g;
         private Connection connection;
 
@@ -21,6 +21,8 @@ public class GraphFuncionalityTests {
         	g = new Graph("Database/film_actors.txt", "/");
         	name1 = "Hugh Jackman";
         	name2 = "Scarlett Johansson";
+        	name3 = "Spider-Man";	//Es movie y es vértice del grafo.
+        	name4 = "Spider-Kangaroo";	//No es vértice del grafo.
     		try {
       			connection = DriverManager.getConnection("jdbc:sqlite:Database/IMDb.db");
     		} catch(SQLException e) {
@@ -107,6 +109,75 @@ public class GraphFuncionalityTests {
     	public void testForInvalidName2()
     	{
     		GraphFuncionality.doRanking(g, "");
+    	}
+    	
+    	// Test que comprueba que se eleva la excepción cuando al método relatedMovies2()
+    	// se le pasa un grafo inválido.
+    	@Test (expected = NullPointerException.class)
+    	public void testForRelatedMovies2_InvalidGraph()
+    	{
+    		g = new Graph ("Database/empty_test.txt", "/");
+    		GraphFuncionality.relatedMovies2(g, name3);
+    	}
+    	
+    	// Test que comprueba que se eleva la excepción cuando al método relatedActors()
+    	// se le pasa un grafo inválido.
+    	@Test (expected = NullPointerException.class)
+    	public void testForRelatedActors_InvalidGraph()
+    	{
+    		g = new Graph ("Database/empty_test.txt", "/");
+    		GraphFuncionality.relatedActors(g, name3);
+    	}
+    	
+    	
+    	// Test que comprueba que se eleva la excepción cuando al método relatedMovies2()
+    	// se le pasa un vértice que no es una película.
+    	@Test (expected = IllegalArgumentException.class)
+    	public void testForRelatedMovies2_NotAMovie() {
+    		GraphFuncionality.relatedMovies2(g, name1);
+    	}
+    	
+    	// Test que comprueba que se eleva la excepción cuando al método relatedActors()
+    	// se le pasa un vértice que no es una actriz/actor.
+    	@Test (expected = IllegalArgumentException.class)
+    	public void testForRelatedActors_NotAnActor() {
+    		GraphFuncionality.relatedActors(g, name3);
+    	}
+    	
+    	
+    	// Test que comprueba el funcionamiento del método nameCheckerMovie().
+    	// Es aplicable al resto de métodos nameChecker(), los cuales se comportarán
+    	// de la misma manera.
+    	@Test
+    	public void testForNameCheckerMovie() {
+    		
+    		ArrayList<String> al1 = new ArrayList<String>();
+    		ArrayList<String> al2 = new ArrayList<String>();
+    	
+    		al1.add("Spider-Man");
+    		al1.add("Spider-Man 2");
+    		al1.add("Spider-Man 3");
+    		al1.add("The Amazing Spider-Man");
+    		al1.add("The Amazing Spider-Man 2");
+    		al1.add("Spider-Man: Homecoming");
+
+    		al2 = GraphFuncionality.nameCheckerMovie(connection, "Spider");
+    		
+    		assertTrue ("AL is not equal", al2.equals(al1));
+    	}
+    	
+    	
+    	// Test que comprueba que cuando al método nameCheckerMovie() se le pasa como
+    	// String un vértice del grafo (y película) el ArrayList devuelto contiene 
+    	// ese String vértice del grafo.
+    	@Test
+    	public void testForNameCheckerMovie_IsAVertex() {
+    		
+    		ArrayList<String> al = new ArrayList<String>();
+    		
+    		al = GraphFuncionality.nameCheckerMovie(connection, name3);
+    		
+    		assertTrue ("Does not contain", al.contains(name3));
     	}
     	
     	
