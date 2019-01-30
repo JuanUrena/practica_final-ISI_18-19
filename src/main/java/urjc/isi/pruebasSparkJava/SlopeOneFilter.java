@@ -51,9 +51,9 @@ public class SlopeOneFilter {
 		@Override
 		public int compare(Node d1, Node d2) {
 			if(d2.prediction<d1.prediction) {
-				return -1;
-			} else if(d1.prediction<d2.prediction) {
 				return 1;
+			} else if(d1.prediction<d2.prediction) {
+				return -1;
 			} else {
 				return 0;
 			}
@@ -168,19 +168,6 @@ public class SlopeOneFilter {
 		return suma;
 	}
 
-
-//        public static Map<Integer, Double> getAllMovies(Map<Integer, Map<Integer, Double>> datos) {
-//                Map<Integer, Double> allMovies = new HashMap<Integer, Double>();
-//
-//                for(Integer movie: datos.keySet()) {
-//                	allMovies.put(movie, 0.0); // realmente solo nos interesa guardar el key (para tener una lista de películas únicas)
-//                }
-//
-//                return allMovies;
-//        }
-
-
-
 	public double predictOneMovie(int movieKey, Map<Integer, Double> user_movies) {
 
 		double total = 0;
@@ -222,8 +209,6 @@ public class SlopeOneFilter {
 			
 			predictions.put(user, new LinkedList<Node>());
 
-		//	LinkedList<Node> predList = new LinkedList<Node>();
-		//	predList = predictions.get(user);
 			LinkedList<Node> predList = predictions.get(user);
 
 			for(Integer movieKey: diffMap.keySet()) {
@@ -337,17 +322,4 @@ public class SlopeOneFilter {
 			System.err.println(runTime);
 		}
 	}
-
-//	public static void main(String args[]){
-//		SlopeOneFilter so = new SlopeOneFilter();
-//		
-//		System.out.println("data\n" + so.data.keySet());
-//		System.out.println("----");
-//		System.out.println("diffMap\n" + so.diffMap.keySet());
-//		System.out.println("----");
-//		System.out.println("weightMap\n" + so.weightMap.keySet());
-//		System.out.println("----");
-//		System.out.println("predictions\n" + so.predictions.keySet());
-//		System.out.println("----");
-//	}
 }
