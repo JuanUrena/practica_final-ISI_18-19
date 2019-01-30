@@ -5,13 +5,11 @@ import org.junit.*;
 
 import urjc.isi.pruebasSparkJava.Injector;
 import urjc.isi.pruebasSparkJava.SlopeOneFilter;
-import urjc.isi.pruebasSparkJava.SlopeOneFilter.Node;
 
 public class GetNPredictedTest {
 	
 	Injector connector = new Injector("JDBC_DATABASE_URL");
 	SlopeOneFilter so = new SlopeOneFilter(connector);
-	Node nd;
 	
 	int user;
 	int nItems;
@@ -48,7 +46,6 @@ public class GetNPredictedTest {
 		} catch (NullPointerException e) {
 			return;
 		}
-//		System.out.println("expString: " + expString + "retString: " + retString);
 		assertEquals(expString, retString);
 	}
 
@@ -59,7 +56,6 @@ public class GetNPredictedTest {
 		nItems = 0;
 		expString = "";
 		retString = so.getNPredicted(user, nItems);
-//		System.out.println("expString: " + expString + "retString: " + retString);
 		assertEquals(expString, retString);
 	}
 	
@@ -71,7 +67,6 @@ public class GetNPredictedTest {
 		expString = "";
 		so.predictions.get(user).clear();
 		retString = so.getNPredicted(user, nItems);
-//		System.out.println("expString: " + expString + "retString: " + retString);
 		assertEquals(expString, retString);
 	}
 	
@@ -85,7 +80,6 @@ public class GetNPredictedTest {
 		so.predictions.get(user).add(so.new Node(1, 5.0));
 		so.predictions.get(user).add(so.new Node(2, 5.0));
 		retString = so.getNPredicted(user, nItems);
-//		System.out.println("expString: " + expString + "retString: " + retString);
 		assertEquals(expString, retString);
 	}
 	
@@ -99,7 +93,6 @@ public class GetNPredictedTest {
 		so.predictions.get(user).add(so.new Node(1, 5.0));
 		so.predictions.get(user).add(so.new Node(2, 5.0));
 		retString = so.getNPredicted(user, nItems);
-//		System.out.println("expString: " + expString + "retString: " + retString);
 		assertEquals(expString, retString);
 	}
 }
