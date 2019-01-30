@@ -16,7 +16,7 @@ public class SumaWeightsTest {
 
 	int user;
 	int nItems;
-	String reString;
+	String retString;
 	String expString;
 
 	@Before
