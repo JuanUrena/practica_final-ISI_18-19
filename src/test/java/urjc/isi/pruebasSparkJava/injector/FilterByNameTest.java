@@ -8,8 +8,18 @@ import urjc.isi.pruebasSparkJava.Injector;
 public class FilterByNameTest {
 
 	// Test fixture
-	Injector connector = new Injector("JDBC_DATABASE_URL");
 	private String name;
+	Injector connector;
+	
+	@Before
+	public void setUp() {
+		connector = new Injector("JDBC_DATABASE_URL");
+	}
+	
+	@After
+	public void tearDown() {
+		connector.close();
+	}
 	
 	
 	// Test 1: A1 = T => el nombre de la película está en la BD.
