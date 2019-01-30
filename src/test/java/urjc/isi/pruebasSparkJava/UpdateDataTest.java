@@ -8,6 +8,11 @@ public class UpdateDataTest {
 	Injector connector = new Injector("JDBC_DATABASE_URL");
 	SlopeOneFilter sof = new SlopeOneFilter(connector);
 	
+    @After
+    public void tearDown() {
+    	connector.close();
+    }
+    
 	//Camino 1,3,11: Integer.doubleValue throws exception
 	@Test
 	public void testPath1() {

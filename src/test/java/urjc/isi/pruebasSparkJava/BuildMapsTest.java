@@ -17,6 +17,11 @@ public class BuildMapsTest {
     Map<Integer,Double> movie_score_2 = new HashMap<Integer,Double>();
     Map<Integer,Double> movie_score_3 = new HashMap<Integer,Double>();
 
+    @After
+    public void tearDown() {
+    	connector.close();
+    }
+    
     @Test
     public void testHappyPath(){
     	sof.data = new HashMap<>();
