@@ -2,7 +2,7 @@
 
 1. Identificar los métodos a testar
 	Método 1: newComment (String text, int user, String film, Injector I)
-	Método 2: commentsFilm (String film, Injector I)
+	Método 2: commentsFilm (int film, Injector I)
 	Método 3: commentToString (String matrix_coment[][])
 	Método 4: postComment (Request request, Injector I)
 
@@ -15,7 +15,7 @@
 			asumimos que siempre nos van a pasar el injector adecuado, si no, habría 
 			fallado más arriba
 	Método 2:
-		1: nombre de la película (String)
+		1: id de la película (int)
 		2: injector a la base de datos (Injector): al igual que con el injector anterior
 			consideramos que no es necesario probarlo ya que siempre se nos pasa el 
 			injector adecuado
@@ -34,7 +34,7 @@
 		C3: nombre de película no nulo => T/F => C1/C2
 
 	Método 2:
-		C1: nombre de película no nulo => T/F => A1/A2
+		C1: id de la película válido (positivo) => T/F => A1/A2
 
 	Método 3: 
 		C1: conjunto de comentarios en una película no nulo => T/F => A1/A2
@@ -54,8 +54,8 @@
 
 	Método 2: en este caso, solo tenemos una caracterización, por lo que probaremos todos los 
 	posibles outcomes
-		Test 1: nombre de película nulo (F => A2)
-		Test 2: happy path, nombre de película no nulo (T => A1)
+		Test 1: id de película negativo (F => A2)
+		Test 2: happy path, id de película válido (T => A1)
 
 	Método 3: en este caso, al igual que en el anterior, al tener una sola caracterización, 
 	probamos todas las posibilidades
@@ -75,8 +75,8 @@
 		Test 4: ("comentario", 4, "Titanic", I)
 
 	Método 2:
-		Test 1: (null, I)
-		Test 2: ("Titanic", I)
+		Test 1: (-1, I)
+		Test 2: (23, I)
 
 	Método 3:
 		Test 1: (null)
