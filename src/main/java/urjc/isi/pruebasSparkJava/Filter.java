@@ -94,7 +94,7 @@ public class Filter {
 						"</tr>" +
 					"</table>";
         	response = response+ f.formulary(movieFields.get(0));
-        	response=response+c.commentsFilm(movieFields.get(0), conn);
+        	response=response+c.commentsFilm(Integer.parseInt(movieFields.get(6)), conn);
     	}
     	return response;
 	}
@@ -156,16 +156,16 @@ public class Filter {
 		List<String> movies;
 		String response;
     	
-    	movies = conn.filterByDuration(Integer.parseInt(req.queryParams("duration")));
+    	movies = conn.filterByDuration(req.queryParams("duration"));
 		
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
     				+ "con una duración menor a " + "'" + req.queryParams("duration") + "'" +
-    				"minutos en la base de datos.</p>";
+    				" minutos en la base de datos.</p>";
     	} else {
     		response = "<table border=2" +
     						"<tr>" +
-    							"<th>Duration: " + req.queryParams("duration") + "</th>";
+    							"<th>Duración máxima: " + req.queryParams("duration") + " min</th>";
     		for (int i = 0; i < movies.size(); i++) {
     			response += "<tr align='center'>" +
     							"<td>" + movies.get(i) + "</td>" +
@@ -206,16 +206,16 @@ public class Filter {
 		List<String> movies;
 		String response;
     	
-    	movies = conn.filterByRating(Float.parseFloat(req.queryParams("rating")));
+    	movies = conn.filterByRating(req.queryParams("rating"));
 		
     	if (movies.isEmpty()) {
     		response = "<p>Desafortunadamente, no se ha encontrado ninguna película "
     				+ "con una valoración mayor a " + "'" + req.queryParams("rating") + "'" +
-    				"minutos en la base de datos.</p>";
+    				" en la base de datos.</p>";
     	} else {
     		response = "<table border=2" +
     						"<tr>" +
-    							"<th>Valoración: " + req.queryParams("rating") + "</th>";
+    							"<th>Valoración mínima: " + req.queryParams("rating") + "</th>";
     		for (int i = 0; i < movies.size(); i++) {
     			response += "<tr align='center'>" +
     							"<td>" + movies.get(i) + "</td>" +
