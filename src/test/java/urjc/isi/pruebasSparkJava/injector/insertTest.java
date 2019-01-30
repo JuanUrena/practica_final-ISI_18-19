@@ -16,7 +16,18 @@ import java.sql.SQLException;
 
 public class insertTest {
 	
-	Injector connection = new Injector("JDBC_DATABASE_URL");
+	Injector connection;
+	private String name;
+	
+	@Before
+	public void setUp() {
+		connection = new Injector("JDBC_DATABASE_URL");
+	}
+	
+	@After
+	public void tearDown() {
+		connection.close();
+	}
 
 	//Test1: insertFilm
 //	@Test 

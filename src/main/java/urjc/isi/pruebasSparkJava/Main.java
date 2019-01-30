@@ -71,7 +71,7 @@ public class Main {
     			"</form>" +
 			"<form action='/showlastadded' method='get'>" +
 				"<div class='button'>" +
-					"Últimas películas añadidas: <br/>" +
+					"Última película añadida: <br/>" +
 					"<button type='submit'>Show Last Added</button>" +
 				"</div>" +
 			"</form>" +
