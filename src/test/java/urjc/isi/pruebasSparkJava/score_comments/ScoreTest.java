@@ -55,11 +55,11 @@ public class ScoreTest {
 	//Suponemos que el injector funciona correctamente y no falla, por eso no hacemos test de injector
 
 	@Test //(expected = NullPointerException.class)
-	void getScore_test() {
+	public void getMeanScore_test() {
 		
 		Score score = new Score(); 
 		
-		assertNotNull(score.getScore("Titanic"));
+		assertNotNull(score.getMeanScore(120338,I));
 	}
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
