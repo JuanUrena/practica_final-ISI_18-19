@@ -136,44 +136,44 @@ public class Injector {
     	}
     }
 
-	public static Integer selectTitle_ID(String title, String year) {
-		String sql = "SELECT titleid FROM movies WHERE title = "+ title + " AND year = " + year;
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-			ResultSet rs= pstmt.executeQuery();
-			rs.next();
-			return rs.getInt("titleid");
-		}catch (SQLException e) {
-			return null;
-		}
-	}
+	//public static Integer selectTitle_ID(String title, String year) {
+		//String sql = "SELECT titleid FROM movies WHERE title = "+ title + " AND year = " + year;
+		//try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			//ResultSet rs= pstmt.executeQuery();
+			//rs.next();
+			//return rs.getInt("titleid");
+		//}catch (SQLException e) {
+			//return null;
+		//}
+	//}
 	
-	public static Integer selectName_ID(String name) {
-		String sql = "SELECT nameid FROM workers WHERE primary_name = "+ name;
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-			ResultSet rs= pstmt.executeQuery();
-			rs.next();
-			return rs.getInt("nameid");
-		}catch (SQLException e) {
-			return null;
-		}
-	}
+	//public static Integer selectName_ID(String name) {
+		//String sql = "SELECT nameid FROM workers WHERE primary_name = "+ name;
+		//try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			//ResultSet rs= pstmt.executeQuery();
+			//rs.next();
+			//return rs.getInt("nameid");
+		//}catch (SQLException e) {
+			//return null;
+		//}
+	//}
 	
-	public static void insertWorks_In(Integer data1, Integer data2){
-    	String sql="";
+	//public static void insertWorks_In(Integer data1, Integer data2){
+    	//String sql="";
 		//Comprobar elementos que son distintos que null
-    	if(data1 == null || data2 == null){
-    		throw new NullPointerException();
-    	}
-    		sql = "INSERT INTO works_in(titleID, nameID) VALUES(?,?)";
+    	//if(data1 == null || data2 == null){
+    		//throw new NullPointerException();
+    	//}
+    		//sql = "INSERT INTO works_in(titleID, nameID) VALUES(?,?)";
 
-    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
-    		pstmt.setInt(1, data1);
-    		pstmt.setInt(2, data2);
-    		pstmt.executeUpdate();
-    	} catch (SQLException e) {
-    	    System.out.println(e.getMessage());
-    	}
-    }
+    	//try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		//pstmt.setInt(1, data1);
+    		//pstmt.setInt(2, data2);
+    		//pstmt.executeUpdate();
+    	//} catch (SQLException e) {
+    	    //System.out.println(e.getMessage());
+    	//}
+    //}
 
 	
 

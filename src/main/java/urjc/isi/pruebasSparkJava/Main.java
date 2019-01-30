@@ -146,10 +146,10 @@ public class Main {
         		result = "Has añadido ->" + last_added;
         		Injector.insertFilm(req.queryParams("film")
         			,req.queryParams("year"), req.queryParams("genres"));
-        		Integer title_ID = Injector.selectTitle_ID(req.queryParams("film"), req.queryParams("year"));
+        		//Integer title_ID = Injector.selectTitle_ID(req.queryParams("film"), req.queryParams("year"));
         		Injector.insertActor(req.queryParams("actor"));
-        		Integer name_ID = Injector.selectName_ID(req.queryParams("actor"));
-        		Injector.insertWorks_In(title_ID, name_ID);
+        		//Integer name_ID = Injector.selectName_ID(req.queryParams("actor"));
+        		//Injector.insertWorks_In(title_ID, name_ID);
         	}
 			return result;	
         });
