@@ -16,7 +16,7 @@ public class ScoreTest {
 	Injector I = new Injector("JDBC_DATABASE_URL");
 	
 	@Test
-	public void newScore_test() {
+	public void invalidScoreTest() {
 		
 		Score score = new Score(); 
 		
@@ -26,7 +26,7 @@ public class ScoreTest {
 	}
 
 	@Test
-	public void newScore_test2() {
+	public void invalidUserTest() {
 		
 		Score score = new Score(); 
 		
@@ -35,7 +35,7 @@ public class ScoreTest {
 	}
 	
 	@Test
-	public void newScore_test3() {
+	public void invalidFilmTest() {
 		
 		Score score = new Score(); 
 		
@@ -44,11 +44,20 @@ public class ScoreTest {
 	}
 
 	@Test
-	public void newScore_test4() {
+	public void allOKTest() {
 		
 		Score score = new Score(); 
+		//Obtengo la buena
+		int real_score=I.searchScore(434409, 1);
+		//Pongo test y compruebo
+		assertEquals("Puntuacion añadida",score.newScore(1,1,434409,I));
+		int test_score=I.searchScore(434409, 1);
+		assertEquals(1,test_score);
+		//Pongo buena y compruebo comparando la que se ha metido(test) con la buena
+		score.newScore(real_score,1,434409,I);
+		test_score=I.searchScore(434409, 1);
+		assertEquals(real_score,test_score);
 		
-		assertEquals("Puntuacion añadida",score.newScore(1,1,1,I));
 		I.close();
 	}
 	
@@ -56,7 +65,7 @@ public class ScoreTest {
 	//Suponemos que el injector funciona correctamente y no falla, por eso no hacemos test de injector
 
 	@Test //(expected = NullPointerException.class)
-	public void getMeanScore_test() {
+	public void getMeanScoreTest() {
 		
 		Score score = new Score(); 
 		
@@ -66,7 +75,7 @@ public class ScoreTest {
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
 	@Test 
-	public void changeScore_test() {
+	public void changeScoreTest() {
 		
 		Score score = new Score(); 
 		List<String> movieFields = I.filterByName("Titanic");

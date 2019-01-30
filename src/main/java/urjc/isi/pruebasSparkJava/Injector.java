@@ -417,6 +417,19 @@ public class Injector {
 			return false;
 		}
 	}
+    
+    public int searchScore(Integer titleID, Integer clientID) {
+		String sql = "SELECT score FROM ratings WHERE titleID = "+ titleID;
+		sql += " and clientID = "+ clientID;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			int score=rs.getInt("score");
+			return score;
+		}catch (SQLException e) {
+			return 0;
+		}
+	}
 
     public void insertRating(Integer titleid, Integer clientid, Integer score) {
 	String sql= new String();
