@@ -44,7 +44,7 @@ public class SumaWeightsTest {
 
 	@Test
 	public void happyPath(){
-		expectedSum = 6;
+		int expectedSum = 6;
 		Map<Integer, Integer> w1 = new HashMap<Integer, Integer>();
                 Map<Integer, Integer> w2 = new HashMap<Integer, Integer>();
 		Map<Integer, Map<Integer, Integer>> weights = new HashMap<Integer, <Integer, Integer>>();
@@ -54,7 +54,8 @@ public class SumaWeightsTest {
 		weights.put(1, w1);
 		weights.put(1, w2);
 
-		Sum = so.sumaWeights(weights, 1);
+			
+		int Sum = so.sumaWeights(weights, 1);
 
 		assertEquals(expectedSum, Sum);
 	}
