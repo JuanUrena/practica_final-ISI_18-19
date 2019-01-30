@@ -8,8 +8,8 @@ import urjc.isi.pruebasSparkJava.Injector;
 public class FilterByNameTest {
 
 	// Test fixture
-	private String name;
 	Injector connector;
+	private String name;
 	
 	@Before
 	public void setUp() {
