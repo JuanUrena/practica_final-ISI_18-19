@@ -115,7 +115,7 @@ public class Injector {
 
 	public static void insertActor(String data1){
     	String sql="";
-		Integer random = 0;
+		int random = 0;
 		//Comprobar elementos que son distintos que null
     	if(data1 == null){
     		throw new NullPointerException();
