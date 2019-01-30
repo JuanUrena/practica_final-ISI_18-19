@@ -25,8 +25,9 @@ public class Score {
 	}
 	
 	//Obtengo la nueva media    COMPLETO!!!		
-	public float getMeanScore(String film, Injector I) {
-			float media = I.meanScores(film);
+	public float getMeanScore(int id_film, Injector I) {
+			String num = Integer.toString(id_film);
+			float media = I.meanScores(num);
 			return media;
 		}
 		
@@ -40,7 +41,6 @@ public class Score {
 		
 	
 
-	/*
 	public String postScore(Request request, Injector I, SlopeOneFilter sof) {
 			
 			//Saco la puntuacion a int
@@ -61,7 +61,8 @@ public class Score {
 		
 		try {
 			String result=newScore(score, user, id_film, I);
-			float mean=getMeanScore(film, I);
+			String num = Integer.toString(id_film);
+			float mean=getMeanScore(num, I);
     		System.out.println(mean);
 			changeScore(mean, id_film, I);
 			return result;
