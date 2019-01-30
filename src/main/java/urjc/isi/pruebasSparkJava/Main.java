@@ -135,22 +135,21 @@ public class Main {
         
         post("/add_films", (req, res) -> {
         	String result = "";
-        	if(Injector.filmExists(req.queryParams("film"), req.queryParams("year"))) {
-        		result = "<p>La película que se desea introducir ya se encuentra en la "
-        				+ "base de datos.</p>";
-        	}else {
-        		last_added = "</p>pelicula: " + req.queryParams("film")
-        		+ "</p>year: " + req.queryParams("year") 
-        		+ "</p>Género: " + req.queryParams("genres")
-        		+ "</p>Actor: " + req.queryParams("actor");
-        		result = "Has añadido ->" + last_added;
-        		Injector.insertFilm(req.queryParams("film")
-        			,req.queryParams("year"), req.queryParams("genres"));
-        		Integer title_ID = Injector.selectTitle_ID(req.queryParams("film"), req.queryParams("year"));
-        		Injector.insertActor(req.queryParams("actor"));
-        		Integer name_ID = Injector.selectName_ID(req.queryParams("actor"));
-        		Injector.insertWorks_In(title_ID, name_ID);
-        	}
+        	//if(Injector.filmExists(req.queryParams("film"), req.queryParams("year"))) {
+        		//result = "<p>La película que se desea introducir ya se encuentra en la "
+        				//+ "base de datos.</p>";
+        	//}else {
+        	last_added = "</p>pelicula: " + req.queryParams("film")
+        	+ "</p>year: " + req.queryParams("year") 
+        	+ "</p>Género: " + req.queryParams("genres")
+        	+ "</p>Actor: " + req.queryParams("actor");
+        	result = "Has añadido ->" + last_added;
+        	Injector.insertFilm(req.queryParams("film")
+        	,req.queryParams("year"), req.queryParams("genres"));
+        	//Integer title_ID = Injector.selectTitle_ID(req.queryParams("film"), req.queryParams("year"));
+        	Injector.insertActor(req.queryParams("actor"));
+        	//Integer name_ID = Injector.selectName_ID(req.queryParams("actor"));
+        	//Injector.insertWorks_In(title_ID, name_ID);
 			return result;	
         });
 
