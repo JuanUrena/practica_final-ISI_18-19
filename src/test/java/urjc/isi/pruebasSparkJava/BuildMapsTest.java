@@ -10,13 +10,22 @@ import java.util.HashMap;
 public class BuildMapsTest {
 	
 
-	Injector connector = new Injector("JDBC_DATABASE_URL");
-	SlopeOneFilter sof = new SlopeOneFilter(connector);
+	Injector connector;
+	SlopeOneFilter sof;
 	
-    Map<Integer,Double> movie_score_1 = new HashMap<Integer,Double>();
-    Map<Integer,Double> movie_score_2 = new HashMap<Integer,Double>();
-    Map<Integer,Double> movie_score_3 = new HashMap<Integer,Double>();
+    Map<Integer,Double> movie_score_1;
+    Map<Integer,Double> movie_score_2;
+    Map<Integer,Double> movie_score_3;
 
+    @Before
+    public void setUp(){
+    	connector = new Injector("JDBC_DATABASE_URL");
+    	sof = new SlopeOneFilter(connector);
+    	movie_score_1 = new HashMap<Integer,Double>();
+    	movie_score_2 = new HashMap<Integer,Double>();
+    	movie_score_3 = new HashMap<Integer,Double>();
+    }
+    
     @After
     public void tearDown() {
     	connector.close();

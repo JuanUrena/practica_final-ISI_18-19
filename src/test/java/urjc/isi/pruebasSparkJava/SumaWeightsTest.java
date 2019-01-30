@@ -4,20 +4,17 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import java.util.*;
 
-import urjc.isi.pruebasSparkJava.SlopeOneFilter;
-import urjc.isi.pruebasSparkJava.SlopeOneFilter.Node;
-import urjc.isi.pruebasSparkJava.Injector;
-
 public class SumaWeightsTest {
 
 	private String s;
-	Injector connector = new Injector("JDBC_DATABASE_URL");
-	SlopeOneFilter so = new SlopeOneFilter(connector);
+	
 
 	int user;
 	int nItems;
 	String retString;
 	String expString;
+	Injector connector;
+	SlopeOneFilter so;
 
 	@Before
 	public void setUp()
@@ -26,6 +23,8 @@ public class SumaWeightsTest {
 		nItems = 0;
 		retString = null;
 		expString = null;
+		connector = new Injector("JDBC_DATABASE_URL");
+		so = new SlopeOneFilter(connector);
 	}
 
 
@@ -36,6 +35,7 @@ public class SumaWeightsTest {
 		nItems = 0;
 		retString = null;
 		expString = null;
+		connector.close();
 	}
 
 
@@ -44,7 +44,7 @@ public class SumaWeightsTest {
 
 	@Test
 	public void happyPath(){
-		int expectedSum = 6;
+		int expectedSum = 3;
 		Map<Integer, Integer> w1 = new HashMap<Integer, Integer>();
                 Map<Integer, Integer> w2 = new HashMap<Integer, Integer>();
 		Map<Integer, Map<Integer, Integer>> weights = new HashMap<Integer, Map<Integer, Integer>>();

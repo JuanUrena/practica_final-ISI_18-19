@@ -3,9 +3,6 @@ package urjc.isi.pruebasSparkJava;
 import static org.junit.Assert.*;
 import org.junit.*;
 
-import urjc.isi.pruebasSparkJava.Injector;
-import urjc.isi.pruebasSparkJava.SlopeOneFilter;
-
 public class GetNPredictedTest {
 	
 	int user;
