@@ -85,7 +85,7 @@ public class GetNPredictedTest {
 		so.predictions.get(user).add(so.new Node(1, 5.0));
 		so.predictions.get(user).add(so.new Node(2, 5.0));
 		retString = so.getNPredicted(user, nItems);
-		System.out.println("expString: " + expString + "retString: " + retString);
+//		System.out.println("expString: " + expString + "retString: " + retString);
 		assertEquals(expString, retString);
 	}
 	
@@ -99,7 +99,7 @@ public class GetNPredictedTest {
 		so.predictions.get(user).add(so.new Node(1, 5.0));
 		so.predictions.get(user).add(so.new Node(2, 5.0));
 		retString = so.getNPredicted(user, nItems);
-		System.out.println("expString: " + expString + "retString: " + retString);
+//		System.out.println("expString: " + expString + "retString: " + retString);
 		assertEquals(expString, retString);
 	}
 }
