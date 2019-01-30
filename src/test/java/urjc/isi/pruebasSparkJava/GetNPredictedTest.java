@@ -8,13 +8,12 @@ import urjc.isi.pruebasSparkJava.SlopeOneFilter;
 
 public class GetNPredictedTest {
 	
-	Injector connector = new Injector("JDBC_DATABASE_URL");
-	SlopeOneFilter so = new SlopeOneFilter(connector);
-	
 	int user;
 	int nItems;
 	String retString;
 	String expString;
+	Injector connector;
+	SlopeOneFilter so;
 
 	@Before
 	public void setUp()
@@ -23,6 +22,8 @@ public class GetNPredictedTest {
 		nItems = 0;
 		retString = null;
 		expString = null;
+		connector = new Injector("JDBC_DATABASE_URL");
+		so = new SlopeOneFilter(connector);
 	}
 	
 	@After
@@ -32,6 +33,7 @@ public class GetNPredictedTest {
 		nItems = 0;
 		retString = null;
 		expString = null;
+		connector.close();
 	}
 
 	@Test
