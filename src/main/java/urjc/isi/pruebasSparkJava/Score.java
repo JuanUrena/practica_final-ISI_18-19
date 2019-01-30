@@ -70,5 +70,4 @@ public class Score {
 			return e.getMessage();
 		}
 	}
-	*/
 }
