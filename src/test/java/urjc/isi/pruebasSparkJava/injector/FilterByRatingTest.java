@@ -10,7 +10,9 @@ public class FilterByRatingTest {
 	// Test fixture
 	Injector connector = new Injector("JDBC_DATABASE_URL");
 	private String rating;
-	//Test 1: PAra probar que funciona el método filterByRating, lo que voy a hacer es pasarle como argumento un 0.1
+	
+	
+	//Test 1: Para probar que funciona el método filterByRating, lo que voy a hacer es pasarle como argumento un 0.1
 	// y me tendrá que devolver un ArrayList de mas de 1 posición
 	@Test
 	public void test1() {
@@ -18,6 +20,7 @@ public class FilterByRatingTest {
 		List<String> movies = connector.filterByRating(rating);
 		
 		assertTrue(movies.size()>0);
+	}
 	
 	
 	// Test 2: A2 = F => no hay películas con una valoración mayor en la BD.
