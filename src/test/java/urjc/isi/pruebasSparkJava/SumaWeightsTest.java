@@ -47,7 +47,7 @@ public class SumaWeightsTest {
 		int expectedSum = 6;
 		Map<Integer, Integer> w1 = new HashMap<Integer, Integer>();
                 Map<Integer, Integer> w2 = new HashMap<Integer, Integer>();
-		Map<Integer, Map<Integer, Integer>> weights = new HashMap<Integer, <Integer, Integer>>();
+		Map<Integer, Map<Integer, Integer>> weights = new HashMap<Integer, Map<Integer, Integer>>();
 
 		w1.put(3, 3);
 		w2.put(2, 3);
