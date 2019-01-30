@@ -8,8 +8,18 @@ import urjc.isi.pruebasSparkJava.Injector;
 public class FilterByActorActressTest {
 	
 	// Test fixture
-	Injector connector = new Injector("JDBC_DATABASE_URL");
+	Injector connector;
 	private String name;
+	
+	@Before
+	public void setUp() {
+		connector = new Injector("JDBC_DATABASE_URL");
+	}
+	
+	@After
+	public void tearDown() {
+		connector.close();
+	}
 	
 	
 	// Test 1: A1 = T => hay películas con ese/a actor/actriz en la BD.
