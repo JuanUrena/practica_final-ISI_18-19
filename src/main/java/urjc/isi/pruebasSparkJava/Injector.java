@@ -12,7 +12,11 @@ public class Injector {
 	private static Connection c;
 
 	public Injector(String name) {
-		try {		    
+		try {
+//			if(sqlite){
+//				c = DriverManager.getConnection("jdbc:sqlite:IMDb.db");
+//				c = setAutoCommit(false);
+//			}		    
 		    String dbUrl = System.getenv(name);
 		    c = DriverManager.getConnection(dbUrl);
 
@@ -22,68 +26,154 @@ public class Injector {
         }
 	}
 
+	public static Boolean filmExists(String title, String year) {
+		String sql = "SELECT titleid FROM movies WHERE title = "+ title +"AND year = "+ year;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("titleid");
+			return true;
+		}catch (SQLException e) {
+			return false;
+		}
+	}
+
+
+//	public static Boolean searchFilm(String title) {
+//		String sql = "SELECT title FROM movies WHERE title = "+ title;
+//		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+//			ResultSet rs= pstmt.executeQuery();
+//			rs.next();
+//			rs.getString("title");
+//			return true;
+//		}catch (SQLException e) {
+//			return false;
+//		}
+//	}
+
+//	public static Boolean searchYear(String year) {
+//		String sql = "SELECT year FROM movies WHERE year = "+ year;
+//		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+//			ResultSet rs= pstmt.executeQuery();
+//			rs.next();
+//			rs.getInt("year");
+//			return true;
+//		}catch (SQLException e) {
+//			return false;
+//		}
+//	}
+	
+	public static Boolean searchTitleId(Integer titleID) {
+		String sql = "SELECT titleid FROM movies WHERE titleid = "+ titleID;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("titleid");
+			return true;
+		}catch (SQLException e) {
+			return false;
+		}
+	}
+	
+	public static Boolean searchNameId(Integer NameID) {
+		String sql = "SELECT nameid FROM workers WHERE nameid = "+ NameID;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			rs.getInt("nameid");
+			return true;
+		}catch (SQLException e) {
+			return false;
+		}
+	}
+
 
 	public static void insertFilm(String data1, String data2, String data3){
-    		String sql="";
-		Integer lastId = 0;
+    	String sql="";
+		int random = 0;
 		//Comprobar elementos que son distintos que null
-    		if(data1 == null || data2 == null){
-    			throw new NullPointerException();
-    		}
-		sql = "SELECT MAX(titleid) FROM movies";
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()){
-				lastId = rs.getInt("titleid");
-				System.out.println(lastId);
-			}
-		} catch (SQLException e) {
-        		System.out.println(e.getMessage());
-        	}
-    		sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
-
-    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {       		
-			pstmt.setInt(1, lastId+1);			
-			pstmt.setString(2, data1);
-        		pstmt.setInt(3, Integer.valueOf(data2));
-        		pstmt.setString(4, data3);
-        		pstmt.executeUpdate();
-        		c.commit();
-        	} catch (SQLException e) {
-        		System.out.println(e.getMessage());
-        	}
-
+    	if(data1 == null || data2 == null){
+    		throw new NullPointerException();
     	}
+    	random = (int) (Math.random() * 1000)+1; //Ponemos más 1 para que no pueda haber titleid 0
+    	while(searchTitleId(random)) {
+    		random = (int) (Math.random() * 1000)+1;
+    	}
+    	sql = "INSERT INTO movies(titleid, title, year, genres) VALUES(?,?,?,?)";
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {       		
+			pstmt.setInt(1, random);		
+			pstmt.setString(2, data1);
+        	pstmt.setInt(3, Integer.valueOf(data2));
+        	pstmt.setString(4, data3);
+        	pstmt.executeUpdate();
+        	c.commit();
+        } catch (SQLException e) {
+        	System.out.println(e.getMessage());
+        }
+
+    }
 
 	public static void insertActor(String data1){
-    		String sql="";
-		Integer lastId = 0;
+    	String sql="";
+		Integer random = 0;
 		//Comprobar elementos que son distintos que null
-    		if(data1 == null){
-    			throw new NullPointerException();
-    		}
-		sql = "SELECT MAX(nameid) FROM workers";
-		try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()){
-				lastId = rs.getInt("nameid");
-				System.out.println(lastId);
-			}
-		} catch (SQLException e) {
-        		System.out.println(e.getMessage());
-        	}
-    		sql = "INSERT INTO workers(nameid, primary_name) VALUES(?,?)";
-
-    		try (PreparedStatement pstmt = c.prepareStatement(sql)) {  
-			pstmt.setInt(1, lastId+1);
-			pstmt.setString(2, data1);
-        		pstmt.executeUpdate();
-        		c.commit();
-    		} catch (SQLException e) {
-    	   	 	System.out.println(e.getMessage());
-    		}
+    	if(data1 == null){
+    		throw new NullPointerException();
     	}
+    	random = (int) (Math.random() * 1000)+1; //Ponemos más 1 para que no pueda haber titleid 0
+    	while(searchNameId(random)) {
+    		random = (int) (Math.random() * 1000)+1;
+    	}
+    	sql = "INSERT INTO workers(nameid, primary_name) VALUES(?,?)";
+
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {  
+    		pstmt.setInt(1, random);
+			pstmt.setString(2, data1);
+        	pstmt.executeUpdate();
+        	c.commit();
+    	} catch (SQLException e) {
+    	   	 System.out.println(e.getMessage());
+    	}
+    }
+
+	public static Integer selectTitle_ID(String title, String year) {
+		String sql = "SELECT titleid FROM movies WHERE title = "+ title + " AND year = " + year;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			return rs.getInt("titleid");
+		}catch (SQLException e) {
+			return null;
+		}
+	}
 	
+	public static Integer selectName_ID(String name) {
+		String sql = "SELECT nameid FROM workers WHERE primary_name = "+ name;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+			ResultSet rs= pstmt.executeQuery();
+			rs.next();
+			return rs.getInt("nameid");
+		}catch (SQLException e) {
+			return null;
+		}
+	}
+	
+	public static void insertWorks_In(Integer data1, Integer data2){
+    	String sql="";
+		//Comprobar elementos que son distintos que null
+    	if(data1 == null || data2 == null){
+    		throw new NullPointerException();
+    	}
+    		sql = "INSERT INTO works_in(titleID, nameID) VALUES(?,?)";
+
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		pstmt.setInt(1, data1);
+    		pstmt.setInt(2, data2);
+    		pstmt.executeUpdate();
+    	} catch (SQLException e) {
+    	    System.out.println(e.getMessage());
+    	}
+    }
 
 	
 
@@ -133,8 +223,8 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByDuration(Integer minutes) {
-		String sql = "SELECT * FROM movies WHERE runtimeMinutes <= "+minutes;
+	public List<String> filterByDuration(String minutes) {
+		String sql = "SELECT * FROM movies WHERE runtime_minutes <= "+"'"+minutes+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -150,8 +240,8 @@ public class Injector {
     	return result;
 	}
 
-	public List<String> filterByRating(Float rating) {
-		String sql = "SELECT * FROM movies WHERE averageRating >= "+rating;
+	public List<String> filterByRating(String rating) {
+		String sql = "SELECT * FROM movies WHERE average_rating >= "+"'"+rating+"'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -167,8 +257,8 @@ public class Injector {
     	return result;
 	}
 
-	public float meanScores(String film) {
-		String sql = "SELECT avg(score) FROM ratings JOIN movies ON movies.titleid = ratings.titleid WHERE movies.title LIKE '"+film +"' GROUP BY ratings.titleid";
+	public float meanScores(int film) {
+		String sql = "SELECT avg(score) FROM ratings WHERE titleid ="+film;
     	float result = 0;
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
@@ -184,7 +274,7 @@ public class Injector {
     	return result;
 	}
 	
-		public String[][] userandcomments(String film){
+	public String[][] userandcomments(String film){
 		String sql = "SELECT comment,clientID FROM Comments JOIN movies ON movies.titleID = Comments.titleID JOIN clients ON clients.clientID=movies.clientID WHERE movies.title LIKE "+"+film+"+" GROUP BY clientID";
 		
 		String name_col= "clientID";
@@ -254,7 +344,7 @@ public class Injector {
 	}
 
 	public List<String> filterByGenre(String genre) {
-		String sql = "SELECT title FROM movies WHERE genres LIKE "+'"'+"%"+genre+"%"+'"';
+		String sql = "SELECT title FROM movies WHERE genres LIKE '%"+genre+"%'";
 		List<String> result = new ArrayList<String>();
 
     	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
