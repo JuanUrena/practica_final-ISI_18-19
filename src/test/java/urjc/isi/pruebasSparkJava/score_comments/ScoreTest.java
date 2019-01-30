@@ -21,6 +21,7 @@ public class ScoreTest {
 		Score score = new Score(); 
 		
 		assertEquals("Puntuacion invalida",score.newScore(-1,1,120338,I));
+		I.close();
 
 	}
 
@@ -30,7 +31,7 @@ public class ScoreTest {
 		Score score = new Score(); 
 		
 		assertEquals("Usuario invalido",score.newScore(1,-1,120338,I));
-
+		I.close();
 	}
 	
 	@Test
@@ -39,7 +40,7 @@ public class ScoreTest {
 		Score score = new Score(); 
 		
 		assertEquals("Pelicula invalida",score.newScore(1,1,-1,I));
-
+		I.close();
 	}
 
 	@Test
@@ -48,7 +49,7 @@ public class ScoreTest {
 		Score score = new Score(); 
 		
 		assertEquals("Puntuacion añadida",score.newScore(1,1,1,I));
-
+		I.close();
 	}
 	
 	
@@ -60,6 +61,7 @@ public class ScoreTest {
 		Score score = new Score(); 
 		
 		assertNotNull(score.getMeanScore(120338,I));
+		I.close();
 	}
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
@@ -75,12 +77,13 @@ public class ScoreTest {
 		//Pongo la media a uno y compruebo el cambio.
 		score.changeScore(1,120338,I);
 		movieFields = I.filterByName("Titanic");
-		int mean_test=Integer.parseInt(movieFields.get(3));
+		float mean_test=Float.parseFloat(movieFields.get(3));
 		
 		//Vuelvo a poner media real
 		score.changeScore(mean,120338,I);
 		
-		assertEquals(1,mean_test);
+		assertTrue(1.0==mean_test);
+		I.close();
 
 	}
 	

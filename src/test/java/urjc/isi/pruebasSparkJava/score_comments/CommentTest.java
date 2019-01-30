@@ -24,6 +24,7 @@ public class CommentTest {
 	public void testforNullText(){
 		Comment comment = new Comment();
 		assertEquals ("Comentario invalido", comment.newComment(null, 5, "Kill Bill: Volumen 3", I));
+		I.close();
 	}
 	
 	//test for invalid user
@@ -31,6 +32,7 @@ public class CommentTest {
 	public void testforInvalidUser(){
 		Comment comment = new Comment();
 		assertEquals("Usuario invalido", comment.newComment("comentario", -1, "Kill Bill: Volumen 3", I));
+		I.close();
 	}
 	
 	//test for invalid film
@@ -38,6 +40,7 @@ public class CommentTest {
 	public void testforNullFilm(){
 		Comment comment = new Comment();
 		assertEquals ("Pelicula invalida", comment.newComment("comentario", 4, null, I));
+		I.close();
 	}
 	
 	
@@ -48,6 +51,7 @@ public class CommentTest {
 	public void testforInvalidFilm(){
 		Comment comment = new Comment();
 		assertEquals ("Pelicula invalida", comment.commentsFilm(-1, I));
+		I.close();
 	}
 	
 	//test for commentToString (String matrix_coment[][])
@@ -57,7 +61,7 @@ public class CommentTest {
 		Comment comment = new Comment();
 
 		assertEquals("No tiene comentarios", comment.commentToString(null));
-		
+		I.close();
 	}
 	
 	//happy path tests
@@ -75,6 +79,7 @@ public class CommentTest {
 		assertEquals (120338, Integer.parseInt(comment_info.get(0)));
 		System.out.println(id_comment);
 		I.deleteComment(Integer.toString(id_comment));
+		I.close();
 	}
 		
 	@Test
@@ -83,6 +88,7 @@ public class CommentTest {
 		String resultc;
 		resultc = comment.commentsFilm(332452, I);
 		assertNotNull("Comments cant be null", resultc);
+		I.close();
 		
 	}
 	
@@ -93,6 +99,7 @@ public class CommentTest {
 		String [][] comments = {{"comentario 1", "comentario 2"}};
 		resultc = comment.commentToString(comments);
 		assertNotNull("Comments cant be null", resultc);
+		I.close();
 	}
 	/*	
 	@Test
