@@ -1,6 +1,9 @@
 package urjc.isi.pruebasSparkJava.score_comments;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import org.junit.*;
 
 import urjc.isi.pruebasSparkJava.Comment;
@@ -52,7 +55,9 @@ public class CommentTest {
 	@Test 
 	public void testforNullComments(){
 		Comment comment = new Comment();
+
 		assertEquals("Comentario invalido", comment.commentToString(null));
+		
 	}
 	
 	//happy path tests
@@ -60,7 +65,16 @@ public class CommentTest {
 	@Test
 	public void newCommentTest(){
 		Comment comment = new Comment();
+		int id_comment=I.getNumComments()+1;
 		assertEquals ("Comentario almacenado", comment.newComment("comentario", 4, "Titanic", I));
+		System.out.println(id_comment);
+		List<String> comment_info=I.commentById(id_comment);
+		System.out.println(id_comment);
+		assertEquals ("comentario", comment_info.get(2));
+		assertEquals (4, Integer.parseInt(comment_info.get(1)));
+		assertEquals (120338, Integer.parseInt(comment_info.get(0)));
+		System.out.println(id_comment);
+		I.deleteComment(Integer.toString(id_comment));
 	}
 		
 	@Test

@@ -469,6 +469,53 @@ public class Injector {
         	}
     	}
     }
+	
+	public int getNumComments() {
+		String sql = "SELECT MAX(\"commentId\") FROM comments";
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {   
+    		ResultSet rs = pstmt.executeQuery();
+    		if(rs.next()){
+    			int lastId = rs.getInt("max");
+    			return(lastId);
+    		}
+    			
+    	} catch (SQLException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return(0);
+	}
+	
+	public List<String> commentById(int id_comment) {
+		String sql = "SELECT * FROM comments WHERE \"commentId\" =" + id_comment;
+		List<String> result = new ArrayList<String>();
+
+    	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		ResultSet rs = pstmt.executeQuery();
+    		c.commit();
+    		if (rs.next()) {
+                String titleid = Integer.toString(rs.getInt("titleid"));
+                String clientid = Integer.toString(rs.getInt("clientid"));
+                String comment =rs.getString("comment");
+                result.add(titleid);
+                result.add(clientid);
+                result.add(comment);
+    		}
+    	} catch (SQLException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return result;
+	} 
+	
+	public void deleteComment(String id_comment) {
+		String sql = "DELETE FROM comments WHERE \"commentId\" =" + id_comment;
+		try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+    		pstmt.executeUpdate();
+    		System.out.println(id_comment);
+    		c.commit();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
 
 //titleid, clientID y comment

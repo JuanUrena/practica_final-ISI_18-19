@@ -67,7 +67,7 @@ public class ScoreTest {
 		//Pongo la media a uno y compruebo el cambio.
 		score.changeScore(1,120338,I);
 		movieFields = I.filterByName("Titanic");
-		int mean_test=Integer.parseInt(movieFields.get(3));
+		int mean_test=Math.round(Float.parseFloat(movieFields.get(3)));
 		
 		//Vuelvo a poner media real
 		score.changeScore(mean,120338,I);
