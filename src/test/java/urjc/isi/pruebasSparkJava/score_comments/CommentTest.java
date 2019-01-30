@@ -56,7 +56,7 @@ public class CommentTest {
 	public void testforNullComments(){
 		Comment comment = new Comment();
 
-		assertEquals("Comentario invalido", comment.commentToString(null));
+		assertEquals("No tiene comentarios", comment.commentToString(null));
 		
 	}
 	
