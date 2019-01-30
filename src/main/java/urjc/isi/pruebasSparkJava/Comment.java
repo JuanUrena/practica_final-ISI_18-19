@@ -47,7 +47,7 @@ public class Comment {
 	public String commentToString(String matrix_coment[][])
 	{
 		if (matrix_coment == null){
-			return "Comentario invalido";
+			return "No tiene comentarios";
 		}
 		String text = "<u><b>Comentarios:</b></u><br>";
 		for (int x = 0; x < matrix_coment.length; x++){
