@@ -34,7 +34,7 @@ public class SumaWeightsTest {
 	{
 		user = 0;
 		nItems = 0;
-		reString = null;
+		retString = null;
 		expString = null;
 	}
 

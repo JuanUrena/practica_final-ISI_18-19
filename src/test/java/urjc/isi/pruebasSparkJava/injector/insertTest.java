@@ -1,4 +1,4 @@
-package urjc.isi.pruebasSparkJava.injector;;
+package urjc.isi.pruebasSparkJava.injector;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
