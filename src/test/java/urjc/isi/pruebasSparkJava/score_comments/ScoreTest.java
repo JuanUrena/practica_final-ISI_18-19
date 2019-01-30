@@ -47,7 +47,7 @@ public class ScoreTest {
 		
 		Score score = new Score(); 
 		
-		assertEquals("Pelicula invalida",score.newScore(1,1,1,I));
+		assertEquals("Puntuacion añadida",score.newScore(1,1,1,I));
 
 	}
 	
