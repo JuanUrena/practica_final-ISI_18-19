@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import spark.Request;
@@ -252,65 +251,90 @@ public class SlopeOneFilter {
 		return pos;
 	}
 
-	
-	public String showSOMenu() {
-		String menu = 	"<h1>Recomendar peliculas a un usuario</h1><hr>" +
-						"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
-						"<hr><form action='/recommend' method='post'>" +
-						"<label for='user'>Usuario: </label>" + 
-						"<input type='number' name='user' id='user' min='0' required> " +
-						"<label for='n_items'>Numero de recomendaciones: </label>" + 
-						"<input type='number' name='n_items' id='n_items' min='0' required> " +
-						"<input type='submit' value='Recomendar'>" +
-						"</form><hr>";
+	public String menu() {
+		String menu = 	"<h1>Recomendar películas a un usuario</h1><hr>" +
+				"<h4>Elige el usuario y el numero de recomendaciones.</h4>" +
+				"<hr><form action='/recommend' method='post'>" +
+				"<label for='user'>Usuario: </label>" + 
+				"<input type='number' name='user' id='user' min='0' required> " +
+				"<label for='n_items'>Numero de recomendaciones: </label>" + 
+				"<input type='number' name='n_items' id='n_items' min='0' required> " +
+				"<input type='submit' value='Recomendar'>"  +
+				"</form><hr>";
 		return menu;
+	}
+	
+	public String backHome() {
+		String home = "<form action='/' method='get'>" +
+				"<div class='button'>" +
+				"<button type='submit'>Volver a home</button>" +
+				"</div>" +
+				"</form>";
+		return home;
+	}
+
+	public String showSOMenu() {
+		String response = menu();
+		response += backHome();
+		return response;
+	}
+	
+	public String getNPredicted(int user, int nItems) {
+
+		String predString = "";
+
+		ListIterator<Node> itrator = predictions.get(user).listIterator();
+
+		for (int i=0; (i < nItems && itrator.hasNext()); i++) {
+			predString += ("<tr><td>" + itrator.next().toString() + "</td></tr>");
+		}
+		
+		return predString;
 	}
 
 	public String recommend(Request request) {
-		// Mostrar nItems predicciones con mayor puntuación.
-		String response = showSOMenu();
+
+		String response = menu();
 		
-		int user = Integer.parseInt(request.queryParams("user"));
-		int nItems = Integer.parseInt(request.queryParams("n_items"));
-
-		if(predictions.containsKey(user)) {
-			response += "<h4>Recomendaciones:</h4><hr><table>";
-			LinkedList<Node> predictionList = predictions.get(user);
-
-			ListIterator<Node> itrator = predictionList.listIterator();
-
-			for (int i=0; (i < nItems && itrator.hasNext()); i++) {
-				response += ("<tr><td>" + itrator.next().toString() + "</td></tr>");
+		try {
+			int user = Integer.parseInt(request.queryParams("user"));
+			int nItems = Integer.parseInt(request.queryParams("n_items"));
+			
+			if(predictions.containsKey(user)) {
+				response += "<h4>Recomendaciones:</h4><hr><table>";
+				response += getNPredicted(user, nItems);
+				response += "</table><hr>";
+			} else {
+				response += "<h4>El usuario no existe.</h4><hr>";
 			}
-			response += "</table><hr>";
-		} else {
-			response += "<h4>El usuario no existe.</h4><hr>";
+			return (response + backHome());	
+		} catch (NumberFormatException e) {
+			return "NumberFormatException";
+		} catch (NullPointerException e) {
+			return "NullPointerException";
 		}
-		return response;
 	}
 
-	public void updateData(Request request, Injector I) {
-		Double score = Double.parseDouble(request.queryParams("score"));
-		Integer user = Integer.parseInt(request.queryParams("user"));
-		String film = request.queryParams("film");
+	public void updateData(Integer score, Integer user, Integer film_id) throws RuntimeException{
 
 		try {
-			List<String> filmFields = I.filterByName(film);
-			Integer film_id = Integer.parseInt(filmFields.get(6));
-			System.out.println(film_id);
-			System.out.println(score);
+			Double double_score = score.doubleValue();
 			Map<Integer,Double> film_score = new HashMap<>();
+			if(double_score < 0 || double_score > 10) throw new IllegalArgumentException();
 			if(!data.containsKey(user)) {
-				film_score.put(film_id, score);
+				film_score.put(film_id, double_score);
 				data.put(user, film_score);
 			}else {
 				film_score = data.get(user);
-				film_score.computeIfPresent(film_id, (k, v) -> score);
-				film_score.put(film_id,score);
+				film_score.computeIfPresent(film_id, (k, v) -> double_score);
+				film_score.put(film_id,double_score);
 			}
-
-		}catch(IllegalArgumentException e) {
-			System.err.println(e);
+			//Una vez que esta actualizado data, se calculan de nuevo las predicciones
+			for (int data_user : data.keySet()){
+				predict(data_user);
+			}
+		}catch(RuntimeException runTime) {
+			System.err.println(runTime);
 		}
 	}
 
