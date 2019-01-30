@@ -41,18 +41,26 @@ public class ScoreTest {
 		assertEquals("Pelicula invalida",score.newScore(1,1,-1,I));
 
 	}
+
+	@Test
+	public void newScore_test4() {
+		
+		Score score = new Score(); 
+		
+		assertEquals("Puntuacion añadida",score.newScore(1,1,1,I));
+
+	}
 	
 	
 	//Suponemos que el injector funciona correctamente y no falla, por eso no hacemos test de injector
-	/*
+
 	@Test //(expected = NullPointerException.class)
-	void getScore_test() {
+	public void getMeanScore_test() {
 		
-		Score score4 = new Score(); 
+		Score score = new Score(); 
 		
-		assertNotNull(score4.getScore("Titanic"));
+		assertNotNull(score.getMeanScore(120338,I));
 	}
-	*/
 	
 	//Comprobamos que el float de score sea mayor o igual que cero
 	@Test 
@@ -67,7 +75,7 @@ public class ScoreTest {
 		//Pongo la media a uno y compruebo el cambio.
 		score.changeScore(1,120338,I);
 		movieFields = I.filterByName("Titanic");
-		int mean_test=Math.round(Float.parseFloat(movieFields.get(3)));
+		int mean_test=Integer.parseInt(movieFields.get(3));
 		
 		//Vuelvo a poner media real
 		score.changeScore(mean,120338,I);
