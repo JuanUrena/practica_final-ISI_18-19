@@ -48,3 +48,4 @@ public class FilterByGenreTest {
 		assertTrue(movies.isEmpty());
 	}
 }
+

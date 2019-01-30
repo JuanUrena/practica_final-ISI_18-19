@@ -1,19 +1,10 @@
 package urjc.isi.pruebasSparkJava;
 
 import static spark.Spark.*;
-import spark.Request;
-import spark.Response;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.util.StringTokenizer;
-import javax.servlet.MultipartConfigElement;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class Main {
 	
@@ -32,44 +23,6 @@ public class Main {
     }
     
 
-    /*
-    public static String selectTitle_ID(Connection conn, String table, String data1, String data2, String data3) {
-		String sql="";
-    	String result = null;
-    		sql = "SELECT * FROM " + table + " WHERE title=? AND year=? AND genres=?";
-    	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    		pstmt.setString(1, data1);
-    		pstmt.setString(2, data2);
-    		pstmt.setString(2, data3);
-    		ResultSet rs = pstmt.executeQuery();
-    		while (rs.next()) {
-    		    // read the result set
-    		    result = rs.getString("titleID");
-    		}
-    		return result;
-    	} catch (SQLException e) {
-    	    System.out.println(e.getMessage());
-    	    return null;
-    	}
-}
-    public static String selectName_ID(Connection conn, String table, String data1) {
-		String sql="";
-    	String result = null;
-    		sql = "SELECT * FROM " + table + " WHERE primaryName=?";
-    	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    		pstmt.setString(1, data1);
-    		ResultSet rs = pstmt.executeQuery();
-    		while (rs.next()) {
-    		    // read the result set
-    		    result = rs.getString("nameID");
-    		}
-    		return result;
-    	} catch (SQLException e) {
-    	    System.out.println(e.getMessage());
-    	    return null;
-    	}
-}
-	*/
     
     public static void insert(Connection conn, String film, String actor) {
     	String sql = "INSERT INTO films(film, actor) VALUES(?,?)";
@@ -80,24 +33,6 @@ public class Main {
     		pstmt.executeUpdate();
     	} catch (SQLException e) {
     		System.out.println(e.getMessage());
-    	}
-    }
-    
-    
-    public static void insertWorks_In(Connection conn, String data1, String data2){
-    	String sql="";
-		//Comprobar elementos que son distintos que null
-    	if(data1 == null || data2 == null){
-    		throw new NullPointerException();
-    	}
-    		sql = "INSERT INTO works_in (titleID, nameID) VALUES(?,?)";
-
-    	try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    		pstmt.setString(1, data1);
-    		pstmt.setString(2, data2);
-    		pstmt.executeUpdate();
-    	} catch (SQLException e) {
-    	    System.out.println(e.getMessage());
     	}
     }
     
@@ -211,23 +146,19 @@ public class Main {
         		result = "Has añadido ->" + last_added;
         		Injector.insertFilm(req.queryParams("film")
         			,req.queryParams("year"), req.queryParams("genres"));
-        		//String title_ID = selectTitle_ID(connection, "movies", req.queryParams("film"), req.queryParams("year"), req.queryParams("genres"));
+        		Integer title_ID = Injector.selectTitle_ID(req.queryParams("film"), req.queryParams("year"));
         		Injector.insertActor(req.queryParams("actor"));
-        		//String name_ID = selectName_ID(connection, "workers", req.queryParams("actor"));
-        		//insertWorks_In(connection, title_ID, name_ID);
+        		Integer name_ID = Injector.selectName_ID(req.queryParams("actor"));
+        		Injector.insertWorks_In(title_ID, name_ID);
         	}
 			return result;	
         });
 
         get("/showlastadded", (req, res) -> {
         	if (last_added == null) {
-        		return "No se han añadido películas" +
-        				"</p>Esta página mostrará más peliculas recientemente añadidas " +
-        				"cuando dispongamos de acceso a la base de datos</p>";
+        		return "No se han añadido películas";
         	}else {
-        		return "<div style='color:#1A318C'><b>ÚLTIMA PELÍCULA AÑADIDA:</b></p>" +  last_added +
-        				"</p>Esta página mostrará más peliculas recientemente añadidas " +
-        				"cuando dispongamos de acceso a la base de datos</p>";
+        		return "<div style='color:#1A318C'><b>ÚLTIMA PELÍCULA AÑADIDA:</b></p>" +  last_added;
 		}
         });
 
