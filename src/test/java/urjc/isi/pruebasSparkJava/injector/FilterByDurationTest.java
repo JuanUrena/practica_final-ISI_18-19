@@ -18,10 +18,11 @@ public class FilterByDurationTest {
 	@Test
 	public void test1() {
 		List<String> expected = new ArrayList<String>();
-		expected.add("Venom");								// movie 1
-		//películas que deberían salir
+		expected.add("The Nightmare Before Christmas");								// movie 1
+		expected.add("Corpse Bride");
+		expected.add("Before Sunset");
 		
-		duration = "150";
+		duration = "80";
     	List<String> movies = connector.filterByDuration(duration);
     	
 		assertEquals(expected, movies);
