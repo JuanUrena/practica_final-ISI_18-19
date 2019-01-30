@@ -8,8 +8,18 @@ import urjc.isi.pruebasSparkJava.Injector;
 public class FilterByDurationTest {
 
 	// Test fixture
-	Injector connector = new Injector("JDBC_DATABASE_URL");
+	Injector connector;
 	private String duration;
+	
+	@Before
+	public void setUp() {
+		connector = new Injector("JDBC_DATABASE_URL");
+	}
+	
+	@After
+	public void tearDown() {
+		connector.close();
+	}
 	
 	
 	// Test 1: A1 = T => hay películas con una duración menor en la BD.
