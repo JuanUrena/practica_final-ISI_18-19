@@ -314,6 +314,9 @@ public class SlopeOneFilter {
 				film_score.computeIfPresent(film_id, (k, v) -> double_score);
 				film_score.put(film_id,double_score);
 			}
+
+			buildMaps();
+
 			//Una vez que esta actualizado data, se calculan de nuevo las predicciones
 			for (int data_user : data.keySet()){
 				predict(data_user);
